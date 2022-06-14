@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 )
 
 func main() {
@@ -21,6 +22,21 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println("Result:")
-	fmt.Println(timeInput)
+
+	synthesisLines := timeInput.timeInputAggregator()
+
+	sort.Sort(ByAssending(synthesisLines))
+
+	var cumul float64 = 0
+	currentKind := ""
+
+	for _, synthesisLine := range synthesisLines {
+		if currentKind != "" && currentKind != synthesisLine.Kind {
+			fmt.Printf("Total %s : %f\n", currentKind, cumul)
+			cumul = 0.0
+		}
+		fmt.Printf("%s %s %s %s %f\n", synthesisLine.Kind, synthesisLine.Title, synthesisLine.Reference, synthesisLine.CustomerName, synthesisLine.TimeSum)
+		cumul += synthesisLine.TimeSum
+		currentKind = synthesisLine.Kind
+	}
 }
