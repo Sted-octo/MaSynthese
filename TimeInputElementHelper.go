@@ -48,3 +48,37 @@ func timeInputOneJsonGetter() string {
 			}
 		}]`
 }
+
+func timeInputTwoJsonGetter() string {
+	return `[
+		{
+			"day": "2022-03-01",
+			"time_in_days": "1.0",
+			"activity": {
+				"id": 2140318361,
+				"title": "Intercontrat ",
+				"role": null,
+				"nb_days": null,
+				"average_daily_rate": null,
+				"kind": "permanent",
+				"staffing_needed_from": null,
+				"expertise": null,
+				"project": null
+			}
+		},
+		{
+			"day": "2022-03-02",
+			"time_in_days": "1.0",
+			"activity": {
+				"id": 2140318361,
+				"title": "Intercontrat ",
+				"role": null,
+				"nb_days": null,
+				"average_daily_rate": null,
+				"kind": "permanent",
+				"staffing_needed_from": null,
+				"expertise": null,
+				"project": null
+			}
+		}]`
+}

@@ -41,3 +41,16 @@ type Role struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
+
+func (timeInput *TimeInput) Add(timeInputElement *TimeInputElement) *TimeInput {
+	*timeInput = append(*timeInput, *timeInputElement)
+	return timeInput
+}
+
+func (timeInput *TimeInput) Concat(timeInputToAdd TimeInput) *TimeInput {
+	for indx := range timeInputToAdd {
+		timeInput.Add(&timeInputToAdd[indx])
+	}
+
+	return timeInput
+}

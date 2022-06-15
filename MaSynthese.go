@@ -18,7 +18,7 @@ func main() {
 	fmt.Print("AccessToken:")
 	fmt.Println(token.AccessToken)
 
-	timeInput, err = TimeInputGetter(token.AccessToken)
+	timeInput, err = TimeInputGetter(token.AccessToken, "2142666213", "2022-03-01", "2022-06-15", 100)
 	if err != nil {
 		log.Fatalln(err)
 	}

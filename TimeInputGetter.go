@@ -6,52 +6,73 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0/people"
 
-func TimeInputGetter(acessToken string) (*TimeInput, error) {
+func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint) (*TimeInput, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
 	}
+
+	var totalTimeInput TimeInput
+	var timeInput TimeInput
 
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := OCTOPOD_ROOT_URL + "/2142666213/time_input?from_date=2022-03-01&to_date=2022-06-10&page=1&per_page=110"
+	nbLinesLoaded := 0
+	fullLoad := false
 
-	fmt.Println(urlApi)
+	for page := 1; !fullLoad; page++ {
 
-	request, err := http.NewRequest("GET", urlApi, nil)
+		urlApi := fmt.Sprintf("%s/%s/time_input?from_date=%s&to_date=%s&page=%d&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, page, resultPerPage)
 
-	if err != nil {
-		return nil, err
+		fmt.Println(urlApi)
+
+		request, err := http.NewRequest("GET", urlApi, nil)
+
+		if err != nil {
+			return nil, err
+		}
+
+		request.Header.Add("content-type", "application/json")
+		request.Header.Add("authorization", "Bearer "+acessToken)
+
+		response, err := httpClient.Do(request)
+		if err != nil {
+			return nil, err
+		}
+		defer response.Body.Close()
+
+		totalAvaillableLinesCount, err := strconv.Atoi(response.Header.Get("Total"))
+		if err != nil {
+			return nil, err
+		}
+
+		fmt.Printf("Total time Inputs : %d\n", totalAvaillableLinesCount)
+		body, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal(body, &timeInput)
+		if err != nil {
+			return nil, err
+		}
+		nbTimes := len(timeInput)
+		nbLinesLoaded += nbTimes
+		fmt.Printf("Count of time Inputs : %d\n", nbTimes)
+		fullLoad = nbLinesLoaded >= totalAvaillableLinesCount
+		if totalTimeInput == nil {
+			totalTimeInput = timeInput
+			continue
+		}
+		totalTimeInput.Concat(timeInput)
 	}
 
-	request.Header.Add("content-type", "application/json")
-	request.Header.Add("authorization", "Bearer "+acessToken)
-
-	response, err := httpClient.Do(request)
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
-
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var timeInput TimeInput
-
-	err = json.Unmarshal(body, &timeInput)
-	if err != nil {
-		return nil, err
-	}
-	nbTimes := len(timeInput)
-	fmt.Printf("Count of time Inputs : %d\n", nbTimes)
-
-	return &timeInput, nil
+	return &totalTimeInput, nil
 }
