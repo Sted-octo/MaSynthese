@@ -32,6 +32,8 @@ func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
 		}
 		if currentTimeInput.Activity.Project != nil {
 			newLine.Reference = currentTimeInput.Activity.Project.Reference
+			newLine.ProjectName = currentTimeInput.Activity.Project.Name
+
 			if currentTimeInput.Activity.Project.Customer != nil {
 				newLine.CustomerName = currentTimeInput.Activity.Project.Customer.Name
 			}

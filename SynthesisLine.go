@@ -7,4 +7,5 @@ type SynthesisLine struct {
 	TimeSum      float64 `json:"timeSum"`
 	Kind         string  `json:"kind"`
 	Reference    string  `json:"reference"`
+	ProjectName  string  `json:"projectName"`
 }

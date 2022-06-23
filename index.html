@@ -22,12 +22,10 @@
                     {{range .Lines}}
                         <li>
                             <ul class="row">
-                                <li>{{.ActivityID}}</li>
-                                <li>{{.Kind}}</li>
-                                <li>{{.Title}}</li>
-                                <li>{{.Reference}}</li>
-                                <li>{{.CustomerName}}</li>
-                                <li class="right">{{.TimeSum}}</li>
+                                <li class="little">{{.Kind}}</li>
+                                <li class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</li>
+                                <li class="medium">{{.Title}}</li>
+                                <li class="little">{{.TimeSum}}</li>
                             </ul>
                         </li>
                     {{end}}
