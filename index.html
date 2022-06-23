@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ma Synthèse</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
+    <body>
+        <form method="post" action="indxform">
+            <div class="head">
+                <label for="idOctoUser">Identifiant</label> 
+                <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
+                <label for="startdate"> Période du </label>
+                <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}">
+                <label for="enddate"> au </label>
+                <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
+
+                <input type="submit" value="Rafraichir">
+            </div>
+            <div class="result">
+                <ul class="table">
+                    {{range .Lines}}
+                        <li>
+                            <ul class="row">
+                                <li>{{.ActivityID}}</li>
+                                <li>{{.Kind}}</li>
+                                <li>{{.Title}}</li>
+                                <li>{{.Reference}}</li>
+                                <li>{{.CustomerName}}</li>
+                                <li class="right">{{.TimeSum}}</li>
+                            </ul>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </form>
+    </body>
+</html>

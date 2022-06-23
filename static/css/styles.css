@@ -1,0 +1,36 @@
+input {
+    border-color: blueviolet;
+}
+
+body {
+    font-family:  sans-serif;
+}
+
+.error {
+    border-color: red;
+}
+
+ul {
+    list-style-type:none;
+    width: 100%;
+}
+
+.result {
+    box-sizing: border-box;
+  }
+
+ul .row {
+display: flex;
+flex-wrap: wrap;
+}
+
+ul .row li {
+flex: 0 0 15%;
+padding: 0.5em;
+display: flex;
+align-items: flex-end;
+}
+
+.right {
+    text-align: right;
+}
