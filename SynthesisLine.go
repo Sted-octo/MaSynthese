@@ -8,4 +8,12 @@ type SynthesisLine struct {
 	Kind         string  `json:"kind"`
 	Reference    string  `json:"reference"`
 	ProjectName  string  `json:"projectName"`
+	TypeLine     int8    `json:"TypeLine"`
+	RowCount     int64   `json:"RowCount"`
 }
+
+const (
+	LineNormal   int8 = 0
+	LineSubTotal int8 = 1
+	LineTotal    int8 = 2
+)
