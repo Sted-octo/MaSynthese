@@ -84,31 +84,13 @@ body {
     display: table-cell;
 }
 
-.billable {
+.billable, .not_billable,.permanent, .absence  {
     border-bottom-style: solid;
     border-bottom-color: gray;
     border-bottom-width: 1px;
     padding: 2px;
     color: aliceblue;
 }
-
-.not_billable{
-    border-bottom-style: solid;
-    border-bottom-color: gray;
-    border-bottom-width: 1px;
-    padding: 2px;
-    color: aliceblue;
-}
-
-
-.permanent {
-    border-bottom-style: solid;
-    border-bottom-color: gray;
-    border-bottom-width: 1px;
-    padding: 2px;
-    color: aliceblue;
-}
-
 
 .isSubTotal {
     background-color: rgba(255,255,255,0.3);

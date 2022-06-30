@@ -15,7 +15,9 @@ func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
 
 		if existingLine, exist := activityMap[currentTimeInput.Activity.ID]; exist {
-
+			if currentTimeInput.Activity.Title == "absence" {
+				existingLine.ProjectName += " -  " + currentTimeInput.Day
+			}
 			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 				existingLine.TimeSum += decimal
 			}
@@ -26,6 +28,10 @@ func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
 			ActivityID: currentTimeInput.Activity.ID,
 			Title:      currentTimeInput.Activity.Title,
 			Kind:       currentTimeInput.Activity.Kind,
+		}
+		if newLine.Title == "absence" {
+			newLine.Kind = "absence"
+			newLine.ProjectName = currentTimeInput.Day
 		}
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {

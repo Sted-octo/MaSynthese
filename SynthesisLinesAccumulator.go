@@ -12,7 +12,7 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 	for _, line := range *sl {
 		if currentKind != line.Kind {
 			if currentKind != "" {
-				if kindSubTotal.RowCount > 1 {
+				if kindSubTotal.RowCount > 0 {
 					newListSynthesisLine = append(newListSynthesisLine, kindSubTotal)
 				}
 
@@ -34,11 +34,11 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 		kindTotal.TimeSum += line.TimeSum
 		kindTotal.RowCount++
 	}
-	if kindSubTotal.RowCount > 1 {
+	if kindSubTotal.RowCount > 0 {
 		newListSynthesisLine = append(newListSynthesisLine, kindSubTotal)
 	}
 
-	if kindTotal.RowCount > 1 {
+	if kindTotal.RowCount > 0 {
 		newListSynthesisLine = append(newListSynthesisLine, kindTotal)
 	}
 

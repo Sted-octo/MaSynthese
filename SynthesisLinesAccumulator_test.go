@@ -14,13 +14,13 @@ func Test_Accumulate_Empty_SynthsisLines_Should_Return_Empty_List(t *testing.T) 
 	assert.Equal(t, 0, len(synthesisLines), "Length list shouldbe 0")
 }
 
-func Test_Accumulate_OneLine_SynthsisLines_len_List_ShouldBe_1(t *testing.T) {
+func Test_Accumulate_OneLine_SynthsisLines_len_List_ShouldBe_3(t *testing.T) {
 	synthesisLines := SynthesisLines{}
 	synthesisLines = append(synthesisLines, SynthesisLine{Kind: "billable", Title: "Mission", TimeSum: 1})
 
 	synthesisLines = synthesisLines.Accumulate()
 
-	assert.Equal(t, 1, len(synthesisLines), "List len shouldbe 1")
+	assert.Equal(t, 3, len(synthesisLines), "List len shouldbe 3")
 }
 
 func Test_Accumulate_TwoLines_SameKind_SynthsisLines_len_List_ShouldBe_4(t *testing.T) {
@@ -81,17 +81,17 @@ func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_NormalLines_ShouldBe_
 	assert.Equal(t, 2, subTotalCount, "Only one subTotal line expected")
 }
 
-func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_len_List_ShouldBe_3(t *testing.T) {
+func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_len_List_ShouldBe_5(t *testing.T) {
 	synthesisLines := SynthesisLines{}
 	synthesisLines = append(synthesisLines, SynthesisLine{Kind: "billable", Title: "Mission 1", TimeSum: 1, ActivityID: 1})
 	synthesisLines = append(synthesisLines, SynthesisLine{Kind: "permanent", Title: "Intercontrat", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 
-	assert.Equal(t, 3, len(synthesisLines), "List len shouldbe 3")
+	assert.Equal(t, 5, len(synthesisLines), "List len shouldbe 5")
 }
 
-func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_Count_SubTotalLines_ShouldBe_0(t *testing.T) {
+func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_Count_SubTotalLines_ShouldBe_2(t *testing.T) {
 	synthesisLines := SynthesisLines{}
 	synthesisLines = append(synthesisLines, SynthesisLine{Kind: "billable", Title: "Mission 1", TimeSum: 1, ActivityID: 1})
 	synthesisLines = append(synthesisLines, SynthesisLine{Kind: "permanent", Title: "Intercontrat", TimeSum: 1, ActivityID: 2})
@@ -104,5 +104,5 @@ func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_Count_SubTotalLines_Sh
 		}
 	}
 
-	assert.Equal(t, 0, subTotalCount, "No subTotal line expected with 2 lines of different kinds")
+	assert.Equal(t, 2, subTotalCount, "No subTotal line expected with 2 lines of different kinds")
 }

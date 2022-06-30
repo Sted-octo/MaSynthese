@@ -30,6 +30,18 @@ func timeInputElementBillable(activityId int64, name string, timeInDay float64, 
 	return timeInputElement
 }
 
+func timeInputElementAbsence(activityId int64, timeInDay float64) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
+	timeInputElement.Day = "1973-10-07"
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = "permanent"
+	timeInputElement.Activity.Title = "absence"
+
+	return timeInputElement
+}
+
 func timeInputOneJsonGetter() string {
 	return `[
 		{

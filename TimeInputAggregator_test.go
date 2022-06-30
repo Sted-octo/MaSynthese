@@ -171,3 +171,15 @@ func Test_One_TimeInput_Billable_First_SynthesisLine_CustomerName_Shoulbe_OctoMo
 		t.Errorf("First SynthesisLine Customer Name shouldBe %s but was %s", expected, synthesisLines[0].CustomerName)
 	}
 }
+
+func Test_One_Permanent_Title_Absence_Shoulbe_Kind_Absence(t *testing.T) {
+	timeInputs = new(TimeInput)
+	timeInputs.Add(timeInputElementAbsence(123, 0.5))
+
+	synthesisLines := timeInputs.timeInputAggregator()
+
+	expected := "absence"
+	if synthesisLines[0].Kind != expected {
+		t.Errorf("First SynthesisLine permanent title absence should be kind %s but was %s", expected, synthesisLines[0].Kind)
+	}
+}
