@@ -7,19 +7,25 @@
     </head>
     <body>
         <form method="post" action="indxform">
-            <div class="head">
-                <label for="idOctoUser">Identifiant</label> 
-                <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
-                <label for="startdate"> Période du </label>
-                <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}">
-                <label for="enddate"> au </label>
-                <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
+            <div class="header">
+                <div class="head">
+                    <label for="idOctoUser">Identifiant</label> 
+                    <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
+                    <label for="startdate"> Période du </label>
+                    <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}">
+                    <label for="enddate"> au </label>
+                    <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
 
-                <input type="submit" value="Rafraichir">
-            </div>
-            <div class="infos {{if not .CssClass.TotalWorkDays}} hidden {{end}}">
-                <label for="totalWorkDays">Jours ouvrés</label><br/>
-                <label class="{{.CssClass.TotalWorkDays}}" name="totalWorkDays">{{.Datas.TotalWorkDays}}</label>
+                    <input type="submit" value="Rafraichir">
+                </div>
+                <div class="infos {{if not .CssClass.TotalWorkDays}} hidden {{end}}">
+                    <label for="totalWorkDays" class="smallText">Jours ouvrés</label><br/>
+                    <label class="{{.CssClass.TotalWorkDays}}" name="totalWorkDays">{{.Datas.TotalWorkDays}}</label>
+                </div>
+                <div class="infos {{if not .CssClass.TacePeriod}} hidden {{end}}">
+                    <label for="tacePeriod" class="smallText">Tace période</label><br/>
+                    <label class="{{.CssClass.TacePeriod}}" name="tacePeriod">{{.Datas.TacePeriod}} %</label><br>
+                </div>
             </div>
             <div class="result">
                 <div class="table">

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"sort"
@@ -14,6 +15,7 @@ type FormInfos struct {
 	StartDate     string
 	EndDate       string
 	TotalWorkDays string
+	TacePeriod    string
 }
 
 type IndexInfos struct {
@@ -66,6 +68,12 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)
 			infos.CssClass.TotalWorkDays = "bigNumber"
+		}
+
+		activityRate, err := ActivityRateGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate)
+		if err == nil {
+			infos.Datas.TacePeriod = fmt.Sprintf("%.2f", activityRate.Value*100.0)
+			infos.CssClass.TacePeriod = "bigNumber"
 		}
 	}
 
