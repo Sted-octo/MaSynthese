@@ -65,6 +65,7 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 		totalWorkDays, err := period.TotalWorkDaysGetter()
 		if err == nil {
 			infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)
+			infos.CssClass.TotalWorkDays = "bigNumber"
 		}
 	}
 

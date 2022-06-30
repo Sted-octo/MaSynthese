@@ -23,7 +23,7 @@ body {
     background-color: #0e2356;
 }
 
-.head, .infos {
+.head {
     border-color: white;
     border-style: solid;
     border-width: 1px;
@@ -32,6 +32,16 @@ body {
     margin-bottom: 2px;
     display: inline-block;
     color: white;
+}
+
+.infos {
+    background-color: white;
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 2px;
+    display: inline-block;
+    color: #0e2356;
+    text-align: center;
 }
 
 .result {
@@ -116,4 +126,12 @@ body {
     padding-top: 5px;
     border-radius: 25px;
     margin-top: 1px;
+}
+
+.hidden {
+    display: none;
+}
+
+.bigNumber {
+    font-size: xx-large;
 }

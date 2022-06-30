@@ -17,9 +17,9 @@
 
                 <input type="submit" value="Rafraichir">
             </div>
-            <div class="infos">
-                <label for="totalWorkDays">Nb jours ouvrés sur la période : </label>
-                <label class="{{.CssClass.TotalWorkDays}}">{{.Datas.TotalWorkDays}}</label>
+            <div class="infos {{if not .CssClass.TotalWorkDays}} hidden {{end}}">
+                <label for="totalWorkDays">Jours ouvrés</label><br/>
+                <label class="{{.CssClass.TotalWorkDays}}" name="totalWorkDays">{{.Datas.TotalWorkDays}}</label>
             </div>
             <div class="result">
                 <div class="table">
