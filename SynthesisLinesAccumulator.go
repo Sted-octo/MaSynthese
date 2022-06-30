@@ -7,7 +7,8 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 
 	var newListSynthesisLine []SynthesisLine
 	var kindSubTotal SynthesisLine
-	var kindTotal SynthesisLine = SynthesisLine{Kind: "ztotal", Title: "Total", TimeSum: 0, TypeLine: LineTotal, RowCount: 0}
+	var kindTotal SynthesisLine = SynthesisLine{Kind: "total", Title: "Total", TimeSum: 0,
+		IsLineTotal: true, RowCount: 0}
 	for _, line := range *sl {
 		if currentKind != line.Kind {
 			if currentKind != "" {
@@ -23,7 +24,7 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 
 			if currentKind == "" {
 				currentKind = line.Kind
-				kindSubTotal = SynthesisLine{Kind: line.Kind, Title: "Sous total " + line.Kind, TimeSum: line.TimeSum, TypeLine: LineSubTotal, RowCount: 1}
+				kindSubTotal = SynthesisLine{Kind: line.Kind, Title: "Sous total " + line.Kind, TimeSum: line.TimeSum, IsLineSubTotal: true, RowCount: 1}
 			}
 			continue
 		}

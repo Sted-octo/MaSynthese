@@ -10,6 +10,7 @@ var token *Token
 
 func main() {
 	var err error
+	go GetBankHolidayInstance().Init()
 
 	token, err = TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
 	if err != nil {
@@ -23,5 +24,4 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
-
 }

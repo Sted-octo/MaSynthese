@@ -17,19 +17,21 @@
 
                 <input type="submit" value="Rafraichir">
             </div>
+            <div class="infos">
+                <label for="totalWorkDays">Nb jours ouvrés sur la période : </label>
+                <label class="{{.CssClass.TotalWorkDays}}">{{.Datas.TotalWorkDays}}</label>
+            </div>
             <div class="result">
-                <ul class="table">
+                <div class="table">
                     {{range .Lines}}
-                        <li>
-                            <ul class="row">
-                                <li class="little">{{.Kind}}</li>
-                                <li class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</li>
-                                <li class="medium">{{.Title}}</li>
-                                <li class="little">{{.TimeSum}}</li>
-                            </ul>
-                        </li>
+                    <div class="row {{.Kind}}  {{if .IsLineSubTotal}}isSubTotal{{end}} {{if .IsLineTotal}}isTotal{{end}}">
+                        <div class="little">{{.Kind}}</div>
+                        <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</div>
+                        <div class="medium">{{.Title}}</div>
+                        <div class="little">{{.TimeSum}}</div>
+                    </div>
                     {{end}}
-                </ul>
+                </div>
             </div>
         </form>
     </body>

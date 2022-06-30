@@ -26,7 +26,6 @@ func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
 			ActivityID: currentTimeInput.Activity.ID,
 			Title:      currentTimeInput.Activity.Title,
 			Kind:       currentTimeInput.Activity.Kind,
-			TypeLine:   LineNormal,
 		}
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {

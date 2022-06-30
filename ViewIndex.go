@@ -1,17 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"sort"
+	"strconv"
 	"text/template"
+	"time"
 )
 
 type FormInfos struct {
-	Id        string
-	StartDate string
-	EndDate   string
+	Id            string
+	StartDate     string
+	EndDate       string
+	TotalWorkDays string
 }
 
 type IndexInfos struct {
@@ -42,7 +44,7 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 
 	if state {
 		var timeInput *TimeInput
-		timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 100)
+		timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 200)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -50,19 +52,19 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 		synthesisLines := timeInput.timeInputAggregator()
 
 		sort.Sort(ByAssending(synthesisLines))
+
+		sl := SynthesisLines(synthesisLines)
+
+		synthesisLines = sl.Accumulate()
+
 		infos.Lines = synthesisLines
 
-		var cumul float64 = 0
-		currentKind := ""
-
-		for _, synthesisLine := range synthesisLines {
-			if currentKind != "" && currentKind != synthesisLine.Kind {
-				fmt.Printf("Total %s : %f\n", currentKind, cumul)
-				cumul = 0.0
-			}
-			fmt.Printf("%s %s %s %s %f\n", synthesisLine.Kind, synthesisLine.Title, synthesisLine.Reference, synthesisLine.CustomerName, synthesisLine.TimeSum)
-			cumul += synthesisLine.TimeSum
-			currentKind = synthesisLine.Kind
+		startPeriod, _ := time.Parse("2006-01-02", infos.Datas.StartDate)
+		endPeriod, _ := time.Parse("2006-01-02", infos.Datas.EndDate)
+		period := NewPeriod(startPeriod, endPeriod, GetBankHolidayInstance())
+		totalWorkDays, err := period.TotalWorkDaysGetter()
+		if err == nil {
+			infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)
 		}
 	}
 
