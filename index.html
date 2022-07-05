@@ -10,10 +10,12 @@
             <div class="header">
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
                 <div class="filters {{if .Datas.Id}} hidden {{end}}">
-                    <label for="authCode">Auth code</label> 
-                    <input class="{{.CssClass.AuthCode}}" type="text" name="authCode" value="{{.Datas.AuthCode}}">
-                    <label for="idOctoUser">Identifiant</label> 
-                    <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
+                    <div class="innerfilters">
+                        <label for="authCode">Auth code</label> 
+                        <input class="{{.CssClass.AuthCode}}" type="text" name="authCode" value="{{.Datas.AuthCode}}">
+                        <label for="idOctoUser">Identifiant</label> 
+                        <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
+                    </div>
                 </div>
                 <div class="filters">
                     <div class="innerfilters">
