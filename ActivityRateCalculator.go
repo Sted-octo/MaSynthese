@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+var ACTIVITY_ID_INTERCONTRAT int64 = 2140318361
+
 func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDays int) (*ActivityRate, error) {
 	activityRate := ActivityRate{}
 
@@ -19,7 +21,7 @@ func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDay
 				billableTimeTotal += decimal
 			}
 		}
-		if currentTimeInput.Activity.ID == 2140318361 {
+		if currentTimeInput.Activity.ID == ACTIVITY_ID_INTERCONTRAT {
 			day, _ := time.Parse("2006-01-02", currentTimeInput.Day)
 			if day.After(pivot) {
 				if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
@@ -27,7 +29,7 @@ func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDay
 				}
 			}
 		}
-		if currentTimeInput.Activity.Title == "absence" {
+		if currentTimeInput.Activity.IsDayBreak() {
 			workDaywWithoutDayBreak -= 1
 		}
 	}

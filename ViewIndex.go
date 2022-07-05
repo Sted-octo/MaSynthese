@@ -173,7 +173,7 @@ func manageSynthesisDetailLines(infos *IndexInfos) {
 		log.Fatalln(err)
 	}
 
-	synthesisLines := timeInput.timeInputAggregator()
+	synthesisLines := timeInput.timeInputAggregator(time.Now())
 
 	sort.Sort(ByAssending(synthesisLines))
 

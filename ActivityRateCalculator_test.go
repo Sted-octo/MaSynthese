@@ -59,7 +59,7 @@ func Test_One_Billable_And_One_NotBillable_ActivityRate_value_shouldbe_Correct(t
 func Test_One_Billable_And_One_Absence_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementNotBillable(123, "absence", 1))
+	timeInputs.Add(timeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -69,7 +69,7 @@ func Test_One_Billable_And_One_Absence_ActivityRate_value_shouldbe_Correct(t *te
 func Test_All_Absences_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
 	for i := 0; i < TOTAL_WORKDAYS_FY22; i++ {
-		timeInputs.Add(timeInputElementNotBillable(int64(i), "absence", 1))
+		timeInputs.Add(timeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
 	}
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
@@ -79,7 +79,7 @@ func Test_All_Absences_ActivityRate_value_shouldbe_0(t *testing.T) {
 
 func Test_One_Intercontrat_Before_Pivot_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(2140318361, "intercontrat", 1, time.Date(2022, time.June, 1, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))))
+	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "intercontrat", 1, time.Date(2022, time.June, 1, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -88,7 +88,7 @@ func Test_One_Intercontrat_Before_Pivot_ActivityRate_value_shouldbe_0(t *testing
 
 func Test_One_Intercontrat_After_Pivot_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(2140318361, "Intercontrat", 1, time.Date(2022, time.July, 10, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))))
+	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", 1, time.Date(2022, time.July, 10, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 

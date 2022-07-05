@@ -5,6 +5,8 @@ type SynthesisLine struct {
 	Title          string  `json:"title"`
 	CustomerName   string  `json:"customerName"`
 	TimeSum        float64 `json:"timeSum"`
+	TimeSumDone    float64 `json:"timeSumDone"`
+	TimeSumTodo    float64 `json:"timeSumTodo"`
 	Kind           string  `json:"kind"`
 	Reference      string  `json:"reference"`
 	ProjectName    string  `json:"projectName"`

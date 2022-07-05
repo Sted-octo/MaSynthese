@@ -54,3 +54,19 @@ func (timeInput *TimeInput) Concat(timeInputToAdd TimeInput) *TimeInput {
 
 	return timeInput
 }
+
+func (activity *Activity) IsDayBreak() bool {
+	return activity.ID == ACTIVITY_ID_RTT ||
+		activity.ID == ACTIVITY_ID_CONGES_PAYE ||
+		activity.ID == ACTIVITY_ID_SICK_DAY ||
+		activity.ID == ACTIVITY_ID_PART_TIME_BREAK ||
+		activity.ID == ACTIVITY_ID_PARENTAL_BREAK ||
+		activity.ID == ACTIVITY_ID_NO_SALARY_BREAK ||
+		activity.ID == ACTIVITY_ID_MEDICAL_CARE ||
+		activity.ID == ACTIVITY_ID_FAMILY_DAY ||
+		activity.ID == ACTIVITY_ID_PARENT_DAY ||
+		activity.ID == ACTIVITY_ID_MEDICAL_PART_TIME_BREAK ||
+		activity.ID == ACTIVITY_ID_AUTORIZED_BREAK ||
+		activity.ID == ACTIVITY_ID_NO_EXCUSE_BREAK ||
+		activity.ID == ACTIVITY_ID_PERSONAL_CARE
+}

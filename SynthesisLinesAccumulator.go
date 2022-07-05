@@ -20,18 +20,31 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 			}
 			newListSynthesisLine = append(newListSynthesisLine, line)
 			kindTotal.TimeSum += line.TimeSum
+			kindTotal.TimeSumDone += line.TimeSumDone
+			kindTotal.TimeSumTodo += line.TimeSumTodo
 			kindTotal.RowCount++
 
 			if currentKind == "" {
 				currentKind = line.Kind
-				kindSubTotal = SynthesisLine{Kind: line.Kind, Title: "Sous total " + line.Kind, TimeSum: line.TimeSum, IsLineSubTotal: true, RowCount: 1}
+				kindSubTotal = SynthesisLine{
+					Kind:           line.Kind,
+					Title:          "Sous total " + line.Kind,
+					TimeSum:        line.TimeSum,
+					TimeSumDone:    line.TimeSumDone,
+					TimeSumTodo:    line.TimeSumTodo,
+					IsLineSubTotal: true,
+					RowCount:       1}
 			}
 			continue
 		}
 		newListSynthesisLine = append(newListSynthesisLine, line)
 		kindSubTotal.TimeSum += line.TimeSum
+		kindSubTotal.TimeSumDone += line.TimeSumDone
+		kindSubTotal.TimeSumTodo += line.TimeSumTodo
 		kindSubTotal.RowCount++
 		kindTotal.TimeSum += line.TimeSum
+		kindTotal.TimeSumDone += line.TimeSumDone
+		kindTotal.TimeSumTodo += line.TimeSumTodo
 		kindTotal.RowCount++
 	}
 	if kindSubTotal.RowCount > 0 {

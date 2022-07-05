@@ -64,16 +64,16 @@ body {
 
 .filters {
     vertical-align: top;
-    background-color: #0e2356;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 20px;
     padding: 20px;
-    margin-bottom: 2px;
     display: flex;
     color: white;
     align-items: center;
     margin-left: auto;
+}
+.innerfilters {
+    background-color: #0e2356;
+    border-radius: 20px;
+    padding: 20px;
 }
 
 .infos {
@@ -138,6 +138,14 @@ body {
     display: table-cell;
 }
 
+.headRow {
+    background-color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-style: solid;
+}
+
 .billable, .not_billable,.permanent, .absence  {
     border-bottom-style: solid;
     border-bottom-color: gray;
@@ -170,4 +178,8 @@ body {
 }
 .smallText {
     font-size: smaller;
+}
+
+.todo {
+    color:#00afcb;
 }

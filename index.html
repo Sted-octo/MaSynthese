@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Ma Synthèse</title>
+        <title>Octo'ptimiste</title>
         <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
@@ -16,12 +16,14 @@
                     <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
                 </div>
                 <div class="filters">
-                    <label for="startdate"> Période du </label>
-                    <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}"><br\>
-                    <label for="enddate"> au </label>
-                    <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
+                    <div class="innerfilters">
+                        <label for="startdate"> Période du </label>
+                        <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}"><br\>
+                        <label for="enddate"> au </label>
+                        <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
 
-                    <input type="submit" value="Rafraichir">
+                        <input type="submit" value="Rafraichir">
+                    </div>
                 </div>
                
             </div>
@@ -55,11 +57,19 @@
             </div>
             <div class="result">
                 <div class="table">
+                    <div class="row headRow">
+                        <div class="medium">Titre</div>
+                        <div class="large">Projet</div>
+                        <div class="little">Done</div>
+                        <div class="little">To do</div>
+                        <div class="little">Total</div>
+                    </div>
                     {{range .Lines}}
                     <div class="row {{.Kind}}  {{if .IsLineSubTotal}}isSubTotal{{end}} {{if .IsLineTotal}}isTotal{{end}}">
-                        <div class="little">{{.Kind}}</div>
-                        <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</div>
                         <div class="medium">{{.Title}}</div>
+                        <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</div>
+                        <div class="little">{{.TimeSumDone}}</div>
+                        <div class="little todo">{{.TimeSumTodo}}</div>
                         <div class="little">{{.TimeSum}}</div>
                     </div>
                     {{end}}

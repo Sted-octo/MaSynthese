@@ -1,8 +1,25 @@
 package main
 
-import "strconv"
+import (
+	"strconv"
+	"time"
+)
 
-func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
+var ACTIVITY_ID_RTT int64 = 2140298843
+var ACTIVITY_ID_CONGES_PAYE int64 = 2140309429
+var ACTIVITY_ID_SICK_DAY int64 = 2140312911
+var ACTIVITY_ID_PART_TIME_BREAK int64 = 2140316822
+var ACTIVITY_ID_PARENTAL_BREAK int64 = 3000050819
+var ACTIVITY_ID_NO_SALARY_BREAK int64 = 3000030459
+var ACTIVITY_ID_MEDICAL_CARE int64 = 3000030462
+var ACTIVITY_ID_FAMILY_DAY int64 = 3000030457
+var ACTIVITY_ID_PARENT_DAY int64 = 3000030458
+var ACTIVITY_ID_MEDICAL_PART_TIME_BREAK int64 = 3000050818
+var ACTIVITY_ID_AUTORIZED_BREAK int64 = 3000050820
+var ACTIVITY_ID_NO_EXCUSE_BREAK int64 = 3000050821
+var ACTIVITY_ID_PERSONAL_CARE int64 = 3000065641
+
+func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine {
 	nbTimes := len(*timeInput)
 	if nbTimes == 0 {
 		return nil
@@ -13,13 +30,19 @@ func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
 
 	for indx := range *timeInput {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
+		day, _ := time.Parse("2006-01-02", currentTimeInput.Day)
 
 		if existingLine, exist := activityMap[currentTimeInput.Activity.ID]; exist {
-			if currentTimeInput.Activity.Title == "absence" {
+			if currentTimeInput.Activity.IsDayBreak() {
 				existingLine.ProjectName += " -  " + currentTimeInput.Day
 			}
 			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 				existingLine.TimeSum += decimal
+				if day.Before(pivot) || datesEquals(day, pivot) {
+					existingLine.TimeSumDone += decimal
+				} else {
+					existingLine.TimeSumTodo += decimal
+				}
 			}
 			continue
 		}
@@ -29,13 +52,18 @@ func (timeInput *TimeInput) timeInputAggregator() []SynthesisLine {
 			Title:      currentTimeInput.Activity.Title,
 			Kind:       currentTimeInput.Activity.Kind,
 		}
-		if newLine.Title == "absence" {
+		if currentTimeInput.Activity.IsDayBreak() {
 			newLine.Kind = "absence"
 			newLine.ProjectName = currentTimeInput.Day
 		}
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 			newLine.TimeSum = decimal
+			if day.Before(pivot) || datesEquals(day, pivot) {
+				newLine.TimeSumDone = decimal
+			} else {
+				newLine.TimeSumTodo = decimal
+			}
 		}
 		if currentTimeInput.Activity.Project != nil {
 			newLine.Reference = currentTimeInput.Activity.Project.Reference
