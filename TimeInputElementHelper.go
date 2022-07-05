@@ -1,11 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func timeInputElementNotBillable(activityId int64, name string, timeInDay float64) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = "permanent"
+	timeInputElement.Activity.Title = name
+
+	return timeInputElement
+}
+
+func timeInputElementNotBillableAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
+	timeInputElement.Day = day.Format("2006-01-02")
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = "permanent"

@@ -8,7 +8,7 @@ input {
 
 input[type="submit"]{
     cursor:pointer;
-    background-color: transparent;
+    background-color: #00afcb;
     border-color: white;
     border-style: solid;
     border-width: 1px;
@@ -16,6 +16,12 @@ input[type="submit"]{
     color: white;
     padding-right: 10px;
     padding-left: 10px;
+    box-shadow: 3px 3px .4em white;
+}
+
+input[type="date"]{
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 body {
@@ -26,16 +32,25 @@ body {
 .header {
     background-color: rgba(255,255,255,0.8);
     border-radius: 20px;
-    display: block;
+    display: flex;
     margin-bottom: 15px;
+    justify-content:center;
 }
 
+.tools {
+    display: flex;
+    justify-content:center;
+}
+
+.simple {
+    display: block;
+}
 .logo {
     display: inline-block;
     padding: 10px;
   }
 
-.head, .filters {
+.head {
     vertical-align: top;
     border-color: white;
     border-style: solid;
@@ -47,9 +62,34 @@ body {
     color: white;
 }
 
+.filters {
+    vertical-align: top;
+    background-color: #0e2356;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 2px;
+    display: flex;
+    color: white;
+    align-items: center;
+    margin-left: auto;
+}
+
 .infos {
     vertical-align: top;
     background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 2px;
+    color: #0e2356;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.optimist {
+    vertical-align: top;
+    background-color: #00afcb;
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 2px;

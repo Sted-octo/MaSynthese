@@ -28,6 +28,8 @@ type PeopleInfos struct {
 	Quadri    string
 	FirstName string
 	LastName  string
+	EntryDate string
+	ID        string
 }
 
 type IndexInfos struct {
@@ -95,17 +97,27 @@ func manageInfosPeople(infos *IndexInfos) {
 		}
 		if people.ID != 0 {
 			infos.Datas.Id = strconv.Itoa(int(people.ID))
+			infos.Datas.Human.ID = strconv.Itoa(int(people.ID))
 			infos.Datas.Human.Quadri = people.Nickname
 			infos.Datas.Human.FirstName = people.FirstName
 			infos.Datas.Human.LastName = people.LastName
 			infos.CssClass.Human.Quadri = "bigText"
 			infos.CssClass.AuthCode = "hidden"
+			infos.CssClass.Human.ID = "smallText"
+			infos.CssClass.Human.EntryDate = "smallText"
+			infos.Datas.Human.EntryDate = people.EntryDate
 		}
 	}
 }
 
 func manageTaceOptimist(infos *IndexInfos) {
 	periodFiscal := FiscalPeriodGetter()
+
+	if infos.Datas.Human.EntryDate != "" {
+		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
+			periodFiscal.Start = startDay
+		}
+	}
 
 	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 200)
 	if err != nil {

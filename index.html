@@ -9,28 +9,33 @@
         <form method="post" action="indxform">
             <div class="header">
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
-
-                <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
-                    <label class="{{.CssClass.Human.Quadri}}">{{.Datas.Human.Quadri}}</label>
-                </div>
-                <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
-                    <label class="{{.CssClass.Human.FirstName}}">{{.Datas.Human.FirstName}}</label><br \>
-                    <label class="{{.CssClass.Human.LastName}}">{{.Datas.Human.LastName}}</label>
-                </div>
-            </div>
-            <div class="tools">
-                <div class="filters">
+                <div class="filters {{if .Datas.Id}} hidden {{end}}">
                     <label for="authCode">Auth code</label> 
                     <input class="{{.CssClass.AuthCode}}" type="text" name="authCode" value="{{.Datas.AuthCode}}">
                     <label for="idOctoUser">Identifiant</label> 
                     <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
+                </div>
+                <div class="filters">
                     <label for="startdate"> Période du </label>
-                    <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}">
+                    <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}"><br\>
                     <label for="enddate"> au </label>
                     <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
 
                     <input type="submit" value="Rafraichir">
                 </div>
+               
+            </div>
+            <div class="tools"> 
+                <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
+                    <label class="{{.CssClass.Human.Quadri}}">{{.Datas.Human.Quadri}}</label>
+                </div>
+                <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
+                    <div class="simple"><label class="{{.CssClass.Human.FirstName}}">{{.Datas.Human.FirstName}}</label></div>
+                    <div class="simple"><label class="{{.CssClass.Human.LastName}}">{{.Datas.Human.LastName}}</label></div>
+                    <div class="simple"><label class="{{.CssClass.Human.ID}}">N° {{.Datas.Human.ID}}</label></div>
+                    <div class="simple"><label class="{{.CssClass.Human.EntryDate}}">depuis le {{.Datas.Human.EntryDate}}</label></div>
+                </div>
+                
                 <div class="infos {{if not .CssClass.TotalWorkDays}} hidden {{end}}">
                     <label for="totalWorkDays" class="smallText">Jours ouvrés</label><br/>
                     <label class="{{.CssClass.TotalWorkDays}}" name="totalWorkDays">{{.Datas.TotalWorkDays}}</label>
@@ -42,6 +47,10 @@
                 <div class="infos {{if not .CssClass.TaceFiscalYear}} hidden {{end}}">
                     <label for="TaceFiscalYear" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
                     <label class="{{.CssClass.TaceFiscalYear}}" name="TaceFiscalYear">{{.Datas.TaceFiscalYear}} %</label><br>
+                </div>
+                <div class="optimist {{if not .CssClass.TaceOptimist}} hidden {{end}}">
+                    <label for="TaceOptimist" class="smallText">Tace optimiste</label><br/>
+                    <label class="{{.CssClass.TaceOptimist}}" name="TaceOptimist">{{.Datas.TaceOptimist}} %</label><br>
                 </div>
             </div>
             <div class="result">
