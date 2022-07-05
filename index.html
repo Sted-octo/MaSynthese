@@ -8,7 +8,20 @@
     <body>
         <form method="post" action="indxform">
             <div class="header">
-                <div class="head">
+                <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
+
+                <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
+                    <label class="{{.CssClass.Human.Quadri}}">{{.Datas.Human.Quadri}}</label>
+                </div>
+                <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
+                    <label class="{{.CssClass.Human.FirstName}}">{{.Datas.Human.FirstName}}</label><br \>
+                    <label class="{{.CssClass.Human.LastName}}">{{.Datas.Human.LastName}}</label>
+                </div>
+            </div>
+            <div class="tools">
+                <div class="filters">
+                    <label for="authCode">Auth code</label> 
+                    <input class="{{.CssClass.AuthCode}}" type="text" name="authCode" value="{{.Datas.AuthCode}}">
                     <label for="idOctoUser">Identifiant</label> 
                     <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
                     <label for="startdate"> Période du </label>
@@ -25,6 +38,10 @@
                 <div class="infos {{if not .CssClass.TacePeriod}} hidden {{end}}">
                     <label for="tacePeriod" class="smallText">Tace période</label><br/>
                     <label class="{{.CssClass.TacePeriod}}" name="tacePeriod">{{.Datas.TacePeriod}} %</label><br>
+                </div>
+                <div class="infos {{if not .CssClass.TaceFiscalYear}} hidden {{end}}">
+                    <label for="TaceFiscalYear" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
+                    <label class="{{.CssClass.TaceFiscalYear}}" name="TaceFiscalYear">{{.Datas.TaceFiscalYear}} %</label><br>
                 </div>
             </div>
             <div class="result">

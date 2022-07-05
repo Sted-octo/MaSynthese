@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func TokenGetter(clientId string, clientSecret string) (*Token, error) {
+func TokenGetter(clientId string, clientSecret string, authCode string) (*Token, error) {
 
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
@@ -16,6 +16,9 @@ func TokenGetter(clientId string, clientSecret string) (*Token, error) {
 
 	urlApi := "https://octopod.octo.com/api/oauth/token?grant_type=client_credentials&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob"
 
+	if authCode != "" {
+		urlApi = "https://octopod.octo.com/api/oauth/token?grant_type=authorization_code&code=" + authCode + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob"
+	}
 	fmt.Println(urlApi)
 
 	request, err := http.NewRequest("POST", urlApi, nil)

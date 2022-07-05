@@ -20,7 +20,7 @@ func timeInputElementBillable(activityId int64, name string, timeInDay float64, 
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = "permanent"
+	timeInputElement.Activity.Kind = "billable"
 	timeInputElement.Activity.Title = name
 	timeInputElement.Activity.Project = new(Project)
 	timeInputElement.Activity.Project.Reference = reference

@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 )
 
 var token *Token
@@ -11,11 +10,6 @@ var token *Token
 func main() {
 	var err error
 	go GetBankHolidayInstance().Init()
-
-	token, err = TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
-	if err != nil {
-		log.Fatalln(err)
-	}
 
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
