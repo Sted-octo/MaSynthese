@@ -151,9 +151,13 @@ func manageTaceOptimist(infos *IndexInfos) {
 }
 
 func manageTaceFiscalYear(infos *IndexInfos) {
-	infos.Datas.FiscalYear = time.Now().Format("06")
-
 	periodFiscal := FiscalPeriodGetter()
+	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
+
+	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&
+		infos.Datas.EndDate == periodFiscal.End.Format("2006-01-02") {
+		infos.CssClass.TacePeriod = ""
+	}
 
 	activityRateFiscalYear, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"))
 	if err == nil {
