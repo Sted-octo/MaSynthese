@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0/people"
+var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0"
 
 func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint) (*TimeInput, error) {
 	if acessToken == "" {
@@ -29,7 +29,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 
 	for page := 1; !fullLoad; page++ {
 
-		urlApi := fmt.Sprintf("%s/%s/time_input?from_date=%s&to_date=%s&page=%d&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, page, resultPerPage)
+		urlApi := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=%d&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, page, resultPerPage)
 
 		fmt.Println(urlApi)
 

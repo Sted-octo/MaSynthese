@@ -20,7 +20,7 @@ func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, 
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := fmt.Sprintf("%s/%s/activity_rate?from_date=%s&to_date=%s&include_pipe=false", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
+	urlApi := fmt.Sprintf("%s/people/%s/activity_rate?from_date=%s&to_date=%s&include_pipe=false", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
 
 	fmt.Println(urlApi)
 

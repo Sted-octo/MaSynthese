@@ -90,24 +90,33 @@ func manageToken(infos *IndexInfos) {
 }
 
 func manageInfosPeople(infos *IndexInfos) {
+	var people *People
+	var err error
 	if infos.Datas.AuthCode != "" {
-		people, err := PeopleGetter(token.AccessToken)
+		people, err = PeopleGetter(token.AccessToken)
 		if err != nil {
 			log.Fatalln(err)
 		}
-		if people.ID != 0 {
-			infos.Datas.Id = strconv.Itoa(int(people.ID))
-			infos.Datas.Human.ID = strconv.Itoa(int(people.ID))
-			infos.Datas.Human.Quadri = people.Nickname
-			infos.Datas.Human.FirstName = people.FirstName
-			infos.Datas.Human.LastName = people.LastName
-			infos.CssClass.Human.Quadri = "bigText"
-			infos.CssClass.AuthCode = "hidden"
-			infos.CssClass.Human.ID = "smallText"
-			infos.CssClass.Human.EntryDate = "smallText"
-			infos.Datas.Human.EntryDate = people.EntryDate
+	} else {
+		people, err = PeopleByIdGetter(token.AccessToken, infos.Datas.Id)
+		if err != nil {
+			log.Fatalln(err)
 		}
 	}
+
+	if people != nil && people.ID != 0 {
+		infos.Datas.Id = strconv.Itoa(int(people.ID))
+		infos.Datas.Human.ID = strconv.Itoa(int(people.ID))
+		infos.Datas.Human.Quadri = people.Nickname
+		infos.Datas.Human.FirstName = people.FirstName
+		infos.Datas.Human.LastName = people.LastName
+		infos.CssClass.Human.Quadri = "bigText"
+		infos.CssClass.AuthCode = "hidden"
+		infos.CssClass.Human.ID = "smallText"
+		infos.CssClass.Human.EntryDate = "smallText"
+		infos.Datas.Human.EntryDate = people.EntryDate
+	}
+
 }
 
 func manageTaceOptimist(infos *IndexInfos) {
@@ -115,11 +124,13 @@ func manageTaceOptimist(infos *IndexInfos) {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
-			periodFiscal.Start = startDay
+			if startDay.After(periodFiscal.Start) && startDay.Before(periodFiscal.End) {
+				periodFiscal.Start = startDay
+			}
 		}
 	}
 
-	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 200)
+	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 400)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -168,7 +179,7 @@ func manageTotalWorkDay(infos *IndexInfos) {
 
 func manageSynthesisDetailLines(infos *IndexInfos) {
 
-	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 200)
+	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
 	if err != nil {
 		log.Fatalln(err)
 	}
