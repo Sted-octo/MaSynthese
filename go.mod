@@ -1,4 +1,4 @@
-module MaSynthese
+module octoptimist
 
 go 1.18
 
