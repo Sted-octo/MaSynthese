@@ -5,8 +5,6 @@ import (
 	"net/http"
 )
 
-var token *Token
-
 func main() {
 	var err error
 	go GetBankHolidayInstance().Init()

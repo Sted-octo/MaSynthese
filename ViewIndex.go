@@ -33,9 +33,10 @@ type PeopleInfos struct {
 }
 
 type IndexInfos struct {
-	CssClass FormInfos
-	Datas    FormInfos
-	Lines    []SynthesisLine
+	CssClass    FormInfos
+	Datas       FormInfos
+	AccessToken string
+	Lines       []SynthesisLine
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -80,12 +81,12 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 }
 
 func manageToken(infos *IndexInfos) {
-	var err error
-	if token == nil {
-		token, err = TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), infos.Datas.AuthCode)
+	if infos.AccessToken == "" {
+		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), infos.Datas.AuthCode)
 		if err != nil {
 			log.Fatalln(err)
 		}
+		infos.AccessToken = token.AccessToken
 	}
 }
 
@@ -93,12 +94,12 @@ func manageInfosPeople(infos *IndexInfos) {
 	var people *People
 	var err error
 	if infos.Datas.AuthCode != "" {
-		people, err = PeopleGetter(token.AccessToken)
+		people, err = PeopleGetter(infos.AccessToken)
 		if err != nil {
 			log.Fatalln(err)
 		}
 	} else {
-		people, err = PeopleByIdGetter(token.AccessToken, infos.Datas.Id)
+		people, err = PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -130,7 +131,7 @@ func manageTaceOptimist(infos *IndexInfos) {
 		}
 	}
 
-	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 400)
+	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 400)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -151,7 +152,7 @@ func manageTaceFiscalYear(infos *IndexInfos) {
 
 	periodFiscal := FiscalPeriodGetter()
 
-	activityRateFiscalYear, err := ActivityRateGetter(token.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"))
+	activityRateFiscalYear, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"))
 	if err == nil {
 		infos.Datas.TaceFiscalYear = fmt.Sprintf("%.2f", activityRateFiscalYear.Value*100.0)
 		infos.CssClass.TaceFiscalYear = "bigText"
@@ -159,7 +160,7 @@ func manageTaceFiscalYear(infos *IndexInfos) {
 }
 
 func manageTacePeriod(infos *IndexInfos) {
-	activityRate, err := ActivityRateGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate)
+	activityRate, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate)
 	if err == nil {
 		infos.Datas.TacePeriod = fmt.Sprintf("%.2f", activityRate.Value*100.0)
 		infos.CssClass.TacePeriod = "bigText"
@@ -179,7 +180,7 @@ func manageTotalWorkDay(infos *IndexInfos) {
 
 func manageSynthesisDetailLines(infos *IndexInfos) {
 
-	timeInput, err := TimeInputGetter(token.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
+	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -211,6 +212,10 @@ func validateParameters(r *http.Request) (IndexInfos, bool) {
 
 	if len(r.Form["idOctoUser"]) > 0 {
 		infos.Datas.AuthCode = r.Form["authCode"][0]
+	}
+
+	if len(r.Form["accessToken"]) > 0 {
+		infos.AccessToken = r.Form["accessToken"][0]
 	}
 
 	if infos.Datas.Id == "" && infos.Datas.AuthCode == "" {
