@@ -48,6 +48,10 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 		}
 		defer response.Body.Close()
 
+		if response.StatusCode != http.StatusOK {
+			return nil, errors.New(fmt.Sprintf("status code not 200 in tieInputGetter %d", response.StatusCode))
+		}
+
 		totalAvaillableLinesCount, err := strconv.Atoi(response.Header.Get("Total"))
 		if err != nil {
 			return nil, err

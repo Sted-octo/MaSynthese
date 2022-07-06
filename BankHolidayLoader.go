@@ -84,7 +84,10 @@ func bankHolidayLoader() (map[int][]BankHoliday, error) {
 			firstLine = !firstLine
 			continue
 		}
-		year, _ := strconv.Atoi(record[1])
+		year, err := strconv.Atoi(record[1])
+		if err != nil {
+			log.Fatalln("conversion int to string error in bankHolidayLoader")
+		}
 
 		holidate, _ := time.Parse(dateLayout, record[0])
 		newDayBreak := BankHoliday{DayDate: holidate, Year: year, Zone: record[2], Name: record[3]}
