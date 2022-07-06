@@ -31,7 +31,8 @@
             </div>
             <div class="tools"> 
                 <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
-                    <label class="{{.CssClass.Human.Quadri}}">{{.Datas.Human.Quadri}}</label>
+                    <div class="simple"><label class="{{.CssClass.Human.Quadri}}">{{.Datas.Human.Quadri}}</label></div>
+                    <div class="simple"><label class="{{.CssClass.Human.Team}}">{{.Datas.Human.Team}}</label></div>
                 </div>
                 <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
                     <div class="simple"><label class="{{.CssClass.Human.FirstName}}">{{.Datas.Human.FirstName}}</label></div>
@@ -71,7 +72,7 @@
                         <div class="medium">{{.Title}}</div>
                         <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</div>
                         <div class="little">{{.TimeSumDone}}</div>
-                        <div class="little todo">{{.TimeSumTodo}}</div>
+                        <div class="little secondaryColor">{{.TimeSumTodo}}</div>
                         <div class="little">{{.TimeSum}}</div>
                     </div>
                     {{end}}

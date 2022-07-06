@@ -30,6 +30,7 @@ type PeopleInfos struct {
 	LastName  string
 	EntryDate string
 	ID        string
+	Team      string
 }
 
 type IndexInfos struct {
@@ -111,7 +112,9 @@ func manageInfosPeople(infos *IndexInfos) {
 		infos.Datas.Human.Quadri = people.Nickname
 		infos.Datas.Human.FirstName = people.FirstName
 		infos.Datas.Human.LastName = people.LastName
+		infos.Datas.Human.Team = people.Lob.Abbreviation
 		infos.CssClass.Human.Quadri = "bigText"
+		infos.CssClass.Human.Team = "bigText secondaryColor"
 		infos.CssClass.AuthCode = "hidden"
 		infos.CssClass.Human.ID = "smallText"
 		infos.CssClass.Human.EntryDate = "smallText"
