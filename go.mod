@@ -1,4 +1,4 @@
-module octoptimist
+module Octoptimist
 
 go 1.18
 
