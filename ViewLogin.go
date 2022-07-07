@@ -70,6 +70,12 @@ func validateLoginParameters(r *http.Request) (LoginInfos, bool) {
 	r.ParseForm()
 	state := true
 	infos := LoginInfos{}
+
+	if r.URL.Query().Get("code") != "" {
+		infos.Datas.AuthCode = r.URL.Query().Get("code")
+		return infos, state
+	}
+
 	if len(r.Form["idOctoUser"]) > 0 {
 		infos.Datas.Id = r.Form["idOctoUser"][0]
 	}
