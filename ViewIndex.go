@@ -156,7 +156,7 @@ func manageTaceFiscalYear(infos *IndexInfos) {
 
 	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&
 		infos.Datas.EndDate == periodFiscal.End.Format("2006-01-02") {
-		infos.CssClass.TacePeriod = ""
+		infos.CssClass.TacePeriod = "hidden"
 	}
 
 	activityRateFiscalYear, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"))
