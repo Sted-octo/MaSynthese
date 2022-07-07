@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -13,7 +14,11 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", Login)
 	http.HandleFunc("/synthesis", Index)
-	err = http.ListenAndServe(":9090", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9090"
+	}
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
