@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Octo'ptimiste</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
+    <body>
+        <form method="post" action="loginform">
+            <div class="header">
+                <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
+            </div>
+            <div class="tools">
+                <div class="infos">
+                    <div class="innerfilters">
+                        <div class="simple"><label for="authCode">Auth code</label></div> 
+                        <input class="{{.CssClass.AuthCode}}" type="text" name="authCode" value="{{.Datas.AuthCode}}">
+                        <div class="simple"><input type="submit" value="Connection par Auth code"></div>
+                    </div>
+                </div>
+                <div class="infos">
+                    <div class="innerfilters"><label for="idOctoUser">Identifiant</label> 
+                        <div class="simple"><input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}"></div>
+                        <div class="simple"><input type="submit" value="Connection par Id"></div>
+                    </div>
+                </div>
+                <div class="infos">
+                    <div class="innerfilters">
+                        <div class="simple"><input type="submit" value="Connection avec Google"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>

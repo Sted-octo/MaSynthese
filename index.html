@@ -6,17 +6,9 @@
         <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
-        <form method="post" action="indxform">
+        <form method="post" action="synthesis">
             <div class="header">
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
-                <div class="filters {{if .Datas.Id}} hidden {{end}}">
-                    <div class="innerfilters">
-                        <label for="authCode">Auth code</label> 
-                        <input class="{{.CssClass.AuthCode}}" type="text" name="authCode" value="{{.Datas.AuthCode}}">
-                        <label for="idOctoUser">Identifiant</label> 
-                        <input class="{{.CssClass.Id}}" type="text" name="idOctoUser" value="{{.Datas.Id}}">
-                    </div>
-                </div>
                 <div class="filters">
                     <div class="innerfilters">
                         <label for="startdate"> Période du </label>
@@ -80,6 +72,8 @@
             </div>
             <div class="hidden">
                 <input name="accessToken" value="{{.AccessToken}}">
+                <input name="idOctoUser" value="{{.Datas.Id}}">
+                <input name="mode" value="{{.ModeConnexion}}">
             </div>
         </form>
     </body>

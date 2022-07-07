@@ -11,7 +11,8 @@ func main() {
 
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	http.HandleFunc("/", Index)
+	http.HandleFunc("/", Login)
+	http.HandleFunc("/synthesis", Index)
 	err = http.ListenAndServe(":9090", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"sort"
 	"strconv"
 	"text/template"
@@ -34,10 +33,11 @@ type PeopleInfos struct {
 }
 
 type IndexInfos struct {
-	CssClass    FormInfos
-	Datas       FormInfos
-	AccessToken string
-	Lines       []SynthesisLine
+	CssClass      FormInfos
+	Datas         FormInfos
+	AccessToken   string
+	Lines         []SynthesisLine
+	ModeConnexion string
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -56,12 +56,10 @@ func indexGET(w http.ResponseWriter, r *http.Request) {
 }
 
 func indexPOST(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
 
-	infos, state := validateParameters(r)
+	infos, state := validateIndexParameters(r)
 
 	if state {
-		manageToken(&infos)
 
 		manageInfosPeople(&infos)
 
@@ -81,25 +79,16 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, infos)
 }
 
-func manageToken(infos *IndexInfos) {
-	if infos.AccessToken == "" {
-		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), infos.Datas.AuthCode)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		infos.AccessToken = token.AccessToken
-	}
-}
-
 func manageInfosPeople(infos *IndexInfos) {
 	var people *People
 	var err error
-	if infos.Datas.AuthCode != "" {
+	if infos.ModeConnexion == MODE_CONNEXION_AUTH {
 		people, err = PeopleGetter(infos.AccessToken)
 		if err != nil {
 			log.Fatalln(err)
 		}
-	} else {
+	}
+	if infos.ModeConnexion == MODE_CONNEXION_ID {
 		people, err = PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
 		if err != nil {
 			log.Fatalln(err)
@@ -203,11 +192,24 @@ func manageSynthesisDetailLines(infos *IndexInfos) {
 	infos.Lines = synthesisLines
 }
 
-func validateParameters(r *http.Request) (IndexInfos, bool) {
+func validateIndexParameters(r *http.Request) (IndexInfos, bool) {
 	r.ParseForm()
 	state := true
 	infos := IndexInfos{}
-	if len(r.Form["idOctoUser"]) > 0 {
+
+	if r.URL.Query().Get("code") != "" {
+		infos.AccessToken = r.URL.Query().Get("code")
+	}
+
+	if r.URL.Query().Get("id") != "" {
+		infos.Datas.Id = r.URL.Query().Get("id")
+	}
+
+	if r.URL.Query().Get("mode") != "" {
+		infos.ModeConnexion = r.URL.Query().Get("mode")
+	}
+
+	if infos.Datas.Id == "" && len(r.Form["idOctoUser"]) > 0 {
 		infos.Datas.Id = r.Form["idOctoUser"][0]
 	}
 	if len(r.Form["startdate"]) > 0 {
@@ -217,19 +219,14 @@ func validateParameters(r *http.Request) (IndexInfos, bool) {
 		infos.Datas.EndDate = r.Form["enddate"][0]
 	}
 
-	if len(r.Form["idOctoUser"]) > 0 {
-		infos.Datas.AuthCode = r.Form["authCode"][0]
-	}
-
-	if len(r.Form["accessToken"]) > 0 {
+	if infos.AccessToken == "" && len(r.Form["accessToken"]) > 0 {
 		infos.AccessToken = r.Form["accessToken"][0]
 	}
 
-	if infos.Datas.Id == "" && infos.Datas.AuthCode == "" {
-		infos.CssClass.Id = "error"
-		infos.CssClass.AuthCode = "error"
-		state = false
+	if infos.ModeConnexion == "" && len(r.Form["mode"]) > 0 {
+		infos.ModeConnexion = r.Form["mode"][0]
 	}
+
 	if infos.Datas.StartDate == "" {
 		infos.CssClass.StartDate = "error"
 		state = false
