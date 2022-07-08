@@ -34,22 +34,38 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func loginGET(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("login.html"))
-	infos := IndexInfos{}
-	t.Execute(w, infos)
-}
-
-func loginPOST(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-
-	infos, state := validateLoginParameters(r)
-	if state {
+	infos := LoginInfos{}
+	if r.URL.Query().Get("code") != "" {
+		infos.Datas.AuthCode = r.URL.Query().Get("code")
 		manageToken(&infos)
 		if infos.Datas.AuthCode != "" {
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
 			return
 		}
-		http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusTemporaryRedirect)
-		return
+	}
+
+	t.Execute(w, infos)
+}
+
+func loginPOST(w http.ResponseWriter, r *http.Request) {
+
+	infos, state := validateLoginParameters(r)
+	if state {
+		manageToken(&infos)
+		if len(r.Form["btnAuth"]) > 0 {
+			if infos.Datas.AuthCode != "" {
+				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
+				return
+			}
+		}
+		if len(r.Form["btnId"]) > 0 {
+			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusTemporaryRedirect)
+			return
+		}
+		if len(r.Form["btnGoogle"]) > 0 {
+			http.Redirect(w, r, fmt.Sprintf("https://octopod.octo.com/api/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", os.Getenv("CLIENT_ID"), os.Getenv("REDIRECT_URL")), http.StatusTemporaryRedirect)
+			return
+		}
 	}
 	t, _ := template.ParseFiles("login.html")
 
@@ -84,10 +100,21 @@ func validateLoginParameters(r *http.Request) (LoginInfos, bool) {
 		infos.Datas.AuthCode = r.Form["authCode"][0]
 	}
 
-	if infos.Datas.Id == "" && infos.Datas.AuthCode == "" {
-		infos.CssClass.Id = "error"
+	if len(r.Form["btnAuth"]) > 0 && infos.Datas.AuthCode == "" {
+		infos.CssClass.Id = ""
 		infos.CssClass.AuthCode = "error"
 		state = false
+	}
+
+	if len(r.Form["btnId"]) > 0 && infos.Datas.Id == "" {
+		infos.CssClass.Id = "error"
+		infos.CssClass.AuthCode = ""
+		state = false
+	}
+
+	if len(r.Form["btnGoogle"]) > 0 {
+		infos.CssClass.Id = ""
+		infos.CssClass.AuthCode = ""
 	}
 
 	return infos, state
