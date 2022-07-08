@@ -52,6 +52,30 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func indexGET(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("index.html"))
 	infos := IndexInfos{}
+	if r.URL.Query().Get("code") != "" {
+		infos.AccessToken = r.URL.Query().Get("code")
+	}
+
+	if r.URL.Query().Get("id") != "" {
+		infos.Datas.Id = r.URL.Query().Get("id")
+	}
+
+	if r.URL.Query().Get("mode") != "" {
+		infos.ModeConnexion = r.URL.Query().Get("mode")
+	}
+	infos.Datas.StartDate = "2021-09-01"
+	infos.Datas.EndDate = "2022-08-31"
+	manageInfosPeople(&infos)
+
+	manageSynthesisDetailLines(&infos)
+
+	manageTotalWorkDay(&infos)
+
+	manageTacePeriod(&infos)
+
+	manageTaceFiscalYear(&infos)
+
+	manageTaceOptimist(&infos)
 	t.Execute(w, infos)
 }
 
@@ -145,7 +169,7 @@ func manageTaceFiscalYear(infos *IndexInfos) {
 
 	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&
 		infos.Datas.EndDate == periodFiscal.End.Format("2006-01-02") {
-		infos.CssClass.TacePeriod = "hidden"
+		infos.CssClass.TacePeriod = ""
 	}
 
 	activityRateFiscalYear, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"))
