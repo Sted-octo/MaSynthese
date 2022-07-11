@@ -137,7 +137,7 @@ func manageInfosPeople(infos *IndexInfos) {
 }
 
 func manageTaceOptimist(infos *IndexInfos) {
-	periodFiscal := FiscalPeriodGetter()
+	periodFiscal := FiscalPeriodGetter(time.Now(), GetBankHolidayInstance())
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
@@ -164,7 +164,7 @@ func manageTaceOptimist(infos *IndexInfos) {
 }
 
 func manageTaceFiscalYear(infos *IndexInfos) {
-	periodFiscal := FiscalPeriodGetter()
+	periodFiscal := FiscalPeriodGetter(time.Now(), GetBankHolidayInstance())
 	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
 
 	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&
