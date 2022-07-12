@@ -86,7 +86,10 @@ func indexGET(w http.ResponseWriter, r *http.Request) {
 
 func indexPOST(w http.ResponseWriter, r *http.Request) {
 	log.Println("indexPOST")
+
 	infos, state := validateIndexParameters(r)
+
+	manageExit(r, infos, w)
 
 	if state {
 
@@ -122,6 +125,16 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("index.html")
 
 	t.Execute(w, infos)
+}
+
+func manageExit(r *http.Request, infos IndexInfos, w http.ResponseWriter) {
+	if len(r.Form["btnExit"]) > 0 {
+		err := TokenRevoker(infos.AccessToken)
+		if err != nil {
+			log.Printf("error revoking token : %s\n", err)
+		}
+		http.Redirect(w, r, "/", http.StatusPermanentRedirect)
+	}
 }
 
 func initFiscalPeriod(infos *IndexInfos) *Period {

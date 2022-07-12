@@ -9,10 +9,10 @@
         <form method="post" action="synthesis">
             <div class="header">
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
-                <div class="filters">
+                <div class="filters automarginleft">
                     <div class="innerfilters">
                         <input type="submit" value="&larr;"  name="btnFYPrev">
-                        <label for="btnFYPrev">FY{{.Datas.FiscalYear}}</label>
+                        <label for="btnFYPrev">&nbsp;FY{{.Datas.FiscalYear}}&nbsp;</label>
                         <input type="submit" value="&rarr;" name="btnFYNext">
                     </div>
                 </div>
@@ -26,7 +26,11 @@
                         <input type="submit" value="Rafraichir" name="btnRefresh">
                     </div>
                 </div>
-               
+                <div class="filters">
+                    <div class="innerfilters">
+                        <input type="submit" value="Déconnexion" name="btnExit">
+                    </div>
+                </div>
             </div>
             <div class="tools"> 
                 <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">

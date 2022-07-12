@@ -62,13 +62,15 @@ body {
     color: white;
 }
 
+.automarginleft {
+    margin-left: auto;
+}
 .filters {
     vertical-align: top;
     padding: 20px;
     display: flex;
     color: white;
     align-items: center;
-    margin-left: auto;
 }
 .innerfilters {
     background-color: #0e2356;
