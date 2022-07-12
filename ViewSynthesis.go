@@ -1,44 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"sort"
-	"strconv"
 	"text/template"
-	"time"
 )
-
-type FormInfos struct {
-	Id             string
-	StartDate      string
-	EndDate        string
-	TotalWorkDays  string
-	TacePeriod     string
-	FiscalYear     string
-	TaceFiscalYear string
-	TaceOptimist   string
-	AuthCode       string
-	Human          PeopleInfos
-}
-
-type PeopleInfos struct {
-	Quadri    string
-	FirstName string
-	LastName  string
-	EntryDate string
-	ID        string
-	Team      string
-}
-
-type SynthesisInfos struct {
-	CssClass      FormInfos
-	Datas         FormInfos
-	AccessToken   string
-	Lines         []SynthesisLine
-	ModeConnexion string
-}
 
 func Synthesis(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
@@ -65,22 +31,12 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 		infos.ModeConnexion = r.URL.Query().Get("mode")
 	}
 
-	fiscalPeriod := FiscalPeriodGetter(time.Now(), GetBankHolidayInstance())
+	fiscalPeriod := infos.initFiscalPeriod()
 
-	infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
-	infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+	infos.setPeriodIfEmpty(fiscalPeriod)
 
-	manageInfosPeople(&infos)
+	infos.synthesisCommon(fiscalPeriod)
 
-	manageSynthesisDetailLines(&infos)
-
-	manageTotalWorkDay(&infos)
-
-	manageTacePeriod(&infos)
-
-	manageTaceFiscalYear(&infos, fiscalPeriod)
-
-	manageTaceOptimist(&infos, fiscalPeriod)
 	t.Execute(w, infos)
 }
 
@@ -89,13 +45,13 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 
 	infos, state := validateSynthesisParameters(r)
 
-	manageExit(r, infos, w)
+	infos.manageExit(r, w)
 
 	if state {
 
-		fiscalPeriod := initFiscalPeriod(&infos)
+		fiscalPeriod := infos.initFiscalPeriod()
 
-		setPeriodIfEmpty(&infos, fiscalPeriod)
+		infos.setPeriodIfEmpty(fiscalPeriod)
 
 		if len(r.Form["btnFYPrev"]) > 0 {
 			fiscalPeriod.Previous()
@@ -109,168 +65,12 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
 		}
 
-		manageInfosPeople(&infos)
-
-		manageSynthesisDetailLines(&infos)
-
-		manageTotalWorkDay(&infos)
-
-		manageTacePeriod(&infos)
-
-		manageTaceFiscalYear(&infos, fiscalPeriod)
-
-		manageTaceOptimist(&infos, fiscalPeriod)
+		infos.synthesisCommon(fiscalPeriod)
 	}
 
 	t, _ := template.ParseFiles("synthesis.html")
 
 	t.Execute(w, infos)
-}
-
-func manageExit(r *http.Request, infos SynthesisInfos, w http.ResponseWriter) {
-	if len(r.Form["btnExit"]) > 0 {
-		err := TokenRevoker(infos.AccessToken)
-		if err != nil {
-			log.Printf("error revoking token : %s\n", err)
-		}
-		http.Redirect(w, r, "/", http.StatusPermanentRedirect)
-	}
-}
-
-func initFiscalPeriod(infos *SynthesisInfos) *Period {
-	day := time.Now()
-	if !(infos.Datas.StartDate == "" && infos.Datas.EndDate == "") {
-		if convertedDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {
-			day = convertedDay
-		} else {
-			if convertedDay, err := time.Parse("2006-01-02", infos.Datas.EndDate); err == nil {
-				day = convertedDay
-			}
-		}
-	}
-
-	fiscalPeriod := FiscalPeriodGetter(day, GetBankHolidayInstance())
-
-	return fiscalPeriod
-}
-
-func setPeriodIfEmpty(infos *SynthesisInfos, fiscalPeriod *Period) {
-
-	if infos.Datas.StartDate == "" && infos.Datas.EndDate == "" {
-		infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
-		infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
-	}
-}
-
-func manageInfosPeople(infos *SynthesisInfos) {
-	var people *People
-	var err error
-	if infos.ModeConnexion == MODE_CONNEXION_AUTH {
-		people, err = PeopleGetter(infos.AccessToken)
-		if err != nil {
-			log.Fatalln(err)
-		}
-	}
-	if infos.ModeConnexion == MODE_CONNEXION_ID {
-		people, err = PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
-		if err != nil {
-			log.Fatalln(err)
-		}
-	}
-
-	if people != nil && people.ID != 0 {
-		infos.Datas.Id = strconv.Itoa(int(people.ID))
-		infos.Datas.Human.ID = strconv.Itoa(int(people.ID))
-		infos.Datas.Human.Quadri = people.Nickname
-		infos.Datas.Human.FirstName = people.FirstName
-		infos.Datas.Human.LastName = people.LastName
-		infos.Datas.Human.Team = people.Lob.Abbreviation
-		infos.CssClass.Human.Quadri = "bigText"
-		infos.CssClass.Human.Team = "bigText secondaryColor"
-		infos.CssClass.AuthCode = "hidden"
-		infos.CssClass.Human.ID = "smallText"
-		infos.CssClass.Human.EntryDate = "smallText"
-		infos.Datas.Human.EntryDate = people.EntryDate
-	}
-
-}
-
-func manageTaceOptimist(infos *SynthesisInfos, periodFiscal *Period) {
-
-	if infos.Datas.Human.EntryDate != "" {
-		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
-			if startDay.After(periodFiscal.Start) && startDay.Before(periodFiscal.End) {
-				periodFiscal.Start = startDay
-			}
-		}
-	}
-
-	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 400)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	totalWorkDays, err := periodFiscal.TotalWorkDaysGetter()
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	activityOptimistRateFiscalYear, err := timeInput.ActivityRateCalculator(time.Now(), totalWorkDays)
-	if err == nil {
-		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
-		infos.CssClass.TaceOptimist = "bigText"
-	}
-}
-
-func manageTaceFiscalYear(infos *SynthesisInfos, periodFiscal *Period) {
-	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
-
-	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&
-		infos.Datas.EndDate == periodFiscal.End.Format("2006-01-02") {
-		infos.CssClass.TacePeriod = ""
-	}
-
-	activityRateFiscalYear, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"))
-	if err == nil {
-		infos.Datas.TaceFiscalYear = fmt.Sprintf("%.2f", activityRateFiscalYear.Value*100.0)
-		infos.CssClass.TaceFiscalYear = "bigText"
-	}
-}
-
-func manageTacePeriod(infos *SynthesisInfos) {
-	activityRate, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate)
-	if err == nil {
-		infos.Datas.TacePeriod = fmt.Sprintf("%.2f", activityRate.Value*100.0)
-		infos.CssClass.TacePeriod = "bigText"
-	}
-}
-
-func manageTotalWorkDay(infos *SynthesisInfos) {
-	startPeriod, _ := time.Parse("2006-01-02", infos.Datas.StartDate)
-	endPeriod, _ := time.Parse("2006-01-02", infos.Datas.EndDate)
-	period := NewPeriod(startPeriod, endPeriod, GetBankHolidayInstance())
-	totalWorkDays, err := period.TotalWorkDaysGetter()
-	if err == nil {
-		infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)
-		infos.CssClass.TotalWorkDays = "bigText"
-	}
-}
-
-func manageSynthesisDetailLines(infos *SynthesisInfos) {
-
-	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	synthesisLines := timeInput.timeInputAggregator(time.Now())
-
-	sort.Sort(ByAssending(synthesisLines))
-
-	sl := SynthesisLines(synthesisLines)
-
-	synthesisLines = sl.Accumulate()
-
-	infos.Lines = synthesisLines
 }
 
 func validateSynthesisParameters(r *http.Request) (SynthesisInfos, bool) {
