@@ -74,7 +74,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 
 func manageToken(infos *LoginInfos) {
 	if infos.AccessToken == "" {
-		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), infos.Datas.AuthCode)
+		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
 		if err != nil {
 			log.Fatal(err)
 		}
