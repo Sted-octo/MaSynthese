@@ -33,9 +33,6 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 		day, _ := time.Parse("2006-01-02", currentTimeInput.Day)
 
 		if existingLine, exist := activityMap[currentTimeInput.Activity.ID]; exist {
-			if currentTimeInput.Activity.IsDayBreak() {
-				existingLine.ProjectName += " -  " + currentTimeInput.Day
-			}
 			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 				existingLine.TimeSum += decimal
 				if day.Before(pivot) || datesEquals(day, pivot) {
@@ -54,7 +51,6 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 		}
 		if currentTimeInput.Activity.IsDayBreak() {
 			newLine.Kind = "absence"
-			newLine.ProjectName = currentTimeInput.Day
 		}
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
