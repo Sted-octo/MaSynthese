@@ -63,8 +63,12 @@ func indexGET(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Query().Get("mode") != "" {
 		infos.ModeConnexion = r.URL.Query().Get("mode")
 	}
-	infos.Datas.StartDate = "2021-09-01"
-	infos.Datas.EndDate = "2022-08-31"
+
+	fiscalPeriod := FiscalPeriodGetter(time.Now(), GetBankHolidayInstance())
+
+	infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
+	infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+
 	manageInfosPeople(&infos)
 
 	manageSynthesisDetailLines(&infos)
@@ -73,9 +77,9 @@ func indexGET(w http.ResponseWriter, r *http.Request) {
 
 	manageTacePeriod(&infos)
 
-	manageTaceFiscalYear(&infos)
+	manageTaceFiscalYear(&infos, fiscalPeriod)
 
-	manageTaceOptimist(&infos)
+	manageTaceOptimist(&infos, fiscalPeriod)
 	t.Execute(w, infos)
 }
 
@@ -85,6 +89,22 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 
 	if state {
 
+		fiscalPeriod := initFiscalPeriod(&infos)
+
+		setPeriodIfEmpty(&infos, fiscalPeriod)
+
+		if len(r.Form["btnFYPrev"]) > 0 {
+			fiscalPeriod.Previous()
+			infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
+			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+		}
+
+		if len(r.Form["btnFYNext"]) > 0 {
+			fiscalPeriod.Next()
+			infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
+			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+		}
+
 		manageInfosPeople(&infos)
 
 		manageSynthesisDetailLines(&infos)
@@ -93,14 +113,39 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 
 		manageTacePeriod(&infos)
 
-		manageTaceFiscalYear(&infos)
+		manageTaceFiscalYear(&infos, fiscalPeriod)
 
-		manageTaceOptimist(&infos)
+		manageTaceOptimist(&infos, fiscalPeriod)
 	}
 
 	t, _ := template.ParseFiles("index.html")
 
 	t.Execute(w, infos)
+}
+
+func initFiscalPeriod(infos *IndexInfos) *Period {
+	day := time.Now()
+	if !(infos.Datas.StartDate == "" && infos.Datas.EndDate == "") {
+		if convertedDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {
+			day = convertedDay
+		} else {
+			if convertedDay, err := time.Parse("2006-01-02", infos.Datas.EndDate); err == nil {
+				day = convertedDay
+			}
+		}
+	}
+
+	fiscalPeriod := FiscalPeriodGetter(day, GetBankHolidayInstance())
+
+	return fiscalPeriod
+}
+
+func setPeriodIfEmpty(infos *IndexInfos, fiscalPeriod *Period) {
+
+	if infos.Datas.StartDate == "" && infos.Datas.EndDate == "" {
+		infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
+		infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+	}
 }
 
 func manageInfosPeople(infos *IndexInfos) {
@@ -136,8 +181,7 @@ func manageInfosPeople(infos *IndexInfos) {
 
 }
 
-func manageTaceOptimist(infos *IndexInfos) {
-	periodFiscal := FiscalPeriodGetter(time.Now(), GetBankHolidayInstance())
+func manageTaceOptimist(infos *IndexInfos, periodFiscal *Period) {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
@@ -163,8 +207,7 @@ func manageTaceOptimist(infos *IndexInfos) {
 	}
 }
 
-func manageTaceFiscalYear(infos *IndexInfos) {
-	periodFiscal := FiscalPeriodGetter(time.Now(), GetBankHolidayInstance())
+func manageTaceFiscalYear(infos *IndexInfos, periodFiscal *Period) {
 	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
 
 	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&

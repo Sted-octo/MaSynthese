@@ -11,12 +11,19 @@
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
                 <div class="filters">
                     <div class="innerfilters">
+                        <input type="submit" value="&larr;"  name="btnFYPrev">
+                        <label for="btnFYPrev">FY{{.Datas.FiscalYear}}</label>
+                        <input type="submit" value="&rarr;" name="btnFYNext">
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
                         <label for="startdate"> Période du </label>
                         <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}"><br\>
                         <label for="enddate"> au </label>
                         <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
 
-                        <input type="submit" value="Rafraichir">
+                        <input type="submit" value="Rafraichir" name="btnRefresh">
                     </div>
                 </div>
                
