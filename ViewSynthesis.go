@@ -32,7 +32,7 @@ type PeopleInfos struct {
 	Team      string
 }
 
-type IndexInfos struct {
+type SynthesisInfos struct {
 	CssClass      FormInfos
 	Datas         FormInfos
 	AccessToken   string
@@ -40,19 +40,19 @@ type IndexInfos struct {
 	ModeConnexion string
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func Synthesis(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		indexGET(w, r)
+		synthesisGET(w, r)
 	}
 	if r.Method == "POST" {
-		indexPOST(w, r)
+		synthesisPOST(w, r)
 	}
 }
 
-func indexGET(w http.ResponseWriter, r *http.Request) {
-	log.Println("indexGET")
-	t := template.Must(template.ParseFiles("index.html"))
-	infos := IndexInfos{}
+func synthesisGET(w http.ResponseWriter, r *http.Request) {
+	log.Println("synthesisGET")
+	t := template.Must(template.ParseFiles("synthesis.html"))
+	infos := SynthesisInfos{}
 	if r.URL.Query().Get("code") != "" {
 		infos.AccessToken = r.URL.Query().Get("code")
 	}
@@ -84,10 +84,10 @@ func indexGET(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, infos)
 }
 
-func indexPOST(w http.ResponseWriter, r *http.Request) {
-	log.Println("indexPOST")
+func synthesisPOST(w http.ResponseWriter, r *http.Request) {
+	log.Println("synthesisPOST")
 
-	infos, state := validateIndexParameters(r)
+	infos, state := validateSynthesisParameters(r)
 
 	manageExit(r, infos, w)
 
@@ -122,12 +122,12 @@ func indexPOST(w http.ResponseWriter, r *http.Request) {
 		manageTaceOptimist(&infos, fiscalPeriod)
 	}
 
-	t, _ := template.ParseFiles("index.html")
+	t, _ := template.ParseFiles("synthesis.html")
 
 	t.Execute(w, infos)
 }
 
-func manageExit(r *http.Request, infos IndexInfos, w http.ResponseWriter) {
+func manageExit(r *http.Request, infos SynthesisInfos, w http.ResponseWriter) {
 	if len(r.Form["btnExit"]) > 0 {
 		err := TokenRevoker(infos.AccessToken)
 		if err != nil {
@@ -137,7 +137,7 @@ func manageExit(r *http.Request, infos IndexInfos, w http.ResponseWriter) {
 	}
 }
 
-func initFiscalPeriod(infos *IndexInfos) *Period {
+func initFiscalPeriod(infos *SynthesisInfos) *Period {
 	day := time.Now()
 	if !(infos.Datas.StartDate == "" && infos.Datas.EndDate == "") {
 		if convertedDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {
@@ -154,7 +154,7 @@ func initFiscalPeriod(infos *IndexInfos) *Period {
 	return fiscalPeriod
 }
 
-func setPeriodIfEmpty(infos *IndexInfos, fiscalPeriod *Period) {
+func setPeriodIfEmpty(infos *SynthesisInfos, fiscalPeriod *Period) {
 
 	if infos.Datas.StartDate == "" && infos.Datas.EndDate == "" {
 		infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
@@ -162,7 +162,7 @@ func setPeriodIfEmpty(infos *IndexInfos, fiscalPeriod *Period) {
 	}
 }
 
-func manageInfosPeople(infos *IndexInfos) {
+func manageInfosPeople(infos *SynthesisInfos) {
 	var people *People
 	var err error
 	if infos.ModeConnexion == MODE_CONNEXION_AUTH {
@@ -195,7 +195,7 @@ func manageInfosPeople(infos *IndexInfos) {
 
 }
 
-func manageTaceOptimist(infos *IndexInfos, periodFiscal *Period) {
+func manageTaceOptimist(infos *SynthesisInfos, periodFiscal *Period) {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
@@ -221,7 +221,7 @@ func manageTaceOptimist(infos *IndexInfos, periodFiscal *Period) {
 	}
 }
 
-func manageTaceFiscalYear(infos *IndexInfos, periodFiscal *Period) {
+func manageTaceFiscalYear(infos *SynthesisInfos, periodFiscal *Period) {
 	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
 
 	if infos.Datas.StartDate == periodFiscal.Start.Format("2006-01-02") &&
@@ -236,7 +236,7 @@ func manageTaceFiscalYear(infos *IndexInfos, periodFiscal *Period) {
 	}
 }
 
-func manageTacePeriod(infos *IndexInfos) {
+func manageTacePeriod(infos *SynthesisInfos) {
 	activityRate, err := ActivityRateGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate)
 	if err == nil {
 		infos.Datas.TacePeriod = fmt.Sprintf("%.2f", activityRate.Value*100.0)
@@ -244,7 +244,7 @@ func manageTacePeriod(infos *IndexInfos) {
 	}
 }
 
-func manageTotalWorkDay(infos *IndexInfos) {
+func manageTotalWorkDay(infos *SynthesisInfos) {
 	startPeriod, _ := time.Parse("2006-01-02", infos.Datas.StartDate)
 	endPeriod, _ := time.Parse("2006-01-02", infos.Datas.EndDate)
 	period := NewPeriod(startPeriod, endPeriod, GetBankHolidayInstance())
@@ -255,7 +255,7 @@ func manageTotalWorkDay(infos *IndexInfos) {
 	}
 }
 
-func manageSynthesisDetailLines(infos *IndexInfos) {
+func manageSynthesisDetailLines(infos *SynthesisInfos) {
 
 	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
 	if err != nil {
@@ -273,10 +273,10 @@ func manageSynthesisDetailLines(infos *IndexInfos) {
 	infos.Lines = synthesisLines
 }
 
-func validateIndexParameters(r *http.Request) (IndexInfos, bool) {
+func validateSynthesisParameters(r *http.Request) (SynthesisInfos, bool) {
 	r.ParseForm()
 	state := true
-	infos := IndexInfos{}
+	infos := SynthesisInfos{}
 
 	if r.URL.Query().Get("code") != "" {
 		infos.AccessToken = r.URL.Query().Get("code")

@@ -13,7 +13,7 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", Login)
-	http.HandleFunc("/synthesis", Index)
+	http.HandleFunc("/synthesis", Synthesis)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9090"
