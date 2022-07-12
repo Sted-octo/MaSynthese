@@ -33,12 +33,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginGET(w http.ResponseWriter, r *http.Request) {
+	log.Println("loginGET")
 	t := template.Must(template.ParseFiles("login.html"))
 	infos := LoginInfos{}
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")
 		manageToken(&infos)
 		if infos.Datas.AuthCode != "" {
+			log.Println("loginGET with parameter code")
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
 			return
 		}
@@ -48,21 +50,26 @@ func loginGET(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginPOST(w http.ResponseWriter, r *http.Request) {
-
+	log.Println("loginPOST")
 	infos, state := validateLoginParameters(r)
 	if state {
-		manageToken(&infos)
+
 		if len(r.Form["btnAuth"]) > 0 {
+			manageToken(&infos)
 			if infos.Datas.AuthCode != "" {
+				log.Println("loginPOST with parameter AuthCode")
 				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
 				return
 			}
 		}
 		if len(r.Form["btnId"]) > 0 {
+			manageToken(&infos)
+			log.Println("loginPOST with parameter ID")
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusTemporaryRedirect)
 			return
 		}
 		if len(r.Form["btnGoogle"]) > 0 {
+			log.Println("loginPOST redirect to /oauth/authorize")
 			http.Redirect(w, r, fmt.Sprintf("https://octopod.octo.com/api/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", os.Getenv("CLIENT_ID"), os.Getenv("REDIRECT_URL")), http.StatusTemporaryRedirect)
 			return
 		}
@@ -74,6 +81,12 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 
 func manageToken(infos *LoginInfos) {
 	if infos.AccessToken == "" {
+		if infos.Datas.AuthCode != "" {
+			log.Println("TokenGetter with authCode")
+		} else {
+			log.Println("TokenGetter without authCode")
+		}
+
 		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
 		if err != nil {
 			log.Fatal(err)

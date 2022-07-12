@@ -50,6 +50,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func indexGET(w http.ResponseWriter, r *http.Request) {
+	log.Println("indexGET")
 	t := template.Must(template.ParseFiles("index.html"))
 	infos := IndexInfos{}
 	if r.URL.Query().Get("code") != "" {
@@ -84,7 +85,7 @@ func indexGET(w http.ResponseWriter, r *http.Request) {
 }
 
 func indexPOST(w http.ResponseWriter, r *http.Request) {
-
+	log.Println("indexPOST")
 	infos, state := validateIndexParameters(r)
 
 	if state {
