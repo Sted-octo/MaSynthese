@@ -12,17 +12,6 @@ var MODE_CONNEXION_AUTH string = "A"
 var MODE_CONNEXION_ID string = "I"
 var MODE_CONNEXION_GOOGLE string = "G"
 
-type FormLoginInfo struct {
-	AuthCode string
-	Id       string
-}
-
-type LoginInfos struct {
-	CssClass    FormLoginInfo
-	Datas       FormLoginInfo
-	AccessToken string
-}
-
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		loginGET(w, r)
@@ -38,7 +27,7 @@ func loginGET(w http.ResponseWriter, r *http.Request) {
 	infos := LoginInfos{}
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")
-		manageToken(&infos)
+		infos.manageToken()
 		if infos.Datas.AuthCode != "" {
 			log.Println("loginGET with parameter code")
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
@@ -55,7 +44,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 	if state {
 
 		if len(r.Form["btnAuth"]) > 0 {
-			manageToken(&infos)
+			infos.manageToken()
 			if infos.Datas.AuthCode != "" {
 				log.Println("loginPOST with parameter AuthCode")
 				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
@@ -63,7 +52,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if len(r.Form["btnId"]) > 0 {
-			manageToken(&infos)
+			infos.manageToken()
 			log.Println("loginPOST with parameter ID")
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusTemporaryRedirect)
 			return
@@ -77,22 +66,6 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("login.html")
 
 	t.Execute(w, infos)
-}
-
-func manageToken(infos *LoginInfos) {
-	if infos.AccessToken == "" {
-		if infos.Datas.AuthCode != "" {
-			log.Println("TokenGetter with authCode")
-		} else {
-			log.Println("TokenGetter without authCode")
-		}
-
-		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
-		if err != nil {
-			log.Fatal(err)
-		}
-		infos.AccessToken = token.AccessToken
-	}
 }
 
 func validateLoginParameters(r *http.Request) (LoginInfos, bool) {
