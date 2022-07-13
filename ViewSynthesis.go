@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+	"time"
 )
 
 func Synthesis(w http.ResponseWriter, r *http.Request) {
@@ -115,6 +116,17 @@ func validateSynthesisParameters(r *http.Request) (SynthesisInfos, bool) {
 	if infos.Datas.EndDate == "" {
 		infos.CssClass.EndDate = "error"
 		state = false
+	}
+
+	if infos.Datas.StartDate != "" && infos.Datas.EndDate != "" {
+		if startDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {
+			if endDay, err := time.Parse("2006-01-02", infos.Datas.EndDate); err == nil {
+				if startDay.After(endDay) {
+					infos.CssClass.EndDate = "error"
+					state = false
+				}
+			}
+		}
 	}
 
 	return infos, state
