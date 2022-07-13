@@ -47,19 +47,19 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			infos.manageToken()
 			if infos.Datas.AuthCode != "" {
 				log.Println("loginPOST with parameter AuthCode")
-				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
+				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusFound)
 				return
 			}
 		}
 		if len(r.Form["btnId"]) > 0 {
 			infos.manageToken()
 			log.Println("loginPOST with parameter ID")
-			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusTemporaryRedirect)
+			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusFound)
 			return
 		}
 		if len(r.Form["btnGoogle"]) > 0 {
 			log.Println("loginPOST redirect to /oauth/authorize")
-			http.Redirect(w, r, fmt.Sprintf("https://octopod.octo.com/api/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", os.Getenv("CLIENT_ID"), os.Getenv("REDIRECT_URL")), http.StatusTemporaryRedirect)
+			http.Redirect(w, r, fmt.Sprintf("https://octopod.octo.com/api/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", os.Getenv("CLIENT_ID"), os.Getenv("REDIRECT_URL")), http.StatusFound)
 			return
 		}
 	}
