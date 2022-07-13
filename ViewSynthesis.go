@@ -20,8 +20,9 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 	log.Println("synthesisGET")
 	t := template.Must(template.ParseFiles("synthesis.html"))
 	infos := SynthesisInfos{}
-	if r.URL.Query().Get("code") != "" {
-		infos.AccessToken = r.URL.Query().Get("code")
+	cookie, err := r.Cookie("AccessToken")
+	if err == nil {
+		infos.AccessToken = cookie.Value
 	}
 
 	if r.URL.Query().Get("id") != "" {
