@@ -9,4 +9,5 @@ type LoginInfos struct {
 	CssClass    FormLoginInfo
 	Datas       FormLoginInfo
 	AccessToken string
+	Debug       string
 }

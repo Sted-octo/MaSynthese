@@ -24,7 +24,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func loginGET(w http.ResponseWriter, r *http.Request) {
 	log.Println("loginGET")
 	t := template.Must(template.ParseFiles("login.html"))
-	infos := LoginInfos{}
+	infos := LoginInfos{Debug: os.Getenv("DEBUG")}
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")
 		infos.manageToken()
@@ -47,14 +47,14 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			infos.manageToken()
 			if infos.Datas.AuthCode != "" {
 				log.Println("loginPOST with parameter AuthCode")
-				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusFound)
+				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s", MODE_CONNEXION_AUTH, infos.AccessToken), http.StatusTemporaryRedirect)
 				return
 			}
 		}
 		if len(r.Form["btnId"]) > 0 {
 			infos.manageToken()
 			log.Println("loginPOST with parameter ID")
-			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusFound)
+			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&code=%s&id=%s", MODE_CONNEXION_ID, infos.AccessToken, infos.Datas.Id), http.StatusTemporaryRedirect)
 			return
 		}
 		if len(r.Form["btnGoogle"]) > 0 {
@@ -71,7 +71,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 func validateLoginParameters(r *http.Request) (LoginInfos, bool) {
 	r.ParseForm()
 	state := true
-	infos := LoginInfos{}
+	infos := LoginInfos{Debug: os.Getenv("DEBUG")}
 
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")
