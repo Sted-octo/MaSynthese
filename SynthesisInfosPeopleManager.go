@@ -34,5 +34,11 @@ func (infos *SynthesisInfos) manageInfosPeople() {
 		infos.CssClass.Human.ID = "smallText"
 		infos.CssClass.Human.EntryDate = "smallText"
 		infos.Datas.Human.EntryDate = people.EntryDate
+
+		if targetTace, ok := GetTargetTacesInstance().GetTargetTaceForJobId(int(people.Job.ID)); ok {
+			infos.Datas.Human.JobName = people.Job.Name
+			infos.Datas.Human.TargetTace = strconv.Itoa(targetTace)
+			infos.CssClass.Human.TargetTace = "bigText"
+		}
 	}
 }

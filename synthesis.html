@@ -43,7 +43,11 @@
                     <div class="simple"><label class="{{.CssClass.Human.ID}}">N° {{.Datas.Human.ID}}</label></div>
                     <div class="simple"><label class="{{.CssClass.Human.EntryDate}}">depuis le {{.Datas.Human.EntryDate}}</label></div>
                 </div>
-                
+                <div class="infos {{if not .CssClass.Human.TargetTace}} hidden {{end}}">
+                    <label for="TaceTarget" class="smallText">Tace objectif</label><br/>
+                    <label class="{{.CssClass.Human.TargetTace}}" name="TaceTarget">{{.Datas.Human.TargetTace}} %</label><br>
+                    <label for="TaceTarget" class="smallText">{{.Datas.Human.JobName}}</label>
+                </div>                
                 <div class="infos {{if not .CssClass.TotalWorkDays}} hidden {{end}}">
                     <label for="totalWorkDays" class="smallText">Jours ouvrés</label><br/>
                     <label class="{{.CssClass.TotalWorkDays}}" name="totalWorkDays">{{.Datas.TotalWorkDays}}</label>

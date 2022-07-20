@@ -14,12 +14,14 @@ type FormInfos struct {
 }
 
 type PeopleInfos struct {
-	Quadri    string
-	FirstName string
-	LastName  string
-	EntryDate string
-	ID        string
-	Team      string
+	Quadri     string
+	FirstName  string
+	LastName   string
+	EntryDate  string
+	ID         string
+	Team       string
+	JobName    string
+	TargetTace string
 }
 
 type SynthesisInfos struct {

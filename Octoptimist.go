@@ -9,6 +9,7 @@ import (
 func main() {
 	var err error
 	go GetBankHolidayInstance().Init()
+	go GetTargetTacesInstance().Init()
 
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
