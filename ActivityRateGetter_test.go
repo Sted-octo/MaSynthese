@@ -20,7 +20,7 @@ func Test_ActivityRateGetter_Should_Return_Ok(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	responderFunc := func(req *http.Request) (*http.Response, error) {
+	responderFunc := func(*http.Request) (*http.Response, error) {
 		resp := httpmock.NewStringResponse(200, activityRateJsonGetter())
 		return resp, nil
 	}
@@ -39,7 +39,7 @@ func Test_ActivityRateGetter_Return_Value_Should_be_Dot31(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	responderFunc := func(req *http.Request) (*http.Response, error) {
+	responderFunc := func(*http.Request) (*http.Response, error) {
 		resp := httpmock.NewStringResponse(200, activityRateJsonGetter())
 		return resp, nil
 	}

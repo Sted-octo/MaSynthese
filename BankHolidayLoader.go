@@ -86,7 +86,7 @@ func bankHolidayLoader() (map[int][]BankHoliday, error) {
 		}
 		year, err := strconv.Atoi(record[1])
 		if err != nil {
-			log.Fatalln("conversion int to string error in bankHolidayLoader")
+			log.Fatalln("conversion string to int error in bankHolidayLoader")
 		}
 
 		holidate, _ := time.Parse(dateLayout, record[0])
@@ -95,7 +95,7 @@ func bankHolidayLoader() (map[int][]BankHoliday, error) {
 		dayBreaks[newDayBreak.Year] = append(dayBreaks[newDayBreak.Year], newDayBreak)
 	}
 	if err != nil {
-		log.Fatalln("error laoding csv file")
+		log.Fatalln("error loading csv file")
 	}
 	return dayBreaks, nil
 }
