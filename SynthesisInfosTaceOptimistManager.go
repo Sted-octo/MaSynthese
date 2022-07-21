@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 )
 
-func (infos *SynthesisInfos) manageTaceOptimist(periodFiscal *Period) {
+func (infos *SynthesisInfos) manageTaceOptimist(periodFiscal *Period) error {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
@@ -18,11 +17,11 @@ func (infos *SynthesisInfos) manageTaceOptimist(periodFiscal *Period) {
 
 	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 400)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	totalWorkDays, err := periodFiscal.TotalWorkDaysGetter()
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
 	activityOptimistRateFiscalYear, err := timeInput.ActivityRateCalculator(time.Now(), totalWorkDays)
@@ -30,4 +29,5 @@ func (infos *SynthesisInfos) manageTaceOptimist(periodFiscal *Period) {
 		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
 		infos.CssClass.TaceOptimist = "bigText"
 	}
+	return nil
 }

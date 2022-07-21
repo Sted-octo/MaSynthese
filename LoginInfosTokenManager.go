@@ -1,22 +1,20 @@
 package main
 
 import (
-	"log"
+	"errors"
 	"os"
 )
 
-func (infos *LoginInfos) manageToken() {
+func (infos *LoginInfos) manageToken() error {
 	if infos.AccessToken == "" {
-		if infos.Datas.AuthCode != "" {
-			log.Println("TokenGetter with authCode")
-		} else {
-			log.Println("TokenGetter without authCode")
-		}
-
 		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
 		if err != nil {
-			log.Fatal(err)
+			return err
+		}
+		if token.AccessToken == "" {
+			return errors.New("access token is empty")
 		}
 		infos.AccessToken = token.AccessToken
 	}
+	return nil
 }

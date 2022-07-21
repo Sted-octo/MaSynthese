@@ -1,16 +1,15 @@
 package main
 
 import (
-	"log"
 	"sort"
 	"time"
 )
 
-func (infos *SynthesisInfos) manageSynthesisDetailLines() {
+func (infos *SynthesisInfos) manageSynthesisDetailLines() error {
 
 	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
 	synthesisLines := timeInput.timeInputAggregator(time.Now())
@@ -22,4 +21,5 @@ func (infos *SynthesisInfos) manageSynthesisDetailLines() {
 	synthesisLines = sl.Accumulate()
 
 	infos.Lines = synthesisLines
+	return nil
 }

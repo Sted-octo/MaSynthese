@@ -1,9 +1,15 @@
 package main
 
-func (infos *SynthesisInfos) synthesisCommon(periodFiscal *Period) {
-	infos.manageInfosPeople()
+func (infos *SynthesisInfos) synthesisCommon(periodFiscal *Period) error {
+	err := infos.manageInfosPeople()
+	if err != nil {
+		return err
+	}
 
-	infos.manageSynthesisDetailLines()
+	err = infos.manageSynthesisDetailLines()
+	if err != nil {
+		return err
+	}
 
 	infos.manageTotalWorkDay()
 
@@ -11,5 +17,9 @@ func (infos *SynthesisInfos) synthesisCommon(periodFiscal *Period) {
 
 	infos.manageTaceFiscalYear(periodFiscal)
 
-	infos.manageTaceOptimist(periodFiscal)
+	err = infos.manageTaceOptimist(periodFiscal)
+	if err != nil {
+		return err
+	}
+	return nil
 }

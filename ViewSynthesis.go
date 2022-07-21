@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"text/template"
 	"time"
@@ -17,7 +16,6 @@ func Synthesis(w http.ResponseWriter, r *http.Request) {
 }
 
 func synthesisGET(w http.ResponseWriter, r *http.Request) {
-	log.Println("synthesisGET")
 	t := template.Must(template.ParseFiles("synthesis.html"))
 	infos := SynthesisInfos{}
 	cookie, err := r.Cookie("AccessToken")
@@ -37,13 +35,16 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 
 	infos.setPeriodIfEmpty(fiscalPeriod)
 
-	infos.synthesisCommon(fiscalPeriod)
+	err = infos.synthesisCommon(fiscalPeriod)
+	if err != nil {
+		http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
+		return
+	}
 
 	t.Execute(w, infos)
 }
 
 func synthesisPOST(w http.ResponseWriter, r *http.Request) {
-	log.Println("synthesisPOST")
 
 	infos, state := validateSynthesisParameters(r)
 
@@ -67,7 +68,11 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
 		}
 
-		infos.synthesisCommon(fiscalPeriod)
+		err := infos.synthesisCommon(fiscalPeriod)
+		if err != nil {
+			http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
+			return
+		}
 	}
 
 	t, _ := template.ParseFiles("synthesis.html")

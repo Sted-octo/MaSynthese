@@ -28,6 +28,9 @@
                     <div class="innerfilters {{if .Debug}} hidden {{end}}">
                         <div class="simple"><input type="submit" value="Connection avec Google via Octopod" name="btnGoogle"></div>
                     </div>
+                    <div class="infos error {{if not .Error}} hidden {{end}}">
+                        <div class="simple"><label>{{.Error}}</label></div> 
+                    </div>
                 </div>
             </div>
         </form>

@@ -1,23 +1,22 @@
 package main
 
 import (
-	"log"
 	"strconv"
 )
 
-func (infos *SynthesisInfos) manageInfosPeople() {
+func (infos *SynthesisInfos) manageInfosPeople() error {
 	var people *People
 	var err error
 	if infos.ModeConnexion == MODE_CONNEXION_AUTH {
 		people, err = PeopleGetter(infos.AccessToken)
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 	}
 	if infos.ModeConnexion == MODE_CONNEXION_ID {
 		people, err = PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 	}
 
@@ -41,4 +40,5 @@ func (infos *SynthesisInfos) manageInfosPeople() {
 			infos.CssClass.Human.TargetTace = "bigText"
 		}
 	}
+	return nil
 }

@@ -10,4 +10,5 @@ type LoginInfos struct {
 	Datas       FormLoginInfo
 	AccessToken string
 	Debug       string
+	Error       string
 }
