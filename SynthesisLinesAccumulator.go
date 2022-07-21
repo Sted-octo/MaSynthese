@@ -28,7 +28,7 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 				currentKind = line.Kind
 				kindSubTotal = SynthesisLine{
 					Kind:           line.Kind,
-					Title:          "Sous total " + line.Kind,
+					Title:          "Sous total " + KindTranslator(line.Kind),
 					TimeSum:        line.TimeSum,
 					TimeSumDone:    line.TimeSumDone,
 					TimeSumTodo:    line.TimeSumTodo,

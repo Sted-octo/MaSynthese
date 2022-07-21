@@ -11,7 +11,7 @@ func timeInputElementNotBillable(activityId int64, name string, timeInDay float6
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = "permanent"
+	timeInputElement.Activity.Kind = KIND_PERMANENT
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
@@ -23,7 +23,7 @@ func timeInputElementNotBillableAt(activityId int64, name string, timeInDay floa
 	timeInputElement.Day = day.Format("2006-01-02")
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = "permanent"
+	timeInputElement.Activity.Kind = KIND_PERMANENT
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
@@ -35,7 +35,7 @@ func timeInputElementBillable(activityId int64, name string, timeInDay float64, 
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = "billable"
+	timeInputElement.Activity.Kind = KIND_BILLABLE
 	timeInputElement.Activity.Title = name
 	timeInputElement.Activity.Project = new(Project)
 	timeInputElement.Activity.Project.Reference = reference
@@ -51,8 +51,8 @@ func timeInputElementAbsence(activityId int64, timeInDay float64) *TimeInputElem
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = "permanent"
-	timeInputElement.Activity.Title = "absence"
+	timeInputElement.Activity.Kind = KIND_PERMANENT
+	timeInputElement.Activity.Title = KIND_ABSENCE
 
 	return timeInputElement
 }

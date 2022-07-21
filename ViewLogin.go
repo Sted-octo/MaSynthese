@@ -53,10 +53,8 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 		switch errCode {
 		case "tk":
 			infos.Error = "Invalid Token, need to reconnect"
-			break
 		case "sc":
 			infos.Error = "Error during synthesis process, need to reconnect"
-			break
 		}
 
 		state = false

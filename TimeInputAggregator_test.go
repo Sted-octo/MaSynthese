@@ -77,7 +77,7 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_Kind_Shoulbe_Permanant(t *
 
 	synthesisLines := timeInputs.timeInputAggregator(PIVOT_DATE)
 
-	expected := "permanent"
+	expected := KIND_PERMANENT
 
 	if synthesisLines[0].Kind != expected {
 		t.Errorf("First SynthesisLine kind shouldBe %s but was %s", expected, synthesisLines[0].Kind)
@@ -181,7 +181,7 @@ func Test_One_Permanent_RTT_Absence_Shoulbe_Kind_Absence(t *testing.T) {
 
 	synthesisLines := timeInputs.timeInputAggregator(PIVOT_DATE)
 
-	expected := "absence"
+	expected := KIND_ABSENCE
 	if synthesisLines[0].Kind != expected {
 		t.Errorf("First SynthesisLine permanent title absence should be kind %s but was %s", expected, synthesisLines[0].Kind)
 	}
@@ -193,7 +193,7 @@ func Test_One_Permanent_CongesPaye_Absence_Shoulbe_Kind_Absence(t *testing.T) {
 
 	synthesisLines := timeInputs.timeInputAggregator(PIVOT_DATE)
 
-	expected := "absence"
+	expected := KIND_ABSENCE
 	if synthesisLines[0].Kind != expected {
 		t.Errorf("First SynthesisLine permanent title absence should be kind %s but was %s", expected, synthesisLines[0].Kind)
 	}
