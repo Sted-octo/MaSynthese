@@ -10,6 +10,8 @@ func KindTranslator(kind string) string {
 		return "Activitées permanentes"
 	case KIND_ABSENCE:
 		return "Absences"
+	case KIND_INTERNAL:
+		return "Interne"
 	}
 
 	return kind

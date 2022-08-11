@@ -11,6 +11,18 @@ func timeInputElementNotBillable(activityId int64, name string, timeInDay float6
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = KIND_NOT_BILLABLE
+	timeInputElement.Activity.Title = name
+
+	return timeInputElement
+}
+
+func timeInputElementPermanent(activityId int64, name string, timeInDay float64) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
+	timeInputElement.Day = "1973-10-07"
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = KIND_PERMANENT
 	timeInputElement.Activity.Title = name
 
@@ -23,7 +35,7 @@ func timeInputElementNotBillableAt(activityId int64, name string, timeInDay floa
 	timeInputElement.Day = day.Format("2006-01-02")
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = KIND_PERMANENT
+	timeInputElement.Activity.Kind = KIND_NOT_BILLABLE
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
@@ -53,6 +65,22 @@ func timeInputElementAbsence(activityId int64, timeInDay float64) *TimeInputElem
 	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = KIND_PERMANENT
 	timeInputElement.Activity.Title = KIND_ABSENCE
+
+	return timeInputElement
+}
+
+func timeInputElementInternal(activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
+	timeInputElement.Day = "1973-10-07"
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = KIND_INTERNAL
+	timeInputElement.Activity.Title = name
+	timeInputElement.Activity.Project = new(Project)
+	timeInputElement.Activity.Project.Reference = reference
+	timeInputElement.Activity.Project.Customer = new(Customer)
+	timeInputElement.Activity.Project.Customer.Name = clientName
 
 	return timeInputElement
 }

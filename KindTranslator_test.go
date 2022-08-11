@@ -51,3 +51,12 @@ func Test_Kind_Absence_ShouldBe_Absences(t *testing.T) {
 
 	assert.Equal(t, expexted, translated, fmt.Sprintf("%s should be translated as %s, but was %s", kind, expexted, translated))
 }
+
+func Test_Kind_Internal_ShouldBe_Interne(t *testing.T) {
+	kind := KIND_INTERNAL
+	expexted := "Interne"
+
+	translated := KindTranslator(kind)
+
+	assert.Equal(t, expexted, translated, fmt.Sprintf("%s should be translated as %s, but was %s", kind, expexted, translated))
+}

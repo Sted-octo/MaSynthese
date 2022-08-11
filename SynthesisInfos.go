@@ -9,6 +9,7 @@ type FormInfos struct {
 	FiscalYear     string
 	TaceFiscalYear string
 	TaceOptimist   string
+	TaceInternal   string
 	AuthCode       string
 	Human          PeopleInfos
 }

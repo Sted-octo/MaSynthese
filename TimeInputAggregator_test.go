@@ -73,7 +73,7 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_TimeSum_Shoulbe_dot5(t *te
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_Kind_Shoulbe_Permanant(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs.Add(timeInputElementPermanent(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.timeInputAggregator(PIVOT_DATE)
 

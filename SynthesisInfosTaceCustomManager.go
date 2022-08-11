@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (infos *SynthesisInfos) manageTaceOptimist(periodFiscal *Period) error {
+func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRateFY float64) error {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
@@ -28,6 +28,12 @@ func (infos *SynthesisInfos) manageTaceOptimist(periodFiscal *Period) error {
 	if err == nil {
 		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
 		infos.CssClass.TaceOptimist = "bigText"
+	}
+
+	activityInternalRateFiscalYear, err := timeInput.ActivityRateInternalCalculator(time.Now(), totalWorkDays)
+	if err == nil && activityInternalRateFiscalYear.Value != activityRateFY {
+		infos.Datas.TaceInternal = fmt.Sprintf("%.2f", activityInternalRateFiscalYear.Value*100.0)
+		infos.CssClass.TaceInternal = "bigText"
 	}
 	return nil
 }

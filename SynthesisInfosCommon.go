@@ -15,9 +15,9 @@ func (infos *SynthesisInfos) synthesisCommon(periodFiscal *Period) error {
 
 	infos.manageTacePeriod()
 
-	infos.manageTaceFiscalYear(periodFiscal)
+	activityRateFY := infos.manageTaceFiscalYear(periodFiscal)
 
-	err = infos.manageTaceOptimist(periodFiscal)
+	err = infos.manageTaceCustom(periodFiscal, activityRateFY.Value)
 	if err != nil {
 		return err
 	}

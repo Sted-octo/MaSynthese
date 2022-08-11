@@ -64,6 +64,10 @@
                     <label for="TaceOptimist" class="smallText">Tace optimiste</label><br/>
                     <label class="{{.CssClass.TaceOptimist}}" name="TaceOptimist">{{.Datas.TaceOptimist}} %</label><br>
                 </div>
+                <div class="infos {{if not .CssClass.TaceInternal}} hidden {{end}}">
+                    <label for="TaceInternal" class="smallText">Tace FY{{.Datas.FiscalYear}} Interne</label><br/>
+                    <label class="{{.CssClass.TaceInternal}}" name="TaceInternal">{{.Datas.TaceInternal}} %</label><br>
+                </div>
             </div>
             <div class="result">
                 <div class="table">
