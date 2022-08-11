@@ -12,7 +12,7 @@ func (timeInput *TimeInput) ActivityRateInternalCalculator(pivot time.Time, tota
 
 	billableTimeTotal := 0.0
 
-	workDaywWithoutDayBreak := totalWorkDays
+	workDaywWithoutDayBreak := float64(totalWorkDays)
 
 	for indx := range *timeInput {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
@@ -25,11 +25,13 @@ func (timeInput *TimeInput) ActivityRateInternalCalculator(pivot time.Time, tota
 		}
 
 		if currentTimeInput.Activity.IsDayBreak() {
-			workDaywWithoutDayBreak -= 1
+			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
+				workDaywWithoutDayBreak -= decimal
+			}
 		}
 	}
 	if workDaywWithoutDayBreak > 0 {
-		activityRate.Value = billableTimeTotal / float64(workDaywWithoutDayBreak)
+		activityRate.Value = billableTimeTotal / workDaywWithoutDayBreak
 	}
 
 	return &activityRate, nil
