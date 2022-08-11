@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 	"text/template"
 	"time"
 )
@@ -68,6 +69,16 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
 		}
 
+		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {
+			if people, ok := GetPeoplesGlobalMapInstance().PeopleMap[infos.Datas.NGram]; ok {
+				infos.ModeConnexion = MODE_CONNEXION_ID
+				infos.Datas.Id = strconv.FormatInt(people.ID, 10)
+				infos.CssClass.NGram = ""
+			} else {
+				infos.CssClass.NGram = "error"
+			}
+		}
+
 		err := infos.synthesisCommon(fiscalPeriod)
 		if err != nil {
 			http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
@@ -105,6 +116,10 @@ func validateSynthesisParameters(r *http.Request) (SynthesisInfos, bool) {
 	}
 	if len(r.Form["enddate"]) > 0 {
 		infos.Datas.EndDate = r.Form["enddate"][0]
+	}
+
+	if len(r.Form["ngram"]) > 0 {
+		infos.Datas.NGram = r.Form["ngram"][0]
 	}
 
 	if infos.AccessToken == "" && len(r.Form["accessToken"]) > 0 {

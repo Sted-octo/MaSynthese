@@ -11,6 +11,13 @@
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
                 <div class="filters automarginleft">
                     <div class="innerfilters">
+                        <label for="ngram">3/4-gramme&nbsp;</label>
+                        <input class="{{.CssClass.NGram}}" type="text" name="ngram" value="{{.Datas.NGram}}"><br\>
+                        <input type="submit" value="Change" name="btnNGramChange">
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
                         <input type="submit" value="&larr;"  name="btnFYPrev">
                         <label for="btnFYPrev">&nbsp;FY{{.Datas.FiscalYear}}&nbsp;</label>
                         <input type="submit" value="&rarr;" name="btnFYNext">
@@ -65,8 +72,9 @@
                     <label class="{{.CssClass.TaceOptimist}}" name="TaceOptimist">{{.Datas.TaceOptimist}} %</label><br>
                 </div>
                 <div class="infos {{if not .CssClass.TaceInternal}} hidden {{end}}">
-                    <label for="TaceInternal" class="smallText">Tace FY{{.Datas.FiscalYear}} Interne</label><br/>
+                    <label for="TaceInternal" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
                     <label class="{{.CssClass.TaceInternal}}" name="TaceInternal">{{.Datas.TaceInternal}} %</label><br>
+                    <label for="TaceTarget" class="smallText">Interne inclus</label>
                 </div>
             </div>
             <div class="result">

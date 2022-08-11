@@ -11,6 +11,7 @@ type FormInfos struct {
 	TaceOptimist   string
 	TaceInternal   string
 	AuthCode       string
+	NGram          string
 	Human          PeopleInfos
 }
 
