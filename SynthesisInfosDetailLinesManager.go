@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func (infos *SynthesisInfos) manageSynthesisDetailLines() error {
+func (infos *SynthesisInfos) manageSynthesisDetailLines() (*TimeInput, error) {
 
-	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 400)
+	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 50)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	synthesisLines := timeInput.timeInputAggregator(time.Now())
@@ -21,5 +21,5 @@ func (infos *SynthesisInfos) manageSynthesisDetailLines() error {
 	synthesisLines = sl.Accumulate()
 
 	infos.Lines = synthesisLines
-	return nil
+	return timeInput, nil
 }

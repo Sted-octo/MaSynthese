@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRateFY float64) error {
+func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRateFY float64, timeInput *TimeInput) error {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {
@@ -15,9 +15,12 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRate
 		}
 	}
 
-	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 400)
-	if err != nil {
-		return err
+	var err error
+	if timeInput == nil {
+		timeInput, err = TimeInputGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 50)
+		if err != nil {
+			return err
+		}
 	}
 	totalWorkDays, err := periodFiscal.TotalWorkDaysGetter()
 	if err != nil {
