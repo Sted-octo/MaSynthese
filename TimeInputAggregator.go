@@ -28,8 +28,7 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 	var synthesisLines []SynthesisLine
 	activityMap := make(map[int64]*SynthesisLine)
 
-	for indx := range *timeInput {
-		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
+	for _, currentTimeInput := range *timeInput {
 		day, _ := time.Parse("2006-01-02", currentTimeInput.Day)
 
 		if existingLine, exist := activityMap[currentTimeInput.Activity.ID]; exist {

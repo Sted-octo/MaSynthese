@@ -42,17 +42,16 @@ type Role struct {
 	Name string `json:"name"`
 }
 
-func (timeInput *TimeInput) Add(timeInputElement *TimeInputElement) *TimeInput {
-	*timeInput = append(*timeInput, *timeInputElement)
-	return timeInput
+func (timeInput *TimeInput) Add(timeInputToAdd *TimeInputElement) {
+	*timeInput = append(*timeInput, *timeInputToAdd)
 }
 
-func (timeInput *TimeInput) Concat(timeInputToAdd TimeInput) *TimeInput {
-	for indx := range timeInputToAdd {
-		timeInput.Add(&timeInputToAdd[indx])
-	}
-
-	return timeInput
+func (timeInput *TimeInput) Concat(timeInputToAdd *TimeInput) TimeInput {
+	la := len(*timeInput)
+	c := make(TimeInput, la+len(*timeInputToAdd))
+	_ = copy(c, *timeInput)
+	_ = copy(c[la:], *timeInputToAdd)
+	return c
 }
 
 func (activity *Activity) IsDayBreak() bool {
