@@ -15,28 +15,32 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRate
 		}
 	}
 
+	pivotDate := time.Now()
 	var err error
 	if timeInput == nil {
 		timeInput, err = TimeInputGetter(infos.AccessToken, infos.Datas.Id, periodFiscal.Start.Format("2006-01-02"), periodFiscal.End.Format("2006-01-02"), 50)
 		if err != nil {
 			return err
 		}
+		timeInput = timeInput.timeInputEnricher(periodFiscal, pivotDate)
 	}
-	totalWorkDays, err := periodFiscal.TotalWorkDaysGetter()
+
+	periodFiscalTotalWorkDays, err := periodFiscal.TotalWorkDaysGetter()
 	if err != nil {
 		return err
 	}
 
-	activityOptimistRateFiscalYear, err := timeInput.ActivityRateCalculator(time.Now(), totalWorkDays)
+	activityOptimistRateFiscalYear, err := timeInput.ActivityRateCalculator(pivotDate, periodFiscalTotalWorkDays)
 	if err == nil {
 		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
 		infos.CssClass.TaceOptimist = "bigText"
 	}
 
-	activityInternalRateFiscalYear, err := timeInput.ActivityRateInternalCalculator(time.Now(), totalWorkDays)
+	activityInternalRateFiscalYear, err := timeInput.ActivityRateInternalCalculator(pivotDate, periodFiscalTotalWorkDays)
 	if err == nil && activityInternalRateFiscalYear.Value != activityRateFY {
 		infos.Datas.TaceInternal = fmt.Sprintf("%.2f", activityInternalRateFiscalYear.Value*100.0)
 		infos.CssClass.TaceInternal = "bigText"
 	}
+
 	return nil
 }

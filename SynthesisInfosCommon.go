@@ -6,7 +6,7 @@ func (infos *SynthesisInfos) synthesisCommon(periodFiscal *Period) error {
 		return err
 	}
 
-	timeInput, err := infos.manageSynthesisDetailLines()
+	timeInput, err := infos.manageSynthesisDetailLines(periodFiscal)
 	if err != nil {
 		return err
 	}

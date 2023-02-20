@@ -42,3 +42,7 @@ func (p *Period) TotalWorkDaysGetter() (int, error) {
 
 	return totalWorkDays, nil
 }
+
+func (p *Period) IncludeDate(dateToTest time.Time) bool {
+	return p.Start == dateToTest || (p.Start.Before(dateToTest) && dateToTest.Before(p.End))
+}

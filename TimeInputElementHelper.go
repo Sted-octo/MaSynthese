@@ -29,6 +29,18 @@ func timeInputElementPermanent(activityId int64, name string, timeInDay float64)
 	return timeInputElement
 }
 
+func timeInputElementPermanentAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = fmt.Sprintf("%g", timeInDay)
+	timeInputElement.Day = day.Format("2006-01-02")
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = KIND_PERMANENT
+	timeInputElement.Activity.Title = name
+
+	return timeInputElement
+}
+
 func timeInputElementNotBillableAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
@@ -45,6 +57,22 @@ func timeInputElementBillable(activityId int64, name string, timeInDay float64, 
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = KIND_BILLABLE
+	timeInputElement.Activity.Title = name
+	timeInputElement.Activity.Project = new(Project)
+	timeInputElement.Activity.Project.Reference = reference
+	timeInputElement.Activity.Project.Customer = new(Customer)
+	timeInputElement.Activity.Project.Customer.Name = clientName
+
+	return timeInputElement
+}
+
+func timeInputElementBillableAtDay(day time.Time, activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
+	timeInputElement.Day = dateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = KIND_BILLABLE
