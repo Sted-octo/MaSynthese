@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 )
@@ -26,16 +25,6 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 	}
 
 	nbLinesLoaded := 0
-
-	maintenant := time.Now()
-
-	f, err := os.Create(fmt.Sprintf("%s-rpp%d-%d-%d-%d-%d.log", peopleId, resultPerPage, maintenant.Hour(), maintenant.Minute(), maintenant.Second(), maintenant.Nanosecond()))
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
-
-	f.WriteString(header())
 
 	urlApi1 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=1", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
 
@@ -100,51 +89,9 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 	}
 	nbTimes := len(timeInput)
 
-	for _, ti := range timeInput {
-		f.WriteString(line(ti))
-	}
-
 	nbLinesLoaded += nbTimes
 	fmt.Printf("Count of time Inputs : %d\n", nbTimes)
 	totalTimeInput = timeInput
 
 	return &totalTimeInput, nil
-}
-
-func header() string {
-	return fmt.Sprintln("Day;TimeInDays;ActivityID;ActivityTitle;ActivityNbDays;AverageDailyRate;ActivityKind;ActivityStaffingNeededFrom;ActivityExpertise;ProjectID;ProjectURL;ProjectName;ProjectKind;ProjectReference;ProjectStatus;CustomerID;CustomerName;CustomerAccountManagerID;CustomerAccountManagerEmail")
-}
-
-func line(ti TimeInputElement) string {
-	returnLine := fmt.Sprintf("%s;%s;%d;%s;%v;%v;%v;%v;%v;",
-		ti.Day,
-		ti.TimeInDays,
-		ti.Activity.ID,
-		ti.Activity.Title,
-		ti.Activity.NbDays,
-		ti.Activity.AverageDailyRate,
-		ti.Activity.Kind,
-		ti.Activity.StaffingNeededFrom,
-		ti.Activity.Expertise)
-	if ti.Activity.Project == nil {
-		returnLine += "\n"
-	} else {
-		returnLine += fmt.Sprintf("%d;%s;%s;%s;%s;%v;",
-			ti.Activity.Project.ID,
-			ti.Activity.Project.URL,
-			ti.Activity.Project.Name,
-			ti.Activity.Project.Kind,
-			ti.Activity.Project.Reference,
-			ti.Activity.Project.Status)
-		if ti.Activity.Project.Customer == nil {
-			returnLine += "\n"
-		} else {
-			returnLine += fmt.Sprintf("%d;%s;%d;%s\n",
-				ti.Activity.Project.Customer.ID,
-				ti.Activity.Project.Customer.Name,
-				ti.Activity.Project.Customer.AccountManagerID,
-				ti.Activity.Project.Customer.AccountManagerEmail)
-		}
-	}
-	return returnLine
 }
