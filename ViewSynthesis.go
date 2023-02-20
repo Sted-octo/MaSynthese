@@ -47,11 +47,11 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 
 func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 
-	infos, state := validateSynthesisParameters(r)
+	infos, areParametersValid := validateSynthesisParameters(r)
 
 	infos.manageExit(r, w)
 
-	if state {
+	if areParametersValid {
 
 		fiscalPeriod := infos.initFiscalPeriod()
 

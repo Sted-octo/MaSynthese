@@ -11,7 +11,7 @@ import (
 var TOTAL_WORKDAYS_FY22 int = 20
 var PIVOT_DATE time.Time = time.Date(2022, time.July, 1, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))
 
-func Test_No_TimeInput_ActivityRate_Shoul_not_be_Nil(t *testing.T) {
+func Test_No_TimeInput_ActivityRate_Should_not_be_Nil(t *testing.T) {
 	timeInputs = new(TimeInput)
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
@@ -19,7 +19,7 @@ func Test_No_TimeInput_ActivityRate_Shoul_not_be_Nil(t *testing.T) {
 	assert.NotNil(t, activityRate, "ActivityRateCalculator should return a not nil objet")
 }
 
-func Test_No_TimeInput_ActivityRate_Value_Shoulbe_0(t *testing.T) {
+func Test_No_TimeInput_ActivityRate_Value_Shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
