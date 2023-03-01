@@ -9,7 +9,7 @@ import (
 
 func main() {
 	var err error
-	go infrastructure.GetBankHolidaysInstance().Init()
+	go infrastructure.BankHolidaysSingletonGetter().Init()
 	go GetTargetTacesInstance().Init()
 	go GetPeoplesGlobalMapInstance()
 

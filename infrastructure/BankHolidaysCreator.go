@@ -11,7 +11,7 @@ func createBankHolydays() {
 	bankHolidays = &domain.BankHolidays{Loader: dataproviders.BankHolidaysLoader}
 }
 
-func GetBankHolidaysInstance() *domain.BankHolidays {
+func BankHolidaysSingletonGetter() *domain.BankHolidays {
 	if bankHolidays == nil {
 		createBankHolydays()
 	}
