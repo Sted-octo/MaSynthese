@@ -2,6 +2,7 @@ package main
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/usecases"
 	"errors"
 	"time"
 )
@@ -36,7 +37,7 @@ func (p *Period) TotalWorkDaysGetter() (int, error) {
 		if p.BankHolidayManager != nil && p.BankHolidayManager.IsHoliday(currentDate) {
 			continue
 		}
-		if isWorkDay(currentDate) {
+		if usecases.IsWorkDay(currentDate) {
 			totalWorkDays++
 		}
 	}
