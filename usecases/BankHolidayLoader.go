@@ -1,4 +1,4 @@
-package main
+package usecases
 
 import (
 	"Octoptimist/domain"
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func bankHolidayLoader() (map[int][]domain.BankHoliday, error) {
+func BankHolidayLoader() (map[int][]domain.BankHoliday, error) {
 
 	var err error = nil
 	file, err := os.Open("./private/jours_feries_metropole.csv")

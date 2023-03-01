@@ -2,6 +2,7 @@ package main
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/usecases"
 	"testing"
 	"time"
 )
@@ -21,7 +22,7 @@ func Test_Period_before_pivotDate_Should_not_enrich_timeInput_list(t *testing.T)
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 12), 123, "Audit", 1.0, "OCTO", "123456"))
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 8)
 	end := dateSimple(2023, time.January, 10)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -37,7 +38,7 @@ func Test_Period_before_pivotDate_Should_not_enrich_timeInput_list(t *testing.T)
 func Test_Period_After_pivotDate_Should_enrich_when_cumulation_par_day_lower_than_1(t *testing.T) {
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 13)
 	end := dateSimple(2023, time.January, 13)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -53,7 +54,7 @@ func Test_Period_After_pivotDate_Should_enrich_when_cumulation_par_day_lower_tha
 func Test_NewTimeInput_ActivityId_Should_Be_Intercontrat_Activity_Id(t *testing.T) {
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 13)
 	end := dateSimple(2023, time.January, 13)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -69,7 +70,7 @@ func Test_NewTimeInput_ActivityId_Should_Be_Intercontrat_Activity_Id(t *testing.
 func Test_NewTimeInput_ActivityTitle_Should_Be_Intercontrat(t *testing.T) {
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 13)
 	end := dateSimple(2023, time.January, 13)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -85,7 +86,7 @@ func Test_NewTimeInput_ActivityTitle_Should_Be_Intercontrat(t *testing.T) {
 func Test_NewTimeInput_TimeInDays_Should_Be_ZeroPointFive_ForExistingTimeInputTimeInDAyx_ZeroPointFive(t *testing.T) {
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 13)
 	end := dateSimple(2023, time.January, 13)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -100,7 +101,7 @@ func Test_NewTimeInput_TimeInDays_Should_Be_ZeroPointFive_ForExistingTimeInputTi
 
 func Test_Period_After_pivotDate_Should_Create_newOne_not_Exist_for_a_specific_day(t *testing.T) {
 	timeInputs = new(TimeInput)
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 13)
 	end := dateSimple(2023, time.January, 13)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -117,7 +118,7 @@ func Test_Period_include_pivotDate_Should_only_enrich_timeInput_After_DatePivot(
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 11), 123, "Audit", 0.5, "OCTO", "123456"))
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 11)
 	end := dateSimple(2023, time.January, 13)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -133,7 +134,7 @@ func Test_Period_include_pivotDate_Should_only_enrich_timeInput_After_DatePivot(
 func Test_Period_include_pivotDate_Should_only_enrich_timeInput_in_WorkingDay(t *testing.T) {
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.January, 13), 123, "Audit", 0.5, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.January, 13)
 	end := dateSimple(2023, time.January, 15)
 	period := NewPeriod(start, end, &bankHolidays)
@@ -150,7 +151,7 @@ func Test_Period_include_pivotDate_Should_not_enrich_timeInput_in_HoliDay(t *tes
 	timeInputs = new(TimeInput)
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.May, 16), 123, "Audit", 1.0, "OCTO", "123456"))
 	timeInputs.Add(timeInputElementBillableAtDay(dateSimple(2023, time.May, 17), 123, "Audit", 1.0, "OCTO", "123456"))
-	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
 	start := dateSimple(2023, time.May, 16)
 	end := dateSimple(2023, time.May, 19)
 	period := NewPeriod(start, end, &bankHolidays)
