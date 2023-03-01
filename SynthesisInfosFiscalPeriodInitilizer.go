@@ -1,6 +1,9 @@
 package main
 
-import "time"
+import (
+	"Octoptimist/infrastructure"
+	"time"
+)
 
 func (infos *SynthesisInfos) initFiscalPeriod() *Period {
 	day := time.Now()
@@ -14,7 +17,7 @@ func (infos *SynthesisInfos) initFiscalPeriod() *Period {
 		}
 	}
 
-	fiscalPeriod := FiscalPeriodGetter(day, GetBankHolidaysInstance())
+	fiscalPeriod := FiscalPeriodGetter(day, infrastructure.GetBankHolidaysInstance())
 
 	return fiscalPeriod
 }

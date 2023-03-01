@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/infrastructure"
 	"log"
 	"net/http"
 	"os"
@@ -8,7 +9,7 @@ import (
 
 func main() {
 	var err error
-	go GetBankHolidaysInstance().Init()
+	go infrastructure.GetBankHolidaysInstance().Init()
 	go GetTargetTacesInstance().Init()
 	go GetPeoplesGlobalMapInstance()
 

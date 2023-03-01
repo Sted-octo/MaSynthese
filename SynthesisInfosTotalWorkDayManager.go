@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/infrastructure"
 	"strconv"
 	"time"
 )
@@ -8,7 +9,7 @@ import (
 func (infos *SynthesisInfos) manageTotalWorkDay() {
 	startPeriod, _ := time.Parse("2006-01-02", infos.Datas.StartDate)
 	endPeriod, _ := time.Parse("2006-01-02", infos.Datas.EndDate)
-	period := NewPeriod(startPeriod, endPeriod, GetBankHolidaysInstance())
+	period := NewPeriod(startPeriod, endPeriod, infrastructure.GetBankHolidaysInstance())
 	totalWorkDays, err := period.TotalWorkDaysGetter()
 	if err == nil {
 		infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)

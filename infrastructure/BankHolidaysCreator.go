@@ -1,4 +1,4 @@
-package main
+package infrastructure
 
 import (
 	"Octoptimist/dataproviders"
@@ -7,13 +7,13 @@ import (
 
 var bankHolidays *domain.BankHolidays
 
-func CreateBankHolydays() {
+func createBankHolydays() {
 	bankHolidays = &domain.BankHolidays{Loader: dataproviders.BankHolidaysLoader}
 }
 
 func GetBankHolidaysInstance() *domain.BankHolidays {
 	if bankHolidays == nil {
-		CreateBankHolydays()
+		createBankHolydays()
 	}
 	bankHolidays.Init()
 	return bankHolidays
