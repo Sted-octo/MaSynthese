@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func MockBankHolidayLoader() (map[int][]domain.BankHoliday, error) {
+func MockBankHolidaysLoader() (map[int][]domain.BankHoliday, error) {
 	bankHolidayMap := make(map[int][]domain.BankHoliday)
 	bankHolidayMap[2021] = append(bankHolidayMap[2021], domain.BankHoliday{DayDate: time.Date(2021, time.May, 13, 0, 0, 0, 0, timeZoneGetter("Europe/Paris")),
 		Year: 2021, Zone: "Métropole", Name: "Ascension"})

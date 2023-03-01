@@ -10,7 +10,7 @@ import (
 )
 
 func Test_Previous_20220710_Should_Return_20200901_To_20210831(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 
 	day := time.Date(2022, time.July, 10, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))
 

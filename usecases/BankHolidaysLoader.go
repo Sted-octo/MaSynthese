@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func BankHolidayLoader() (map[int][]domain.BankHoliday, error) {
+func BankHolidaysLoader() (map[int][]domain.BankHoliday, error) {
 
 	var err error = nil
 	file, err := os.Open("./private/jours_feries_metropole.csv")
@@ -39,7 +39,7 @@ func BankHolidayLoader() (map[int][]domain.BankHoliday, error) {
 		}
 		year, err := strconv.Atoi(record[1])
 		if err != nil {
-			log.Fatalln("conversion string to int error in bankHolidayLoader")
+			log.Fatalln("conversion string to int error in bankHolidaysLoader")
 		}
 
 		holidate, _ := time.Parse(dateLayout, record[0])

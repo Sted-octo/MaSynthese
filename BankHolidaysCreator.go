@@ -8,7 +8,7 @@ import (
 var bankHolidays *domain.BankHolidays
 
 func CreateBankHolydays() {
-	bankHolidays = &domain.BankHolidays{Loader: usecases.BankHolidayLoader}
+	bankHolidays = &domain.BankHolidays{Loader: usecases.BankHolidaysLoader}
 }
 
 func GetBankHolidaysInstance() *domain.BankHolidays {

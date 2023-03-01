@@ -9,7 +9,7 @@ import (
 )
 
 func Test_Date_In_SourceMap_ShouldBe_Holiday(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: MockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 
 	state := bankHolidays.IsHoliday(time.Date(2022, time.May, 26, 0, 0, 0, 0, timeZoneGetter("Europe/Paris")))
 
@@ -17,7 +17,7 @@ func Test_Date_In_SourceMap_ShouldBe_Holiday(t *testing.T) {
 }
 
 func Test_Date_Not_In_SourceMap_Should_NotBe_Holiday(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: MockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 
 	state := bankHolidays.IsHoliday(time.Date(2022, time.May, 25, 0, 0, 0, 0, timeZoneGetter("Europe/Paris")))
 
