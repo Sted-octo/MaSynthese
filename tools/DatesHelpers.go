@@ -1,7 +1,6 @@
-package main
+package tools
 
 import (
-	"Octoptimist/tools"
 	"time"
 )
 
@@ -15,7 +14,7 @@ func DatesEquals(startPeriode time.Time, endPeriode time.Time) bool {
 }
 
 func DateSimple(year int, month time.Month, day int) time.Time {
-	return time.Date(year, month, day, 0, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
+	return time.Date(year, month, day, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))
 }
 
 func DateToString(date time.Time) string {
