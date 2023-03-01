@@ -1,14 +1,14 @@
 package main
 
 import (
+	"Octoptimist/dataproviders"
 	"Octoptimist/domain"
-	"Octoptimist/usecases"
 )
 
 var bankHolidays *domain.BankHolidays
 
 func CreateBankHolydays() {
-	bankHolidays = &domain.BankHolidays{Loader: usecases.BankHolidaysLoader}
+	bankHolidays = &domain.BankHolidays{Loader: dataproviders.BankHolidaysLoader}
 }
 
 func GetBankHolidaysInstance() *domain.BankHolidays {

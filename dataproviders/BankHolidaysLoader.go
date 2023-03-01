@@ -1,4 +1,4 @@
-package usecases
+package dataproviders
 
 import (
 	"Octoptimist/domain"
