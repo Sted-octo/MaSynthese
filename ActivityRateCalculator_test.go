@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/tools"
 	"fmt"
 	"testing"
 	"time"
@@ -9,7 +10,7 @@ import (
 )
 
 var TOTAL_WORKDAYS_FY22 int = 20
-var PIVOT_DATE time.Time = DateSimple(2022, time.July, 1)
+var PIVOT_DATE time.Time = tools.DateSimple(2022, time.July, 1)
 
 func Test_No_TimeInput_ActivityRate_Should_not_be_Nil(t *testing.T) {
 	timeInputs = new(TimeInput)
@@ -79,7 +80,7 @@ func Test_All_Absences_ActivityRate_value_shouldbe_0(t *testing.T) {
 
 func Test_One_Intercontrat_Before_Pivot_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "intercontrat", 1, DateSimple(2022, time.June, 1)))
+	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "intercontrat", 1, tools.DateSimple(2022, time.June, 1)))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -88,7 +89,7 @@ func Test_One_Intercontrat_Before_Pivot_ActivityRate_value_shouldbe_0(t *testing
 
 func Test_One_Intercontrat_After_Pivot_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", 1, DateSimple(2022, time.July, 10)))
+	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", 1, tools.DateSimple(2022, time.July, 10)))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 

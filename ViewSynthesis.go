@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/tools"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -59,14 +60,14 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 
 		if len(r.Form["btnFYPrev"]) > 0 {
 			fiscalPeriod.Previous()
-			infos.Datas.StartDate = DateToString(fiscalPeriod.Start)
-			infos.Datas.EndDate = DateToString(fiscalPeriod.End)
+			infos.Datas.StartDate = tools.DateToString(fiscalPeriod.Start)
+			infos.Datas.EndDate = tools.DateToString(fiscalPeriod.End)
 		}
 
 		if len(r.Form["btnFYNext"]) > 0 {
 			fiscalPeriod.Next()
-			infos.Datas.StartDate = DateToString(fiscalPeriod.Start)
-			infos.Datas.EndDate = DateToString(fiscalPeriod.End)
+			infos.Datas.StartDate = tools.DateToString(fiscalPeriod.Start)
+			infos.Datas.EndDate = tools.DateToString(fiscalPeriod.End)
 		}
 
 		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {

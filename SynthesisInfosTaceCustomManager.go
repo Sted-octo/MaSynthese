@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/tools"
 	"fmt"
 	"time"
 )
@@ -18,7 +19,7 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRate
 	pivotDate := time.Now()
 	var err error
 	if timeInput == nil {
-		timeInput, err = TimeInputGetter(infos.AccessToken, infos.Datas.Id, DateToString(periodFiscal.Start), DateToString(periodFiscal.End), 50)
+		timeInput, err = TimeInputGetter(infos.AccessToken, infos.Datas.Id, tools.DateToString(periodFiscal.Start), tools.DateToString(periodFiscal.End), 50)
 		if err != nil {
 			return err
 		}

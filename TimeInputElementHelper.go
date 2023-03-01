@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/tools"
 	"fmt"
 	"time"
 )
@@ -32,7 +33,7 @@ func timeInputElementPermanent(activityId int64, name string, timeInDay float64)
 func timeInputElementPermanentAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%g", timeInDay)
-	timeInputElement.Day = DateToString(day)
+	timeInputElement.Day = tools.DateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = KIND_PERMANENT
@@ -44,7 +45,7 @@ func timeInputElementPermanentAt(activityId int64, name string, timeInDay float6
 func timeInputElementNotBillableAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
-	timeInputElement.Day = DateToString(day)
+	timeInputElement.Day = tools.DateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = KIND_NOT_BILLABLE
@@ -72,7 +73,7 @@ func timeInputElementBillable(activityId int64, name string, timeInDay float64, 
 func timeInputElementBillableAtDay(day time.Time, activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
-	timeInputElement.Day = DateToString(day)
+	timeInputElement.Day = tools.DateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
 	timeInputElement.Activity.Kind = KIND_BILLABLE
