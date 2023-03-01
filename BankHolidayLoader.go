@@ -1,29 +1,22 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"encoding/csv"
 	"io"
 	"log"
 	"os"
 	"strconv"
-	"sync"
 	"time"
 )
 
-var lock = &sync.Mutex{}
-
-var bankHolidays *BankHolidays
-
-type BankHolidays struct {
-	Loader          func() (map[int][]BankHoliday, error)
-	BankHolidaysMap map[int][]BankHoliday
-}
+var bankHolidays *domain.BankHolidays
 
 func CreateBankHolydays() {
-	bankHolidays = &BankHolidays{Loader: bankHolidayLoader}
+	bankHolidays = &domain.BankHolidays{Loader: bankHolidayLoader}
 }
 
-func GetBankHolidayInstance() *BankHolidays {
+func GetBankHolidaysInstance() *domain.BankHolidays {
 	if bankHolidays == nil {
 		CreateBankHolydays()
 	}
@@ -31,33 +24,7 @@ func GetBankHolidayInstance() *BankHolidays {
 	return bankHolidays
 }
 
-func (d *BankHolidays) IsHoliday(dateToTest time.Time) bool {
-	d.Init()
-
-	for _, holidate := range d.BankHolidaysMap[dateToTest.Year()] {
-		if datesEquals(dateToTest, holidate.DayDate) {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (d *BankHolidays) Init() {
-	if d.BankHolidaysMap == nil {
-		lock.Lock()
-		defer lock.Unlock()
-		if d.BankHolidaysMap == nil {
-			var err error
-			d.BankHolidaysMap, err = d.Loader()
-			if err != nil {
-				log.Fatalln(err)
-			}
-		}
-	}
-}
-
-func bankHolidayLoader() (map[int][]BankHoliday, error) {
+func bankHolidayLoader() (map[int][]domain.BankHoliday, error) {
 
 	var err error = nil
 	file, err := os.Open("./private/jours_feries_metropole.csv")
@@ -66,7 +33,7 @@ func bankHolidayLoader() (map[int][]BankHoliday, error) {
 	}
 	r := csv.NewReader(file)
 
-	var dayBreaks map[int][]BankHoliday = make(map[int][]BankHoliday)
+	var dayBreaks map[int][]domain.BankHoliday = make(map[int][]domain.BankHoliday)
 
 	firstLine := true
 
@@ -90,7 +57,7 @@ func bankHolidayLoader() (map[int][]BankHoliday, error) {
 		}
 
 		holidate, _ := time.Parse(dateLayout, record[0])
-		newDayBreak := BankHoliday{DayDate: holidate, Year: year, Zone: record[2], Name: record[3]}
+		newDayBreak := domain.BankHoliday{DayDate: holidate, Year: year, Zone: record[2], Name: record[3]}
 
 		dayBreaks[newDayBreak.Year] = append(dayBreaks[newDayBreak.Year], newDayBreak)
 	}

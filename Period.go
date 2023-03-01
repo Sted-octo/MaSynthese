@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"errors"
 	"time"
 )
@@ -8,10 +9,10 @@ import (
 type Period struct {
 	Start              time.Time
 	End                time.Time
-	BankHolidayManager *BankHolidays
+	BankHolidayManager *domain.BankHolidays
 }
 
-func NewPeriod(startDate, endDate time.Time, bankHolydays *BankHolidays) *Period {
+func NewPeriod(startDate, endDate time.Time, bankHolydays *domain.BankHolidays) *Period {
 	return &Period{
 		Start:              startDate,
 		End:                endDate,

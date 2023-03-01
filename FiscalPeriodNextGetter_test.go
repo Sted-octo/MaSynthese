@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"testing"
 	"time"
 
@@ -8,7 +9,7 @@ import (
 )
 
 func Test_Previous_20220710_Should_Return_20220901_To_20230831(t *testing.T) {
-	bankHolidays := BankHolidays{Loader: mockBankHolidayLoader}
+	bankHolidays := domain.BankHolidays{Loader: mockBankHolidayLoader}
 
 	day := time.Date(2022, time.July, 10, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))
 

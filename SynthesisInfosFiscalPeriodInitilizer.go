@@ -14,7 +14,7 @@ func (infos *SynthesisInfos) initFiscalPeriod() *Period {
 		}
 	}
 
-	fiscalPeriod := FiscalPeriodGetter(day, GetBankHolidayInstance())
+	fiscalPeriod := FiscalPeriodGetter(day, GetBankHolidaysInstance())
 
 	return fiscalPeriod
 }

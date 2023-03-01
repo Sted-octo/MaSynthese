@@ -1,8 +1,11 @@
 package main
 
-import "time"
+import (
+	"Octoptimist/domain"
+	"time"
+)
 
-func FiscalPeriodGetter(day time.Time, bankHolydays *BankHolidays) *Period {
+func FiscalPeriodGetter(day time.Time, bankHolydays *domain.BankHolidays) *Period {
 	if day.IsZero() {
 		return nil
 	}

@@ -8,7 +8,7 @@ import (
 
 func main() {
 	var err error
-	go GetBankHolidayInstance().Init()
+	go GetBankHolidaysInstance().Init()
 	go GetTargetTacesInstance().Init()
 	go GetPeoplesGlobalMapInstance()
 
