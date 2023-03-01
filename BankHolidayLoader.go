@@ -10,20 +10,6 @@ import (
 	"time"
 )
 
-var bankHolidays *domain.BankHolidays
-
-func CreateBankHolydays() {
-	bankHolidays = &domain.BankHolidays{Loader: bankHolidayLoader}
-}
-
-func GetBankHolidaysInstance() *domain.BankHolidays {
-	if bankHolidays == nil {
-		CreateBankHolydays()
-	}
-	bankHolidays.Init()
-	return bankHolidays
-}
-
 func bankHolidayLoader() (map[int][]domain.BankHoliday, error) {
 
 	var err error = nil
