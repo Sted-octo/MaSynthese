@@ -2,6 +2,7 @@ package main
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"Octoptimist/usecases"
 	"testing"
 	"time"
@@ -11,8 +12,8 @@ import (
 
 func Test_EndDate_Before_StartDate_Should_Return_Error(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.March, 18)
-	end := dateSimple(2022, time.March, 17)
+	start := DateSimple(2022, time.March, 18)
+	end := DateSimple(2022, time.March, 17)
 	period := NewPeriod(start, end, &bankHolidays)
 
 	_, err := period.TotalWorkDaysGetter()
@@ -22,8 +23,8 @@ func Test_EndDate_Before_StartDate_Should_Return_Error(t *testing.T) {
 
 func Test_StartDate_Monday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.June, 27)
-	end := time.Date(2022, time.June, 27, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.June, 27)
+	end := time.Date(2022, time.June, 27, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -33,8 +34,8 @@ func Test_StartDate_Monday_Equal_EndDate_Should_Return_1(t *testing.T) {
 
 func Test_StartDate_Tuesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.June, 28)
-	end := time.Date(2022, time.June, 28, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.June, 28)
+	end := time.Date(2022, time.June, 28, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -44,8 +45,8 @@ func Test_StartDate_Tuesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 
 func Test_StartDate_Wednesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.June, 29)
-	end := time.Date(2022, time.June, 29, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.June, 29)
+	end := time.Date(2022, time.June, 29, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -55,8 +56,8 @@ func Test_StartDate_Wednesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 
 func Test_StartDate_Thursday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.June, 30)
-	end := time.Date(2022, time.June, 30, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.June, 30)
+	end := time.Date(2022, time.June, 30, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -66,8 +67,8 @@ func Test_StartDate_Thursday_Equal_EndDate_Should_Return_1(t *testing.T) {
 
 func Test_StartDate_Friday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.July, 1)
-	end := time.Date(2022, time.July, 1, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.July, 1)
+	end := time.Date(2022, time.July, 1, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -77,8 +78,8 @@ func Test_StartDate_Friday_Equal_EndDate_Should_Return_1(t *testing.T) {
 
 func Test_StartDate_Saturday_Equal_EndDate_Should_Return_0(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.July, 2)
-	end := time.Date(2022, time.July, 2, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.July, 2)
+	end := time.Date(2022, time.July, 2, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -88,8 +89,8 @@ func Test_StartDate_Saturday_Equal_EndDate_Should_Return_0(t *testing.T) {
 
 func Test_StartDate_Sunday_Equal_EndDate_Should_Return_0(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.July, 3)
-	end := time.Date(2022, time.July, 3, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.July, 3)
+	end := time.Date(2022, time.July, 3, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -99,8 +100,8 @@ func Test_StartDate_Sunday_Equal_EndDate_Should_Return_0(t *testing.T) {
 
 func Test_Two_Days_Except_Weekend_Should_Return_2(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.July, 4)
-	end := time.Date(2022, time.July, 5, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.July, 4)
+	end := time.Date(2022, time.July, 5, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -110,8 +111,8 @@ func Test_Two_Days_Except_Weekend_Should_Return_2(t *testing.T) {
 
 func Test_Two_Days_Full_Weekend_Should_Return_0(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.July, 2)
-	end := time.Date(2022, time.July, 3, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.July, 2)
+	end := time.Date(2022, time.July, 3, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -121,8 +122,8 @@ func Test_Two_Days_Full_Weekend_Should_Return_0(t *testing.T) {
 
 func Test_One_Break_Day_Should_Return_0(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.May, 26)
-	end := time.Date(2022, time.May, 26, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.May, 26)
+	end := time.Date(2022, time.May, 26, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -131,8 +132,8 @@ func Test_One_Break_Day_Should_Return_0(t *testing.T) {
 }
 func Test_One_Week_With_OneHoliday_outside_weekend_Should_Return_4(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.May, 23)
-	end := time.Date(2022, time.May, 29, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.May, 23)
+	end := time.Date(2022, time.May, 29, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -142,8 +143,8 @@ func Test_One_Week_With_OneHoliday_outside_weekend_Should_Return_4(t *testing.T)
 
 func Test_One_Week_outside_weekend_Should_Return_5(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.June, 20)
-	end := time.Date(2022, time.June, 24, 23, 59, 59, 0, TimeZoneGetter("Europe/Paris"))
+	start := DateSimple(2022, time.June, 20)
+	end := time.Date(2022, time.June, 24, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
 	period := NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()

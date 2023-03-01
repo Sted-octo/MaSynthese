@@ -11,11 +11,11 @@ import (
 
 func Test_ParameterDate_Before_StartDate_Should_Return_false(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.March, 18)
-	end := dateSimple(2022, time.March, 20)
+	start := DateSimple(2022, time.March, 18)
+	end := DateSimple(2022, time.March, 20)
 	period := NewPeriod(start, end, &bankHolidays)
 
-	dateToTest := dateSimple(2022, time.March, 20)
+	dateToTest := DateSimple(2022, time.March, 20)
 
 	isParameterDateInPeriod := period.IncludeDate(dateToTest)
 
@@ -24,8 +24,8 @@ func Test_ParameterDate_Before_StartDate_Should_Return_false(t *testing.T) {
 
 func Test_ParameterDate_Equal_StartDate_Should_Return_true(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.March, 18)
-	end := dateSimple(2022, time.March, 20)
+	start := DateSimple(2022, time.March, 18)
+	end := DateSimple(2022, time.March, 20)
 	period := NewPeriod(start, end, &bankHolidays)
 
 	dateToTest := start
@@ -37,11 +37,11 @@ func Test_ParameterDate_Equal_StartDate_Should_Return_true(t *testing.T) {
 
 func Test_ParameterDate_Between_StartDate_And_EndDate_Should_Return_true(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.March, 18)
-	end := dateSimple(2022, time.March, 20)
+	start := DateSimple(2022, time.March, 18)
+	end := DateSimple(2022, time.March, 20)
 	period := NewPeriod(start, end, &bankHolidays)
 
-	dateToTest := dateSimple(2022, time.March, 19)
+	dateToTest := DateSimple(2022, time.March, 19)
 
 	isParameterDateInPeriod := period.IncludeDate(dateToTest)
 
@@ -50,8 +50,8 @@ func Test_ParameterDate_Between_StartDate_And_EndDate_Should_Return_true(t *test
 
 func Test_ParameterDate_Equal_EndDate_Should_Return_false(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
-	start := dateSimple(2022, time.March, 18)
-	end := dateSimple(2022, time.March, 20)
+	start := DateSimple(2022, time.March, 18)
+	end := DateSimple(2022, time.March, 20)
 	period := NewPeriod(start, end, &bankHolidays)
 
 	dateToTest := end

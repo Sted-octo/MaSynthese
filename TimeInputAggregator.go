@@ -34,7 +34,7 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 		if existingLine, exist := activityMap[currentTimeInput.Activity.ID]; exist {
 			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 				existingLine.TimeSum += decimal
-				if day.Before(pivot) || datesEquals(day, pivot) {
+				if day.Before(pivot) || DatesEquals(day, pivot) {
 					existingLine.TimeSumDone += decimal
 				} else {
 					existingLine.TimeSumTodo += decimal
@@ -54,7 +54,7 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 			newLine.TimeSum = decimal
-			if day.Before(pivot) || datesEquals(day, pivot) {
+			if day.Before(pivot) || DatesEquals(day, pivot) {
 				newLine.TimeSumDone = decimal
 			} else {
 				newLine.TimeSumTodo = decimal

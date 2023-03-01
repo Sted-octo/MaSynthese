@@ -59,14 +59,14 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 
 		if len(r.Form["btnFYPrev"]) > 0 {
 			fiscalPeriod.Previous()
-			infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
-			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+			infos.Datas.StartDate = DateToString(fiscalPeriod.Start)
+			infos.Datas.EndDate = DateToString(fiscalPeriod.End)
 		}
 
 		if len(r.Form["btnFYNext"]) > 0 {
 			fiscalPeriod.Next()
-			infos.Datas.StartDate = fiscalPeriod.Start.Format("2006-01-02")
-			infos.Datas.EndDate = fiscalPeriod.End.Format("2006-01-02")
+			infos.Datas.StartDate = DateToString(fiscalPeriod.Start)
+			infos.Datas.EndDate = DateToString(fiscalPeriod.End)
 		}
 
 		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {

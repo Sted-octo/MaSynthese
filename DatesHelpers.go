@@ -1,10 +1,11 @@
 package main
 
 import (
+	"Octoptimist/tools"
 	"time"
 )
 
-func datesEquals(startPeriode time.Time, endPeriode time.Time) bool {
+func DatesEquals(startPeriode time.Time, endPeriode time.Time) bool {
 	sy, sm, sd := startPeriode.Date()
 	ey, em, ed := endPeriode.Date()
 	if sy == ey && sm == em && sd == ed {
@@ -13,10 +14,10 @@ func datesEquals(startPeriode time.Time, endPeriode time.Time) bool {
 	return false
 }
 
-func dateSimple(year int, month time.Month, day int) time.Time {
-	return time.Date(year, month, day, 0, 0, 0, 0, TimeZoneGetter("Europe/Paris"))
+func DateSimple(year int, month time.Month, day int) time.Time {
+	return time.Date(year, month, day, 0, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 }
 
-func dateToString(date time.Time) string {
+func DateToString(date time.Time) string {
 	return date.Format("2006-01-02")
 }

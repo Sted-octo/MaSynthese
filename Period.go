@@ -33,7 +33,7 @@ func (p *Period) TotalWorkDaysGetter() (int, error) {
 
 	totalWorkDays := 0
 
-	for currentDate := p.Start; currentDate.Before(p.End) || datesEquals(currentDate, p.End); currentDate = currentDate.AddDate(0, 0, 1) {
+	for currentDate := p.Start; currentDate.Before(p.End) || DatesEquals(currentDate, p.End); currentDate = currentDate.AddDate(0, 0, 1) {
 		if p.BankHolidayManager != nil && p.BankHolidayManager.IsHoliday(currentDate) {
 			continue
 		}

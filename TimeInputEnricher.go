@@ -22,7 +22,7 @@ func (timeInput *TimeInput) timeInputEnricher(period *Period, pivot time.Time) *
 
 	dictionnary := timeInput.toMapConverter()
 
-	for currentDate := startDate; currentDate.Before(period.End) || datesEquals(currentDate, period.End); currentDate = currentDate.AddDate(0, 0, 1) {
+	for currentDate := startDate; currentDate.Before(period.End) || DatesEquals(currentDate, period.End); currentDate = currentDate.AddDate(0, 0, 1) {
 		if period.BankHolidayManager != nil && period.BankHolidayManager.IsHoliday(currentDate) {
 			continue
 		}
@@ -30,7 +30,7 @@ func (timeInput *TimeInput) timeInputEnricher(period *Period, pivot time.Time) *
 			continue
 		}
 		currentDayActivityAccumulation := 0.0
-		currentDateString := dateToString(currentDate)
+		currentDateString := DateToString(currentDate)
 
 		for _, timeInputElement := range (*dictionnary)[currentDateString] {
 			if decimal, err := strconv.ParseFloat(timeInputElement.TimeInDays, 64); err == nil {

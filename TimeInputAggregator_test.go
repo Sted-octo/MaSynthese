@@ -201,7 +201,7 @@ func Test_One_Permanent_CongesPaye_Absence_Shoulbe_Kind_Absence(t *testing.T) {
 
 func Test_One_Permanent_Before_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(123, "intercontrat", 1, dateSimple(2022, time.June, 10)))
+	timeInputs.Add(timeInputElementNotBillableAt(123, "intercontrat", 1, DateSimple(2022, time.June, 10)))
 
 	synthesisLines := timeInputs.timeInputAggregator(PIVOT_DATE)
 
@@ -211,7 +211,7 @@ func Test_One_Permanent_Before_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
 
 func Test_One_Permanent_After_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(123, "intercontrat", 1, dateSimple(2022, time.July, 10)))
+	timeInputs.Add(timeInputElementNotBillableAt(123, "intercontrat", 1, DateSimple(2022, time.July, 10)))
 
 	synthesisLines := timeInputs.timeInputAggregator(PIVOT_DATE)
 

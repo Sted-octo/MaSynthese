@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"testing"
 	"time"
 
@@ -11,7 +12,7 @@ import (
 func Test_Date_In_SourceMap_ShouldBe_Holiday(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 
-	state := bankHolidays.IsHoliday(time.Date(2022, time.May, 26, 0, 0, 0, 0, timeZoneGetter("Europe/Paris")))
+	state := bankHolidays.IsHoliday(time.Date(2022, time.May, 26, 0, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris")))
 
 	assert.True(t, state, "26 may 2022 should be a holiday")
 }
@@ -19,7 +20,7 @@ func Test_Date_In_SourceMap_ShouldBe_Holiday(t *testing.T) {
 func Test_Date_Not_In_SourceMap_Should_NotBe_Holiday(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 
-	state := bankHolidays.IsHoliday(time.Date(2022, time.May, 25, 0, 0, 0, 0, timeZoneGetter("Europe/Paris")))
+	state := bankHolidays.IsHoliday(time.Date(2022, time.May, 25, 0, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris")))
 
 	assert.False(t, state, "25 may 2022 should be a holiday")
 }
