@@ -13,7 +13,7 @@ import (
 func BankHolidaysLoader() (map[int][]domain.BankHoliday, error) {
 
 	var err error = nil
-	file, err := os.Open("./private/jours_feries_metropole.csv")
+	file, err := os.Open("../private/jours_feries_metropole.csv")
 	if err != nil {
 		return nil, err
 	}

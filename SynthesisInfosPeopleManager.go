@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/infrastructure"
 	"strconv"
 )
 
@@ -34,7 +35,7 @@ func (infos *SynthesisInfos) manageInfosPeople() error {
 		infos.CssClass.Human.EntryDate = "smallText"
 		infos.Datas.Human.EntryDate = people.EntryDate
 
-		if targetTace, ok := GetTargetTacesInstance().GetTargetTaceForJobId(int(people.Job.ID)); ok {
+		if targetTace, ok := infrastructure.TargetTacesSingletonGetter().GetTargetTaceForJobId(int(people.Job.ID)); ok {
 			infos.Datas.Human.JobName = people.Job.Name
 			infos.Datas.Human.TargetTace = strconv.Itoa(targetTace)
 			infos.CssClass.Human.TargetTace = "bigText"

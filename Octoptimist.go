@@ -10,7 +10,7 @@ import (
 func main() {
 	var err error
 	go infrastructure.BankHolidaysSingletonGetter().Init()
-	go GetTargetTacesInstance().Init()
+	go infrastructure.TargetTacesSingletonGetter().Init()
 	go GetPeoplesGlobalMapInstance()
 
 	fs := http.FileServer(http.Dir("./static"))
