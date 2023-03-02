@@ -1,7 +1,6 @@
-package main
+package domain
 
 import (
-	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"testing"
 	"time"
@@ -9,12 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var timeInputs *domain.TimeInput
-var TOTAL_WORKDAYS_FY22 int = 20
-var PIVOT_DATE time.Time = tools.DateSimple(2022, time.July, 1)
-
 func Test_NoT_TimeInput_SynthesisLine_Shoulbe_Empty(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
+	timeInputs = new(TimeInput)
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -24,8 +19,8 @@ func Test_NoT_TimeInput_SynthesisLine_Shoulbe_Empty(t *testing.T) {
 }
 
 func Test_One_TimeInput_Permanent_SynthesisLine_count_Shoulbe_One(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -37,10 +32,10 @@ func Test_One_TimeInput_Permanent_SynthesisLine_count_Shoulbe_One(t *testing.T) 
 }
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_ActivityId_Shoulbe_123(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
+	timeInputs = new(TimeInput)
 
 	var expected int64 = 123
-	timeInputs.Add(domain.TimeInputElementNotBillable(expected, "Intercontrat", 0.5))
+	timeInputs.Add(TimeInputElementNotBillable(expected, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -50,10 +45,10 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_ActivityId_Shoulbe_123(t *
 }
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_Title_Shoulbe_Intercontrat(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
+	timeInputs = new(TimeInput)
 
 	expected := "Intercontrat"
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, expected, 0.5))
+	timeInputs.Add(TimeInputElementNotBillable(123, expected, 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -63,10 +58,10 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_Title_Shoulbe_Intercontrat
 }
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_TimeSum_Shoulbe_dot5(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
+	timeInputs = new(TimeInput)
 
 	expected := 0.5
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", expected))
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", expected))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -76,12 +71,12 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_TimeSum_Shoulbe_dot5(t *te
 }
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_Kind_Shoulbe_Permanant(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementPermanent(123, "Intercontrat", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementPermanent(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
-	expected := domain.KIND_PERMANENT
+	expected := KIND_PERMANENT
 
 	if synthesisLines[0].Kind != expected {
 		t.Errorf("First SynthesisLine kind shouldBe %s but was %s", expected, synthesisLines[0].Kind)
@@ -89,8 +84,8 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_Kind_Shoulbe_Permanant(t *
 }
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_CustomerName_Shoulbe_Empty(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -102,8 +97,8 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_CustomerName_Shoulbe_Empty
 }
 
 func Test_One_TimeInput_Permanent_First_SynthesisLine_Reference_Shoulbe_Empty(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -115,9 +110,9 @@ func Test_One_TimeInput_Permanent_First_SynthesisLine_Reference_Shoulbe_Empty(t 
 }
 
 func Test_Two_TimeInput_Permanent_SynthesisLine_count_Shoulbe_One(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -127,9 +122,9 @@ func Test_Two_TimeInput_Permanent_SynthesisLine_count_Shoulbe_One(t *testing.T) 
 }
 
 func Test_Two_TimeInput_Permanent_First_SynthesisLine_TimeSum_Shoulbe_1(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -141,9 +136,9 @@ func Test_Two_TimeInput_Permanent_First_SynthesisLine_TimeSum_Shoulbe_1(t *testi
 }
 
 func Test_Two_Differents_TimeInput_Permanent_SynthesisLine_count_Shoulbe_Two(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillable(123, "Intercontrat", 0.5))
-	timeInputs.Add(domain.TimeInputElementNotBillable(456, "Shadowing", 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 0.5))
+	timeInputs.Add(TimeInputElementNotBillable(456, "Shadowing", 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -155,10 +150,10 @@ func Test_Two_Differents_TimeInput_Permanent_SynthesisLine_count_Shoulbe_Two(t *
 }
 
 func Test_One_TimeInput_Billable_First_SynthesisLine_Reference_Shoulbe_123456(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
+	timeInputs = new(TimeInput)
 
 	expected := "123456"
-	timeInputs.Add(domain.TimeInputElementBillable(123, "Intercontrat", 0.5, "OctoMobile", expected))
+	timeInputs.Add(TimeInputElementBillable(123, "Intercontrat", 0.5, "OctoMobile", expected))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -168,9 +163,9 @@ func Test_One_TimeInput_Billable_First_SynthesisLine_Reference_Shoulbe_123456(t 
 }
 
 func Test_One_TimeInput_Billable_First_SynthesisLine_CustomerName_Shoulbe_OctoMobile(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
+	timeInputs = new(TimeInput)
 	expected := "OctoMobile"
-	timeInputs.Add(domain.TimeInputElementBillable(123, "Intercontrat", 0.5, expected, "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Intercontrat", 0.5, expected, "123456"))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -180,32 +175,32 @@ func Test_One_TimeInput_Billable_First_SynthesisLine_CustomerName_Shoulbe_OctoMo
 }
 
 func Test_One_Permanent_RTT_Absence_Shoulbe_Kind_Absence(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementAbsence(domain.ACTIVITY_ID_RTT, 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementAbsence(ACTIVITY_ID_RTT, 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
-	expected := domain.KIND_ABSENCE
+	expected := KIND_ABSENCE
 	if synthesisLines[0].Kind != expected {
 		t.Errorf("First SynthesisLine permanent title absence should be kind %s but was %s", expected, synthesisLines[0].Kind)
 	}
 }
 
 func Test_One_Permanent_CongesPaye_Absence_Shoulbe_Kind_Absence(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementAbsence(domain.ACTIVITY_ID_CONGES_PAYE, 0.5))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementAbsence(ACTIVITY_ID_CONGES_PAYE, 0.5))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
-	expected := domain.KIND_ABSENCE
+	expected := KIND_ABSENCE
 	if synthesisLines[0].Kind != expected {
 		t.Errorf("First SynthesisLine permanent title absence should be kind %s but was %s", expected, synthesisLines[0].Kind)
 	}
 }
 
 func Test_One_Permanent_Before_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillableAt(123, "intercontrat", 1, tools.DateSimple(2022, time.June, 10)))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillableAt(123, "intercontrat", 1, tools.DateSimple(2022, time.June, 10)))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
@@ -214,8 +209,8 @@ func Test_One_Permanent_Before_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
 }
 
 func Test_One_Permanent_After_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
-	timeInputs = new(domain.TimeInput)
-	timeInputs.Add(domain.TimeInputElementNotBillableAt(123, "intercontrat", 1, tools.DateSimple(2022, time.July, 10)))
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillableAt(123, "intercontrat", 1, tools.DateSimple(2022, time.July, 10)))
 
 	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
 
