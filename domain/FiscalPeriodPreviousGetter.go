@@ -1,4 +1,4 @@
-package main
+package domain
 
 func (periodFiscal *Period) Previous() {
 	periodFiscal.Start = periodFiscal.Start.AddDate(-1, 0, 0)
