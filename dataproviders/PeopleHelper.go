@@ -1,4 +1,4 @@
-package main
+package dataproviders
 
 func PeopleJsonGetter() string {
 	return `{

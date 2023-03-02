@@ -1,21 +1,23 @@
 package main
 
 import (
+	"Octoptimist/dataproviders"
+	"Octoptimist/domain"
 	"Octoptimist/infrastructure"
 	"strconv"
 )
 
 func (infos *SynthesisInfos) manageInfosPeople() error {
-	var people *People
+	var people *domain.People
 	var err error
 	if infos.ModeConnexion == MODE_CONNEXION_AUTH {
-		people, err = PeopleGetter(infos.AccessToken)
+		people, err = dataproviders.PeopleGetter(infos.AccessToken)
 		if err != nil {
 			return err
 		}
 	}
 	if infos.ModeConnexion == MODE_CONNEXION_ID {
-		people, err = PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
+		people, err = dataproviders.PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
 		if err != nil {
 			return err
 		}

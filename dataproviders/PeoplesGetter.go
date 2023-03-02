@@ -1,6 +1,7 @@
-package main
+package dataproviders
 
 import (
+	"Octoptimist/domain"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -8,7 +9,7 @@ import (
 	"time"
 )
 
-func PeoplesGetter(accessToken string) (map[string]People, error) {
+func PeoplesGetter(accessToken string) (map[string]domain.People, error) {
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
 	}
@@ -37,14 +38,14 @@ func PeoplesGetter(accessToken string) (map[string]People, error) {
 		return nil, err
 	}
 
-	var peoples []People
+	var peoples []domain.People
 
 	err = json.Unmarshal(body, &peoples)
 	if err != nil {
 		return nil, err
 	}
 
-	peoplesMap := make(map[string]People)
+	peoplesMap := make(map[string]domain.People)
 
 	for _, people := range peoples {
 		peoplesMap[people.Nickname] = people

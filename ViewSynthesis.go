@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/infrastructure"
 	"Octoptimist/tools"
 	"net/http"
 	"strconv"
@@ -71,7 +72,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {
-			if people, ok := GetPeoplesGlobalMapInstance().PeopleMap[infos.Datas.NGram]; ok {
+			if people, ok := infrastructure.GetPeoplesGlobalMapInstance().PeopleMap[infos.Datas.NGram]; ok {
 				infos.ModeConnexion = MODE_CONNEXION_ID
 				infos.Datas.Id = strconv.FormatInt(people.ID, 10)
 				infos.CssClass.NGram = ""

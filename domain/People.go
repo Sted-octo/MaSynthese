@@ -1,4 +1,4 @@
-package main
+package domain
 
 type People struct {
 	ID                              int64          `json:"id"`

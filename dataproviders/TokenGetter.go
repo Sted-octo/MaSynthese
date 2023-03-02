@@ -1,6 +1,7 @@
-package main
+package dataproviders
 
 import (
+	"Octoptimist/domain"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -8,7 +9,7 @@ import (
 	"time"
 )
 
-func TokenGetter(clientId string, clientSecret string, redirectUrl string, authCode string) (*Token, error) {
+func TokenGetter(clientId string, clientSecret string, redirectUrl string, authCode string) (*domain.Token, error) {
 
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
@@ -41,7 +42,7 @@ func TokenGetter(clientId string, clientSecret string, redirectUrl string, authC
 		return nil, err
 	}
 
-	var token Token
+	var token domain.Token
 
 	err = json.Unmarshal(body, &token)
 	if err != nil {

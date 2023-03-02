@@ -1,13 +1,14 @@
 package main
 
 import (
+	"Octoptimist/dataproviders"
 	"errors"
 	"os"
 )
 
 func (infos *LoginInfos) manageToken() error {
 	if infos.AccessToken == "" {
-		token, err := TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
+		token, err := dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
 		if err != nil {
 			return err
 		}

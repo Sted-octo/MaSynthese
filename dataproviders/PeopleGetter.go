@@ -1,6 +1,7 @@
-package main
+package dataproviders
 
 import (
+	"Octoptimist/domain"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -8,7 +9,7 @@ import (
 	"time"
 )
 
-func PeopleGetter(accessToken string) (*People, error) {
+func PeopleGetter(accessToken string) (*domain.People, error) {
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
 	}
@@ -37,7 +38,7 @@ func PeopleGetter(accessToken string) (*People, error) {
 		return nil, err
 	}
 
-	var people People
+	var people domain.People
 
 	err = json.Unmarshal(body, &people)
 	if err != nil {
@@ -47,12 +48,12 @@ func PeopleGetter(accessToken string) (*People, error) {
 	return &people, nil
 }
 
-func PeopleByIdGetter(accessToken string, peopleId string) (*People, error) {
+func PeopleByIdGetter(accessToken string, peopleId string) (*domain.People, error) {
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := fmt.Sprintf("%s/people/%s", OCTOPOD_ROOT_URL, peopleId)
+	urlApi := fmt.Sprintf("https://octopod.octo.com/api/v0/people/%s", peopleId)
 
 	fmt.Println(urlApi)
 
@@ -76,7 +77,7 @@ func PeopleByIdGetter(accessToken string, peopleId string) (*People, error) {
 		return nil, err
 	}
 
-	var people People
+	var people domain.People
 
 	err = json.Unmarshal(body, &people)
 	if err != nil {
