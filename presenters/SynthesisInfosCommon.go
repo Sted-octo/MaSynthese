@@ -1,8 +1,8 @@
-package main
+package presenters
 
 import "Octoptimist/domain"
 
-func (infos *SynthesisInfos) synthesisCommon(periodFiscal *domain.Period) error {
+func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period) error {
 	err := infos.manageInfosPeople()
 	if err != nil {
 		return err

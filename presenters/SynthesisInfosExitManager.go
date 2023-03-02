@@ -1,4 +1,4 @@
-package main
+package presenters
 
 import (
 	"Octoptimist/dataproviders"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (infos SynthesisInfos) manageExit(r *http.Request, w http.ResponseWriter) {
+func (infos SynthesisInfos) ManageExit(r *http.Request, w http.ResponseWriter) {
 	if len(r.Form["btnExit"]) > 0 {
 		err := dataproviders.TokenRevoker(infos.AccessToken)
 		if err != nil {

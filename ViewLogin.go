@@ -8,10 +8,6 @@ import (
 	"text/template"
 )
 
-var MODE_CONNEXION_AUTH string = "A"
-var MODE_CONNEXION_ID string = "I"
-var MODE_CONNEXION_GOOGLE string = "G"
-
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		loginGET(w, r)
@@ -39,7 +35,7 @@ func loginGET(w http.ResponseWriter, r *http.Request) {
 				MaxAge: 1,
 			}
 			http.SetCookie(w, &cookie)
-			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s", MODE_CONNEXION_AUTH), http.StatusTemporaryRedirect)
+			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s", presenters.MODE_CONNEXION_AUTH), http.StatusTemporaryRedirect)
 			return
 		}
 	}
@@ -77,7 +73,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 					MaxAge: 1,
 				}
 				http.SetCookie(w, &cookie)
-				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s", MODE_CONNEXION_AUTH), http.StatusFound)
+				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s", presenters.MODE_CONNEXION_AUTH), http.StatusFound)
 				return
 			}
 		}
@@ -94,7 +90,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 				MaxAge: 1,
 			}
 			http.SetCookie(w, &cookie)
-			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&id=%s", MODE_CONNEXION_ID, infos.Datas.Id), http.StatusTemporaryRedirect)
+			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&id=%s", presenters.MODE_CONNEXION_ID, infos.Datas.Id), http.StatusTemporaryRedirect)
 			return
 		}
 		if len(r.Form["btnGoogle"]) > 0 {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"Octoptimist/infrastructure"
+	"Octoptimist/presenters"
 	"Octoptimist/tools"
 	"net/http"
 	"strconv"
@@ -20,7 +21,7 @@ func Synthesis(w http.ResponseWriter, r *http.Request) {
 
 func synthesisGET(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("synthesis.html"))
-	infos := SynthesisInfos{}
+	infos := presenters.SynthesisInfos{}
 	cookie, err := r.Cookie("AccessToken")
 	if err == nil {
 		infos.AccessToken = cookie.Value
@@ -34,11 +35,11 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 		infos.ModeConnexion = r.URL.Query().Get("mode")
 	}
 
-	fiscalPeriod := infos.initFiscalPeriod()
+	fiscalPeriod := infos.InitFiscalPeriod()
 
-	infos.setPeriodIfEmpty(fiscalPeriod)
+	infos.SetPeriodIfEmpty(fiscalPeriod)
 
-	err = infos.synthesisCommon(fiscalPeriod)
+	err = infos.SynthesisCommon(fiscalPeriod)
 	if err != nil {
 		http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
 		return
@@ -51,13 +52,13 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 
 	infos, areParametersValid := validateSynthesisParameters(r)
 
-	infos.manageExit(r, w)
+	infos.ManageExit(r, w)
 
 	if areParametersValid {
 
-		fiscalPeriod := infos.initFiscalPeriod()
+		fiscalPeriod := infos.InitFiscalPeriod()
 
-		infos.setPeriodIfEmpty(fiscalPeriod)
+		infos.SetPeriodIfEmpty(fiscalPeriod)
 
 		if len(r.Form["btnFYPrev"]) > 0 {
 			fiscalPeriod.Previous()
@@ -73,7 +74,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 
 		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {
 			if people, ok := infrastructure.GetPeoplesGlobalMapInstance().PeopleMap[infos.Datas.NGram]; ok {
-				infos.ModeConnexion = MODE_CONNEXION_ID
+				infos.ModeConnexion = presenters.MODE_CONNEXION_ID
 				infos.Datas.Id = strconv.FormatInt(people.ID, 10)
 				infos.CssClass.NGram = ""
 			} else {
@@ -81,7 +82,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		err := infos.synthesisCommon(fiscalPeriod)
+		err := infos.SynthesisCommon(fiscalPeriod)
 		if err != nil {
 			http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
 			return
@@ -93,10 +94,10 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, infos)
 }
 
-func validateSynthesisParameters(r *http.Request) (SynthesisInfos, bool) {
+func validateSynthesisParameters(r *http.Request) (presenters.SynthesisInfos, bool) {
 	r.ParseForm()
 	state := true
-	infos := SynthesisInfos{}
+	infos := presenters.SynthesisInfos{}
 
 	if r.URL.Query().Get("code") != "" {
 		infos.AccessToken = r.URL.Query().Get("code")

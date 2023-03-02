@@ -1,4 +1,4 @@
-package main
+package presenters
 
 import (
 	"Octoptimist/domain"
@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func (infos *SynthesisInfos) initFiscalPeriod() *domain.Period {
+func (infos *SynthesisInfos) InitFiscalPeriod() *domain.Period {
 	day := time.Now()
 	if !(infos.Datas.StartDate == "" && infos.Datas.EndDate == "") {
 		if convertedDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {

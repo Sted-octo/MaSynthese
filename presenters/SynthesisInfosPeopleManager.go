@@ -1,4 +1,4 @@
-package main
+package presenters
 
 import (
 	"Octoptimist/dataproviders"
