@@ -12,7 +12,7 @@ import (
 func TargetTaceLoader() (map[int]domain.TargetTace, error) {
 
 	var err error = nil
-	file, err := os.Open("../private/tace_objectif.csv")
+	file, err := os.Open("./private/tace_objectif.csv")
 	if err != nil {
 		return nil, err
 	}
