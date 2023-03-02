@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/dataproviders"
 	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"fmt"
@@ -20,7 +21,7 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *domain.Period, activ
 	pivotDate := time.Now()
 	var err error
 	if timeInput == nil {
-		timeInput, err = TimeInputGetter(infos.AccessToken, infos.Datas.Id, tools.DateToString(periodFiscal.Start), tools.DateToString(periodFiscal.End), 50)
+		timeInput, err = dataproviders.TimeInputGetter(infos.AccessToken, infos.Datas.Id, tools.DateToString(periodFiscal.Start), tools.DateToString(periodFiscal.End), 50)
 		if err != nil {
 			return err
 		}

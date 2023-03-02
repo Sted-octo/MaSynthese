@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/dataproviders"
 	"Octoptimist/domain"
 	"sort"
 	"time"
@@ -9,7 +10,7 @@ import (
 func (infos *SynthesisInfos) manageSynthesisDetailLines(periodFiscal *domain.Period) (*domain.TimeInput, error) {
 
 	pivotDate := time.Now()
-	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 50)
+	timeInput, err := dataproviders.TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 50)
 	if err != nil {
 		return nil, err
 	}
@@ -17,7 +18,7 @@ func (infos *SynthesisInfos) manageSynthesisDetailLines(periodFiscal *domain.Per
 
 	synthesisLines := timeInput.TimeInputAggregator(pivotDate)
 
-	sort.Sort(ByAssending(synthesisLines))
+	sort.Sort(domain.ByAssending(synthesisLines))
 
 	sl := SynthesisLines(synthesisLines)
 
