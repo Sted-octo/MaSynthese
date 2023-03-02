@@ -1,6 +1,8 @@
 package main
 
-type ByAssending []SynthesisLine
+import "Octoptimist/domain"
+
+type ByAssending []domain.SynthesisLine
 
 func (a ByAssending) Len() int {
 	return len(a)

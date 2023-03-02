@@ -1,4 +1,4 @@
-package main
+package domain
 
 func (timeInput *TimeInput) toMapConverter() *map[string]TimeInput {
 	dictionnary := make(map[string]TimeInput)

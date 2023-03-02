@@ -1,67 +1,66 @@
-package main
+package domain
 
 import (
-	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"fmt"
 	"time"
 )
 
-func timeInputElementNotBillable(activityId int64, name string, timeInDay float64) *TimeInputElement {
+func TimeInputElementNotBillable(activityId int64, name string, timeInDay float64) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_NOT_BILLABLE
+	timeInputElement.Activity.Kind = KIND_NOT_BILLABLE
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
 }
 
-func timeInputElementPermanent(activityId int64, name string, timeInDay float64) *TimeInputElement {
+func TimeInputElementPermanent(activityId int64, name string, timeInDay float64) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_PERMANENT
+	timeInputElement.Activity.Kind = KIND_PERMANENT
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
 }
 
-func timeInputElementPermanentAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
+func TimeInputElementPermanentAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%g", timeInDay)
 	timeInputElement.Day = tools.DateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_PERMANENT
+	timeInputElement.Activity.Kind = KIND_PERMANENT
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
 }
 
-func timeInputElementNotBillableAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
+func TimeInputElementNotBillableAt(activityId int64, name string, timeInDay float64, day time.Time) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = tools.DateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_NOT_BILLABLE
+	timeInputElement.Activity.Kind = KIND_NOT_BILLABLE
 	timeInputElement.Activity.Title = name
 
 	return timeInputElement
 }
 
-func timeInputElementBillable(activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
+func TimeInputElementBillable(activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_BILLABLE
+	timeInputElement.Activity.Kind = KIND_BILLABLE
 	timeInputElement.Activity.Title = name
 	timeInputElement.Activity.Project = new(Project)
 	timeInputElement.Activity.Project.Reference = reference
@@ -71,13 +70,13 @@ func timeInputElementBillable(activityId int64, name string, timeInDay float64, 
 	return timeInputElement
 }
 
-func timeInputElementBillableAtDay(day time.Time, activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
+func TimeInputElementBillableAtDay(day time.Time, activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = tools.DateToString(day)
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_BILLABLE
+	timeInputElement.Activity.Kind = KIND_BILLABLE
 	timeInputElement.Activity.Title = name
 	timeInputElement.Activity.Project = new(Project)
 	timeInputElement.Activity.Project.Reference = reference
@@ -87,25 +86,25 @@ func timeInputElementBillableAtDay(day time.Time, activityId int64, name string,
 	return timeInputElement
 }
 
-func timeInputElementAbsence(activityId int64, timeInDay float64) *TimeInputElement {
+func TimeInputElementAbsence(activityId int64, timeInDay float64) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_PERMANENT
-	timeInputElement.Activity.Title = domain.KIND_ABSENCE
+	timeInputElement.Activity.Kind = KIND_PERMANENT
+	timeInputElement.Activity.Title = KIND_ABSENCE
 
 	return timeInputElement
 }
 
-func timeInputElementInternal(activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
+func TimeInputElementInternal(activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
 	var timeInputElement *TimeInputElement = new(TimeInputElement)
 	timeInputElement.TimeInDays = fmt.Sprintf("%f", timeInDay)
 	timeInputElement.Day = "1973-10-07"
 	timeInputElement.Activity = *new(Activity)
 	timeInputElement.Activity.ID = activityId
-	timeInputElement.Activity.Kind = domain.KIND_INTERNAL
+	timeInputElement.Activity.Kind = KIND_INTERNAL
 	timeInputElement.Activity.Title = name
 	timeInputElement.Activity.Project = new(Project)
 	timeInputElement.Activity.Project.Reference = reference
@@ -115,7 +114,7 @@ func timeInputElementInternal(activityId int64, name string, timeInDay float64, 
 	return timeInputElement
 }
 
-func timeInputOneJsonGetter() string {
+func TimeInputOneJsonGetter() string {
 	return `[
 		{
 			"day": "2022-03-01",
@@ -134,7 +133,7 @@ func timeInputOneJsonGetter() string {
 		}]`
 }
 
-func timeInputTwoJsonGetter() string {
+func TimeInputTwoJsonGetter() string {
 	return `[
 		{
 			"day": "2022-03-01",
@@ -168,7 +167,7 @@ func timeInputTwoJsonGetter() string {
 		}]`
 }
 
-func timeInputThreeJsonGetter() string {
+func TimeInputThreeJsonGetter() string {
 	return `[
 		{
 			"day": "2022-03-01",

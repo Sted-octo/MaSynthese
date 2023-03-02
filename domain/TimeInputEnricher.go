@@ -1,13 +1,12 @@
-package main
+package domain
 
 import (
-	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"strconv"
 	"time"
 )
 
-func (timeInput *TimeInput) timeInputEnricher(period *domain.Period, pivot time.Time) *TimeInput {
+func (timeInput *TimeInput) TimeInputEnricher(period *Period, pivot time.Time) *TimeInput {
 	if period == nil {
 		return nil
 	}
@@ -27,7 +26,7 @@ func (timeInput *TimeInput) timeInputEnricher(period *domain.Period, pivot time.
 		if period.BankHolidayManager != nil && period.BankHolidayManager.IsHoliday(currentDate) {
 			continue
 		}
-		if !domain.IsWorkDay(currentDate) {
+		if !IsWorkDay(currentDate) {
 			continue
 		}
 		currentDayActivityAccumulation := 0.0
@@ -40,7 +39,7 @@ func (timeInput *TimeInput) timeInputEnricher(period *domain.Period, pivot time.
 		}
 		if currentDayActivityAccumulation != 1.0 {
 			timeInDaysToAdd := 1.0 - currentDayActivityAccumulation
-			timeInput.Add(timeInputElementPermanentAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", timeInDaysToAdd, currentDate))
+			timeInput.Add(TimeInputElementPermanentAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", timeInDaysToAdd, currentDate))
 		}
 	}
 

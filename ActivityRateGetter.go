@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,12 +10,12 @@ import (
 	"time"
 )
 
-func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string) (*ActivityRate, error) {
+func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string) (*domain.ActivityRate, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
 	}
 
-	var activityRate ActivityRate
+	var activityRate domain.ActivityRate
 
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),

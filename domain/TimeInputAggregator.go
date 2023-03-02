@@ -1,27 +1,12 @@
-package main
+package domain
 
 import (
-	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"strconv"
 	"time"
 )
 
-var ACTIVITY_ID_RTT int64 = 2140298843
-var ACTIVITY_ID_CONGES_PAYE int64 = 2140309429
-var ACTIVITY_ID_SICK_DAY int64 = 2140312911
-var ACTIVITY_ID_PART_TIME_BREAK int64 = 2140316822
-var ACTIVITY_ID_PARENTAL_BREAK int64 = 3000050819
-var ACTIVITY_ID_NO_SALARY_BREAK int64 = 3000030459
-var ACTIVITY_ID_MEDICAL_CARE int64 = 3000030462
-var ACTIVITY_ID_FAMILY_DAY int64 = 3000030457
-var ACTIVITY_ID_PARENT_DAY int64 = 3000030458
-var ACTIVITY_ID_MEDICAL_PART_TIME_BREAK int64 = 3000050818
-var ACTIVITY_ID_AUTORIZED_BREAK int64 = 3000050820
-var ACTIVITY_ID_NO_EXCUSE_BREAK int64 = 3000050821
-var ACTIVITY_ID_PERSONAL_CARE int64 = 3000065641
-
-func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine {
+func (timeInput *TimeInput) TimeInputAggregator(pivot time.Time) []SynthesisLine {
 	nbTimes := len(*timeInput)
 	if nbTimes == 0 {
 		return nil
@@ -51,7 +36,7 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 			Kind:       currentTimeInput.Activity.Kind,
 		}
 		if currentTimeInput.Activity.IsDayBreak() {
-			newLine.Kind = domain.KIND_ABSENCE
+			newLine.Kind = KIND_ABSENCE
 		}
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {

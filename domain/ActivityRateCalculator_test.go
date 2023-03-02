@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"Octoptimist/tools"
@@ -11,6 +11,7 @@ import (
 
 var TOTAL_WORKDAYS_FY22 int = 20
 var PIVOT_DATE time.Time = tools.DateSimple(2022, time.July, 1)
+var timeInputs *TimeInput
 
 func Test_No_TimeInput_ActivityRate_Should_not_be_Nil(t *testing.T) {
 	timeInputs = new(TimeInput)
@@ -30,7 +31,7 @@ func Test_No_TimeInput_ActivityRate_Value_Shouldbe_0(t *testing.T) {
 
 func Test_One_Billable_Day_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -39,8 +40,8 @@ func Test_One_Billable_Day_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 
 func Test_Two_Billable_Days_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -49,8 +50,8 @@ func Test_Two_Billable_Days_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 
 func Test_One_Billable_And_One_NotBillable_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementNotBillable(123, "Intercontrat", 1))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 1))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -59,8 +60,8 @@ func Test_One_Billable_And_One_NotBillable_ActivityRate_value_shouldbe_Correct(t
 
 func Test_One_Billable_And_One_Absence_ActivityRate_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -70,7 +71,7 @@ func Test_One_Billable_And_One_Absence_ActivityRate_value_shouldbe_Correct(t *te
 func Test_All_Absences_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
 	for i := 0; i < TOTAL_WORKDAYS_FY22; i++ {
-		timeInputs.Add(timeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
+		timeInputs.Add(TimeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
 	}
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
@@ -80,7 +81,7 @@ func Test_All_Absences_ActivityRate_value_shouldbe_0(t *testing.T) {
 
 func Test_One_Intercontrat_Before_Pivot_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "intercontrat", 1, tools.DateSimple(2022, time.June, 1)))
+	timeInputs.Add(TimeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "intercontrat", 1, tools.DateSimple(2022, time.June, 1)))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -89,7 +90,7 @@ func Test_One_Intercontrat_Before_Pivot_ActivityRate_value_shouldbe_0(t *testing
 
 func Test_One_Intercontrat_After_Pivot_ActivityRate_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", 1, tools.DateSimple(2022, time.July, 10)))
+	timeInputs.Add(TimeInputElementNotBillableAt(ACTIVITY_ID_INTERCONTRAT, "Intercontrat", 1, tools.DateSimple(2022, time.July, 10)))
 
 	activityRate, _ := timeInputs.ActivityRateCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 

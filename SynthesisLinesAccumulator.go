@@ -2,14 +2,14 @@ package main
 
 import "Octoptimist/domain"
 
-type SynthesisLines []SynthesisLine
+type SynthesisLines []domain.SynthesisLine
 
-func (sl *SynthesisLines) Accumulate() []SynthesisLine {
+func (sl *SynthesisLines) Accumulate() []domain.SynthesisLine {
 	currentKind := ""
 
-	var newListSynthesisLine []SynthesisLine
-	var kindSubTotal SynthesisLine
-	var kindTotal SynthesisLine = SynthesisLine{Kind: "total", Title: "Total", TimeSum: 0,
+	var newListSynthesisLine []domain.SynthesisLine
+	var kindSubTotal domain.SynthesisLine
+	var kindTotal domain.SynthesisLine = domain.SynthesisLine{Kind: "total", Title: "Total", TimeSum: 0,
 		IsLineTotal: true, RowCount: 0}
 	for _, line := range *sl {
 		if currentKind != line.Kind {
@@ -28,7 +28,7 @@ func (sl *SynthesisLines) Accumulate() []SynthesisLine {
 
 			if currentKind == "" {
 				currentKind = line.Kind
-				kindSubTotal = SynthesisLine{
+				kindSubTotal = domain.SynthesisLine{
 					Kind:           line.Kind,
 					Title:          "Sous total " + domain.KindTranslator(line.Kind),
 					TimeSum:        line.TimeSum,

@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"Octoptimist/tools"
@@ -18,7 +18,7 @@ func Test_Empty_TimeInput_Should_return_an_Empty_Map(t *testing.T) {
 
 func Test_OneDay_TimeInput_Should_return_an_Map_withOne_Key_of_One_TimeInput(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 1.0, "OCTO", "123456"))
+	timeInputs.Add(TimeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 1.0, "OCTO", "123456"))
 
 	dictionnary := timeInputs.toMapConverter()
 
@@ -33,8 +33,8 @@ func Test_OneDay_TimeInput_Should_return_an_Map_withOne_Key_of_One_TimeInput(t *
 
 func Test_OneDay_TwoTimeInputs_Should_return_an_Map_with_One_Key_of_two_TimeInput(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 0.5, "OCTO", "123456"))
-	timeInputs.Add(timeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 0.5, "OCTO", "123456"))
+	timeInputs.Add(TimeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 0.5, "OCTO", "123456"))
+	timeInputs.Add(TimeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 0.5, "OCTO", "123456"))
 
 	dictionnary := timeInputs.toMapConverter()
 
@@ -49,8 +49,8 @@ func Test_OneDay_TwoTimeInputs_Should_return_an_Map_with_One_Key_of_two_TimeInpu
 
 func Test_TwoDays_OneTimeInput_Should_return_an_Map_with_Two_Keys_of_one_TimeInput(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 1.0, "OCTO", "123456"))
-	timeInputs.Add(timeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 13), 123, "Audit", 1.0, "OCTO", "123456"))
+	timeInputs.Add(TimeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 12), 123, "Audit", 1.0, "OCTO", "123456"))
+	timeInputs.Add(TimeInputElementBillableAtDay(tools.DateSimple(2023, time.January, 13), 123, "Audit", 1.0, "OCTO", "123456"))
 
 	dictionnary := timeInputs.toMapConverter()
 

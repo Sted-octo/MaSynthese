@@ -1,5 +1,7 @@
 package main
 
+import "Octoptimist/domain"
+
 type FormInfos struct {
 	Id             string
 	StartDate      string
@@ -30,6 +32,6 @@ type SynthesisInfos struct {
 	CssClass      FormInfos
 	Datas         FormInfos
 	AccessToken   string
-	Lines         []SynthesisLine
+	Lines         []domain.SynthesisLine
 	ModeConnexion string
 }

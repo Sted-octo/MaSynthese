@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func (infos *SynthesisInfos) manageTaceFiscalYear(periodFiscal *domain.Period) *ActivityRate {
+func (infos *SynthesisInfos) manageTaceFiscalYear(periodFiscal *domain.Period) *domain.ActivityRate {
 	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
 
 	if infos.Datas.StartDate == tools.DateToString(periodFiscal.Start) &&

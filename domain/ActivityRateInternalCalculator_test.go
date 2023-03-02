@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"fmt"
@@ -25,7 +25,7 @@ func Test_No_TimeInput_ActivityRateInternal_Value_Shoulbe_0(t *testing.T) {
 
 func Test_One_Billable_Day_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -34,8 +34,8 @@ func Test_One_Billable_Day_ActivityRateInternal_value_shouldbe_Correct(t *testin
 
 func Test_Two_Billable_Days_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -44,8 +44,8 @@ func Test_Two_Billable_Days_ActivityRateInternal_value_shouldbe_Correct(t *testi
 
 func Test_One_Billable_And_One_NotBillable_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementNotBillable(123, "Intercontrat", 1))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementNotBillable(123, "Intercontrat", 1))
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -54,8 +54,8 @@ func Test_One_Billable_And_One_NotBillable_ActivityRateInternal_value_shouldbe_C
 
 func Test_One_Billable_And_One_Absence_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -65,7 +65,7 @@ func Test_One_Billable_And_One_Absence_ActivityRateInternal_value_shouldbe_Corre
 func Test_All_Absences_ActivityRateInternal_value_shouldbe_0(t *testing.T) {
 	timeInputs = new(TimeInput)
 	for i := 0; i < TOTAL_WORKDAYS_FY22; i++ {
-		timeInputs.Add(timeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
+		timeInputs.Add(TimeInputElementNotBillable(ACTIVITY_ID_RTT, "absence", 1))
 	}
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
@@ -75,7 +75,7 @@ func Test_All_Absences_ActivityRateInternal_value_shouldbe_0(t *testing.T) {
 
 func Test_One_Internal_Day_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementInternal(123, "Ma mission Interne", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementInternal(123, "Ma mission Interne", 1, "OctoMobile", "123456"))
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -84,8 +84,8 @@ func Test_One_Internal_Day_ActivityRateInternal_value_shouldbe_Correct(t *testin
 
 func Test_One_Billable_One_Internal_Days_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputs.Add(timeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
-	timeInputs.Add(timeInputElementInternal(456, "Ma mission interne", 1, "OctoMobile", "123456789"))
+	timeInputs.Add(TimeInputElementBillable(123, "Ma mission", 1, "OctoMobile", "123456"))
+	timeInputs.Add(TimeInputElementInternal(456, "Ma mission interne", 1, "OctoMobile", "123456789"))
 
 	activityRate, _ := timeInputs.ActivityRateInternalCalculator(PIVOT_DATE, TOTAL_WORKDAYS_FY22)
 
@@ -94,7 +94,7 @@ func Test_One_Billable_One_Internal_Days_ActivityRateInternal_value_shouldbe_Cor
 
 func Test_One_Not_Billable_Days_Project_GeneralPurpose_ActivityRateInternal_value_shouldbe_Correct(t *testing.T) {
 	timeInputs = new(TimeInput)
-	timeInputElement := timeInputElementNotBillable(123, "Ma mission", 1)
+	timeInputElement := TimeInputElementNotBillable(123, "Ma mission", 1)
 	timeInputElement.Activity.Project = new(Project)
 	timeInputElement.Activity.Project.ID = int64(GENERAL_PURPOSE_PROJECT_ID)
 	timeInputs.Add(timeInputElement)

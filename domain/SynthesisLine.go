@@ -1,4 +1,4 @@
-package main
+package domain
 
 type SynthesisLine struct {
 	ActivityID     int64   `json:"activityId"`

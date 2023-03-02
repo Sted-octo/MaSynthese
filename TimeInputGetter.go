@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -12,13 +13,13 @@ import (
 
 var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0"
 
-func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint) (*TimeInput, error) {
+func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint) (*domain.TimeInput, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
 	}
 
-	var totalTimeInput TimeInput
-	var timeInput TimeInput
+	var totalTimeInput domain.TimeInput
+	var timeInput domain.TimeInput
 
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),

@@ -1,12 +1,9 @@
-package main
+package domain
 
 import (
-	"Octoptimist/domain"
 	"strconv"
 	"time"
 )
-
-var ACTIVITY_ID_INTERCONTRAT int64 = 2140318361
 
 func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDays int) (*ActivityRate, error) {
 	activityRate := ActivityRate{}
@@ -17,7 +14,7 @@ func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDay
 
 	for indx := range *timeInput {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
-		if currentTimeInput.Activity.Kind == domain.KIND_BILLABLE {
+		if currentTimeInput.Activity.Kind == KIND_BILLABLE {
 			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 				billableTimeTotal += decimal
 			}

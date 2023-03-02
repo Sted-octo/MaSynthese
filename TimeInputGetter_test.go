@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"net/http"
 	"testing"
 
@@ -22,7 +23,7 @@ func Test_TimeInputGetter_Should_Return_Ok(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	responderFunc := func(*http.Request) (*http.Response, error) {
-		resp := httpmock.NewStringResponse(200, timeInputOneJsonGetter())
+		resp := httpmock.NewStringResponse(200, domain.TimeInputOneJsonGetter())
 		resp.Header.Add("Total", "1")
 		return resp, nil
 	}
@@ -44,7 +45,7 @@ func Test_TimeInputGetter_One_Page_One_TimeInput_Count_Shouldbe_1(t *testing.T) 
 	defer httpmock.DeactivateAndReset()
 
 	responderFunc := func(*http.Request) (*http.Response, error) {
-		resp := httpmock.NewStringResponse(200, timeInputOneJsonGetter())
+		resp := httpmock.NewStringResponse(200, domain.TimeInputOneJsonGetter())
 		resp.Header.Add("Total", "1")
 		return resp, nil
 	}
@@ -70,7 +71,7 @@ func Test_TimeInputGetter_One_Page_Two_TimeInputs_Count_Shouldbe_2(t *testing.T)
 	defer httpmock.DeactivateAndReset()
 
 	responderFunc := func(*http.Request) (*http.Response, error) {
-		resp := httpmock.NewStringResponse(200, timeInputTwoJsonGetter())
+		resp := httpmock.NewStringResponse(200, domain.TimeInputTwoJsonGetter())
 		resp.Header.Add("Total", "2")
 		return resp, nil
 	}
@@ -96,13 +97,13 @@ func Test_TimeInputGetter_Two_Pages_Three_TimeInputs_Count_Shouldbe_3(t *testing
 	defer httpmock.DeactivateAndReset()
 
 	responderFuncPage1 := func(*http.Request) (*http.Response, error) {
-		resp := httpmock.NewStringResponse(200, timeInputOneJsonGetter())
+		resp := httpmock.NewStringResponse(200, domain.TimeInputOneJsonGetter())
 		resp.Header.Add("Total", "3")
 		return resp, nil
 	}
 
 	responderFuncPage2 := func(*http.Request) (*http.Response, error) {
-		resp := httpmock.NewStringResponse(200, timeInputThreeJsonGetter())
+		resp := httpmock.NewStringResponse(200, domain.TimeInputThreeJsonGetter())
 		resp.Header.Add("Total", "3")
 		return resp, nil
 	}
