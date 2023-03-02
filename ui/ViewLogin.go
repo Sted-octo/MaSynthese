@@ -1,4 +1,4 @@
-package main
+package ui
 
 import (
 	"Octoptimist/presenters"
@@ -18,7 +18,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginGET(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("login.html"))
+	t := template.Must(template.ParseFiles("ui/login.html"))
 	infos := presenters.LoginInfos{Debug: os.Getenv("DEBUG")}
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")
@@ -98,7 +98,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	t, _ := template.ParseFiles("login.html")
+	t, _ := template.ParseFiles("ui/login.html")
 
 	t.Execute(w, infos)
 }

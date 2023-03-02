@@ -1,4 +1,4 @@
-package main
+package ui
 
 import (
 	"Octoptimist/infrastructure"
@@ -20,7 +20,7 @@ func Synthesis(w http.ResponseWriter, r *http.Request) {
 }
 
 func synthesisGET(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("synthesis.html"))
+	t := template.Must(template.ParseFiles("ui/synthesis.html"))
 	infos := presenters.SynthesisInfos{}
 	cookie, err := r.Cookie("AccessToken")
 	if err == nil {
@@ -89,7 +89,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	t, _ := template.ParseFiles("synthesis.html")
+	t, _ := template.ParseFiles("ui/synthesis.html")
 
 	t.Execute(w, infos)
 }

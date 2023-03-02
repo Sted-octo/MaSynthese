@@ -2,6 +2,7 @@ package main
 
 import (
 	"Octoptimist/infrastructure"
+	"Octoptimist/ui"
 	"log"
 	"net/http"
 	"os"
@@ -15,8 +16,8 @@ func main() {
 
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	http.HandleFunc("/", Login)
-	http.HandleFunc("/synthesis", Synthesis)
+	http.HandleFunc("/", ui.Login)
+	http.HandleFunc("/synthesis", ui.Synthesis)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9090"
