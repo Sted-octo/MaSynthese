@@ -1,9 +1,8 @@
-package main
+package usecases
 
 import (
 	"Octoptimist/domain"
 	"Octoptimist/tools"
-	"Octoptimist/usecases"
 	"testing"
 	"time"
 
@@ -11,7 +10,7 @@ import (
 )
 
 func Test_ParameterDate_Before_StartDate_Should_Return_false(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
 	period := domain.NewPeriod(start, end, &bankHolidays)
@@ -24,7 +23,7 @@ func Test_ParameterDate_Before_StartDate_Should_Return_false(t *testing.T) {
 }
 
 func Test_ParameterDate_Equal_StartDate_Should_Return_true(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
 	period := domain.NewPeriod(start, end, &bankHolidays)
@@ -37,7 +36,7 @@ func Test_ParameterDate_Equal_StartDate_Should_Return_true(t *testing.T) {
 }
 
 func Test_ParameterDate_Between_StartDate_And_EndDate_Should_Return_true(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
 	period := domain.NewPeriod(start, end, &bankHolidays)
@@ -50,7 +49,7 @@ func Test_ParameterDate_Between_StartDate_And_EndDate_Should_Return_true(t *test
 }
 
 func Test_ParameterDate_Equal_EndDate_Should_Return_false(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
 	period := domain.NewPeriod(start, end, &bankHolidays)
