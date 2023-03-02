@@ -1,4 +1,4 @@
-package main
+package dataproviders
 
 import (
 	"Octoptimist/domain"
@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"time"
 )
+
+var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0"
 
 func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string) (*domain.ActivityRate, error) {
 	if acessToken == "" {

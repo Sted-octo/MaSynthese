@@ -1,4 +1,4 @@
-package main
+package dataproviders
 
 import (
 	"net/http"

@@ -1,4 +1,4 @@
-package main
+package dataproviders
 
 func activityRateJsonGetter() string {
 	return `{

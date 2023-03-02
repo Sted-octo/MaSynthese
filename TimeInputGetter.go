@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/dataproviders"
 	"Octoptimist/domain"
 	"encoding/json"
 	"errors"
@@ -10,8 +11,6 @@ import (
 	"strconv"
 	"time"
 )
-
-var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0"
 
 func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint) (*domain.TimeInput, error) {
 	if acessToken == "" {
@@ -27,7 +26,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 
 	nbLinesLoaded := 0
 
-	urlApi1 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=1", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
+	urlApi1 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=1", dataproviders.OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
 
 	fmt.Println(urlApi1)
 
@@ -55,7 +54,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 		return nil, err
 	}
 
-	urlApi2 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, totalAvaillableLinesCount)
+	urlApi2 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=%d", dataproviders.OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, totalAvaillableLinesCount)
 
 	fmt.Println(urlApi2)
 
