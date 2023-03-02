@@ -1,9 +1,8 @@
-package main
+package usecases
 
 import (
 	"Octoptimist/domain"
 	"Octoptimist/tools"
-	"Octoptimist/usecases"
 	"testing"
 	"time"
 
@@ -11,7 +10,7 @@ import (
 )
 
 func Test_Previous_20220710_Should_Return_20200901_To_20210831(t *testing.T) {
-	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 
 	day := tools.DateSimple(2022, time.July, 10)
 

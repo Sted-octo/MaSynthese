@@ -1,11 +1,12 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"fmt"
 )
 
-func (infos *SynthesisInfos) manageTaceFiscalYear(periodFiscal *Period) *ActivityRate {
+func (infos *SynthesisInfos) manageTaceFiscalYear(periodFiscal *domain.Period) *ActivityRate {
 	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
 
 	if infos.Datas.StartDate == tools.DateToString(periodFiscal.Start) &&

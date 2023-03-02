@@ -1,9 +1,7 @@
-package main
+package domain
 
 import (
-	"Octoptimist/domain"
 	"Octoptimist/tools"
-	"Octoptimist/usecases"
 	"errors"
 	"time"
 )
@@ -11,10 +9,10 @@ import (
 type Period struct {
 	Start              time.Time
 	End                time.Time
-	BankHolidayManager *domain.BankHolidays
+	BankHolidayManager *BankHolidays
 }
 
-func NewPeriod(startDate, endDate time.Time, bankHolydays *domain.BankHolidays) *Period {
+func NewPeriod(startDate, endDate time.Time, bankHolydays *BankHolidays) *Period {
 	return &Period{
 		Start:              startDate,
 		End:                endDate,
@@ -38,7 +36,7 @@ func (p *Period) TotalWorkDaysGetter() (int, error) {
 		if p.BankHolidayManager != nil && p.BankHolidayManager.IsHoliday(currentDate) {
 			continue
 		}
-		if usecases.IsWorkDay(currentDate) {
+		if IsWorkDay(currentDate) {
 			totalWorkDays++
 		}
 	}

@@ -1,13 +1,13 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"Octoptimist/tools"
-	"Octoptimist/usecases"
 	"strconv"
 	"time"
 )
 
-func (timeInput *TimeInput) timeInputEnricher(period *Period, pivot time.Time) *TimeInput {
+func (timeInput *TimeInput) timeInputEnricher(period *domain.Period, pivot time.Time) *TimeInput {
 	if period == nil {
 		return nil
 	}
@@ -27,7 +27,7 @@ func (timeInput *TimeInput) timeInputEnricher(period *Period, pivot time.Time) *
 		if period.BankHolidayManager != nil && period.BankHolidayManager.IsHoliday(currentDate) {
 			continue
 		}
-		if !usecases.IsWorkDay(currentDate) {
+		if !domain.IsWorkDay(currentDate) {
 			continue
 		}
 		currentDayActivityAccumulation := 0.0

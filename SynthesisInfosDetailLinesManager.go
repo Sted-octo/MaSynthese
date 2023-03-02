@@ -1,11 +1,12 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"sort"
 	"time"
 )
 
-func (infos *SynthesisInfos) manageSynthesisDetailLines(periodFiscal *Period) (*TimeInput, error) {
+func (infos *SynthesisInfos) manageSynthesisDetailLines(periodFiscal *domain.Period) (*TimeInput, error) {
 
 	pivotDate := time.Now()
 	timeInput, err := TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 50)

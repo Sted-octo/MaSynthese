@@ -1,6 +1,8 @@
 package main
 
-func (infos *SynthesisInfos) synthesisCommon(periodFiscal *Period) error {
+import "Octoptimist/domain"
+
+func (infos *SynthesisInfos) synthesisCommon(periodFiscal *domain.Period) error {
 	err := infos.manageInfosPeople()
 	if err != nil {
 		return err

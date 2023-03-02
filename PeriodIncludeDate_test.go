@@ -14,7 +14,7 @@ func Test_ParameterDate_Before_StartDate_Should_Return_false(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	dateToTest := tools.DateSimple(2022, time.March, 20)
 
@@ -27,7 +27,7 @@ func Test_ParameterDate_Equal_StartDate_Should_Return_true(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	dateToTest := start
 
@@ -40,7 +40,7 @@ func Test_ParameterDate_Between_StartDate_And_EndDate_Should_Return_true(t *test
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	dateToTest := tools.DateSimple(2022, time.March, 19)
 
@@ -53,7 +53,7 @@ func Test_ParameterDate_Equal_EndDate_Should_Return_false(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.March, 18)
 	end := tools.DateSimple(2022, time.March, 20)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	dateToTest := end
 	isParameterDateInPeriod := period.IncludeDate(dateToTest)

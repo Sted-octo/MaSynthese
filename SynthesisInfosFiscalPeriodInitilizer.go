@@ -1,11 +1,13 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"Octoptimist/infrastructure"
+	"Octoptimist/usecases"
 	"time"
 )
 
-func (infos *SynthesisInfos) initFiscalPeriod() *Period {
+func (infos *SynthesisInfos) initFiscalPeriod() *domain.Period {
 	day := time.Now()
 	if !(infos.Datas.StartDate == "" && infos.Datas.EndDate == "") {
 		if convertedDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {
@@ -17,7 +19,7 @@ func (infos *SynthesisInfos) initFiscalPeriod() *Period {
 		}
 	}
 
-	fiscalPeriod := FiscalPeriodGetter(day, infrastructure.BankHolidaysSingletonGetter())
+	fiscalPeriod := usecases.FiscalPeriodGetter(day, infrastructure.BankHolidaysSingletonGetter())
 
 	return fiscalPeriod
 }

@@ -1,4 +1,4 @@
-package main
+package usecases
 
 import (
 	"Octoptimist/domain"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func FiscalPeriodGetter(day time.Time, bankHolydays *domain.BankHolidays) *Period {
+func FiscalPeriodGetter(day time.Time, bankHolydays *domain.BankHolidays) *domain.Period {
 	if day.IsZero() {
 		return nil
 	}
@@ -16,6 +16,6 @@ func FiscalPeriodGetter(day time.Time, bankHolydays *domain.BankHolidays) *Perio
 		startFiscalYear = tools.DateSimple(day.Year(), time.September, 1)
 		endFiscalYear = tools.DateSimple(day.Year()+1, time.August, 31)
 	}
-	periodFiscal := NewPeriod(startFiscalYear, endFiscalYear, bankHolydays)
+	periodFiscal := domain.NewPeriod(startFiscalYear, endFiscalYear, bankHolydays)
 	return periodFiscal
 }

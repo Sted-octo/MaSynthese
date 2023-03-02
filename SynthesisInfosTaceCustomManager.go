@@ -1,12 +1,13 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"fmt"
 	"time"
 )
 
-func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *Period, activityRateFY float64, timeInput *TimeInput) error {
+func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *domain.Period, activityRateFY float64, timeInput *TimeInput) error {
 
 	if infos.Datas.Human.EntryDate != "" {
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.Human.EntryDate); err == nil {

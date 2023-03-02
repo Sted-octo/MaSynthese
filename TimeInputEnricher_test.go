@@ -26,7 +26,7 @@ func Test_Period_before_pivotDate_Should_not_enrich_timeInput_list(t *testing.T)
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 8)
 	end := tools.DateSimple(2023, time.January, 10)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 31, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -42,7 +42,7 @@ func Test_Period_After_pivotDate_Should_enrich_when_cumulation_par_day_lower_tha
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 13)
 	end := tools.DateSimple(2023, time.January, 13)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 10, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -58,7 +58,7 @@ func Test_NewTimeInput_ActivityId_Should_Be_Intercontrat_Activity_Id(t *testing.
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 13)
 	end := tools.DateSimple(2023, time.January, 13)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 10, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -74,7 +74,7 @@ func Test_NewTimeInput_ActivityTitle_Should_Be_Intercontrat(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 13)
 	end := tools.DateSimple(2023, time.January, 13)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 10, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -90,7 +90,7 @@ func Test_NewTimeInput_TimeInDays_Should_Be_ZeroPointFive_ForExistingTimeInputTi
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 13)
 	end := tools.DateSimple(2023, time.January, 13)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 10, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -105,7 +105,7 @@ func Test_Period_After_pivotDate_Should_Create_newOne_not_Exist_for_a_specific_d
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 13)
 	end := tools.DateSimple(2023, time.January, 13)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 10, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -122,7 +122,7 @@ func Test_Period_include_pivotDate_Should_only_enrich_timeInput_After_DatePivot(
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 11)
 	end := tools.DateSimple(2023, time.January, 13)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 12, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -138,7 +138,7 @@ func Test_Period_include_pivotDate_Should_only_enrich_timeInput_in_WorkingDay(t 
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.January, 13)
 	end := tools.DateSimple(2023, time.January, 15)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 13, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
@@ -155,7 +155,7 @@ func Test_Period_include_pivotDate_Should_not_enrich_timeInput_in_HoliDay(t *tes
 	bankHolidays := domain.BankHolidays{Loader: usecases.MockBankHolidaysLoader}
 	start := tools.DateSimple(2023, time.May, 16)
 	end := tools.DateSimple(2023, time.May, 19)
-	period := NewPeriod(start, end, &bankHolidays)
+	period := domain.NewPeriod(start, end, &bankHolidays)
 	pivotDate := time.Date(2023, time.January, 16, 10, 0, 0, 0, tools.TimeZoneGetter("Europe/Paris"))
 
 	timeInput := timeInputs.timeInputEnricher(period, pivotDate)
