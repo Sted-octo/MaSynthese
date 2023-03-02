@@ -1,4 +1,4 @@
-package main
+package presenters
 
 import (
 	"Octoptimist/dataproviders"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func (infos *LoginInfos) manageToken() error {
+func (infos *LoginInfos) ManageToken() error {
 	if infos.AccessToken == "" {
 		token, err := dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), os.Getenv("REDIRECT_URL"), infos.Datas.AuthCode)
 		if err != nil {

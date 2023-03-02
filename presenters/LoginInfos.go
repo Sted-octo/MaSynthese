@@ -1,4 +1,4 @@
-package main
+package presenters
 
 type FormLoginInfo struct {
 	AuthCode string

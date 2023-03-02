@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/presenters"
 	"fmt"
 	"net/http"
 	"os"
@@ -22,10 +23,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func loginGET(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("login.html"))
-	infos := LoginInfos{Debug: os.Getenv("DEBUG")}
+	infos := presenters.LoginInfos{Debug: os.Getenv("DEBUG")}
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")
-		err := infos.manageToken()
+		err := infos.ManageToken()
 		if err != nil {
 			http.Redirect(w, r, "/loginform?err=tk", http.StatusTemporaryRedirect)
 			return
@@ -63,7 +64,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 
 		if len(r.Form["btnAuth"]) > 0 {
 
-			err := infos.manageToken()
+			err := infos.ManageToken()
 			if err != nil {
 				http.Redirect(w, r, "/loginform?err=tk", http.StatusTemporaryRedirect)
 				return
@@ -81,7 +82,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if len(r.Form["btnId"]) > 0 {
-			err := infos.manageToken()
+			err := infos.ManageToken()
 			if err != nil {
 				http.Redirect(w, r, "/loginform?err=tk", http.StatusTemporaryRedirect)
 				return
@@ -106,10 +107,10 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, infos)
 }
 
-func validateLoginParameters(r *http.Request) (LoginInfos, bool) {
+func validateLoginParameters(r *http.Request) (presenters.LoginInfos, bool) {
 	r.ParseForm()
 	state := true
-	infos := LoginInfos{Debug: os.Getenv("DEBUG")}
+	infos := presenters.LoginInfos{Debug: os.Getenv("DEBUG")}
 
 	if r.URL.Query().Get("code") != "" {
 		infos.Datas.AuthCode = r.URL.Query().Get("code")

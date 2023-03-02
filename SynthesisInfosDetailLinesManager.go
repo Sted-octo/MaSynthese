@@ -20,7 +20,7 @@ func (infos *SynthesisInfos) manageSynthesisDetailLines(periodFiscal *domain.Per
 
 	sort.Sort(domain.ByAssending(synthesisLines))
 
-	sl := SynthesisLines(synthesisLines)
+	sl := domain.SynthesisLines(synthesisLines)
 
 	synthesisLines = sl.Accumulate()
 
