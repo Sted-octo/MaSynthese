@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,7 +17,7 @@ func Test_Accumulate_Empty_SynthsisLines_Should_Return_Empty_List(t *testing.T) 
 
 func Test_Accumulate_OneLine_SynthsisLines_len_List_ShouldBe_3(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission", TimeSum: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission", TimeSum: 1})
 
 	synthesisLines = synthesisLines.Accumulate()
 
@@ -25,8 +26,8 @@ func Test_Accumulate_OneLine_SynthsisLines_len_List_ShouldBe_3(t *testing.T) {
 
 func Test_Accumulate_TwoLines_SameKind_SynthsisLines_len_List_ShouldBe_4(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 
@@ -35,8 +36,8 @@ func Test_Accumulate_TwoLines_SameKind_SynthsisLines_len_List_ShouldBe_4(t *test
 
 func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_SubTotalLines_ShouldBe_1(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 	subTotalCount := 0
@@ -51,8 +52,8 @@ func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_SubTotalLines_ShouldB
 
 func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_TotalLines_ShouldBe_1(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 	totalCount := 0
@@ -67,8 +68,8 @@ func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_TotalLines_ShouldBe_1
 
 func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_NormalLines_ShouldBe_2(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 2 ", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 	subTotalCount := 0
@@ -83,8 +84,8 @@ func Test_Accumulate_TwoLines_SameKind_SynthsisLines_Count_NormalLines_ShouldBe_
 
 func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_len_List_ShouldBe_5(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1", TimeSum: 1, ActivityID: 1})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_PERMANENT, Title: "Intercontrat", TimeSum: 1, ActivityID: 2})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 1", TimeSum: 1, ActivityID: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_PERMANENT, Title: "Intercontrat", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 
@@ -93,8 +94,8 @@ func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_len_List_ShouldBe_5(t 
 
 func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_Count_SubTotalLines_ShouldBe_2(t *testing.T) {
 	synthesisLines := SynthesisLines{}
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1", TimeSum: 1, ActivityID: 1})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_PERMANENT, Title: "Intercontrat", TimeSum: 1, ActivityID: 2})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "Mission 1", TimeSum: 1, ActivityID: 1})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_PERMANENT, Title: "Intercontrat", TimeSum: 1, ActivityID: 2})
 
 	synthesisLines = synthesisLines.Accumulate()
 	subTotalCount := 0

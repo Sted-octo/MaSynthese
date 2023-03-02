@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"testing"
 )
 
@@ -60,8 +61,8 @@ func Test_One_Reference_aaa_One_Reference_bbb_Less_Souldby_true(t *testing.T) {
 }
 
 func Test_One_Billable_One_OtherKing_Less_Souldby_true(t *testing.T) {
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_PERMANENT})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_PERMANENT})
 
 	isLess := synthesisLines.Less(0, 1)
 
@@ -74,8 +75,8 @@ func Test_One_Billable_One_OtherKing_Less_Souldby_true(t *testing.T) {
 }
 
 func Test_One_OtherKing_One_Billable_Less_Souldby_False(t *testing.T) {
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_PERMANENT})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_PERMANENT})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE})
 
 	isLess := synthesisLines.Less(0, 1)
 
@@ -88,8 +89,8 @@ func Test_One_OtherKing_One_Billable_Less_Souldby_False(t *testing.T) {
 }
 
 func Test_Same_Kind_Different_Title_Less_Souldby_False(t *testing.T) {
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "bbb"})
-	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "aaa"})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "bbb"})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: domain.KIND_BILLABLE, Title: "aaa"})
 
 	isLess := synthesisLines.Less(0, 1)
 

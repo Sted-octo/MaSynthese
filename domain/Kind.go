@@ -1,4 +1,4 @@
-package main
+package domain
 
 var KIND_BILLABLE string = "billable"
 var KIND_PERMANENT string = "permanent"

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"strconv"
 	"time"
 )
@@ -16,8 +17,8 @@ func (timeInput *TimeInput) ActivityRateInternalCalculator(pivot time.Time, tota
 
 	for indx := range *timeInput {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
-		if currentTimeInput.Activity.Kind == KIND_BILLABLE ||
-			currentTimeInput.Activity.Kind == KIND_INTERNAL ||
+		if currentTimeInput.Activity.Kind == domain.KIND_BILLABLE ||
+			currentTimeInput.Activity.Kind == domain.KIND_INTERNAL ||
 			(currentTimeInput.Activity.Project != nil && currentTimeInput.Activity.Project.ID == int64(GENERAL_PURPOSE_PROJECT_ID)) {
 			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
 				billableTimeTotal += decimal

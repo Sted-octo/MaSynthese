@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Octoptimist/domain"
 	"Octoptimist/tools"
 	"strconv"
 	"time"
@@ -50,7 +51,7 @@ func (timeInput *TimeInput) timeInputAggregator(pivot time.Time) []SynthesisLine
 			Kind:       currentTimeInput.Activity.Kind,
 		}
 		if currentTimeInput.Activity.IsDayBreak() {
-			newLine.Kind = KIND_ABSENCE
+			newLine.Kind = domain.KIND_ABSENCE
 		}
 
 		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {

@@ -1,4 +1,4 @@
-package main
+package domain
 
 func KindTranslator(kind string) string {
 	switch kind {
