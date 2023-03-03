@@ -73,7 +73,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {
-			if people, ok := infrastructure.GetPeoplesGlobalMapInstance().PeopleMap[infos.Datas.NGram]; ok {
+			if people, ok := infrastructure.PeoplesGlobalMapSingletonGetter().PeopleMap[infos.Datas.NGram]; ok {
 				infos.ModeConnexion = presenters.MODE_CONNEXION_ID
 				infos.Datas.Id = strconv.FormatInt(people.ID, 10)
 				infos.CssClass.NGram = ""

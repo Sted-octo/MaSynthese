@@ -12,7 +12,7 @@ func createPeoplesGlobalMap(accessToken string) {
 	peoplesGlobalMap = &domain.PeoplesGlobalMap{Loader: dataproviders.PeoplesGetter}
 }
 
-func GetPeoplesGlobalMapInstance() *domain.PeoplesGlobalMap {
+func PeoplesGlobalMapSingletonGetter() *domain.PeoplesGlobalMap {
 	var token *domain.Token = nil
 	if peoplesGlobalMap == nil {
 		token, _ = dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), "", "")

@@ -12,7 +12,7 @@ func main() {
 	var err error
 	go infrastructure.BankHolidaysSingletonGetter().Init()
 	go infrastructure.TargetTacesSingletonGetter().Init()
-	go infrastructure.GetPeoplesGlobalMapInstance()
+	go infrastructure.PeoplesGlobalMapSingletonGetter()
 
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
