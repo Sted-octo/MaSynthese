@@ -47,3 +47,9 @@ Les activités d'interêt général sont considérés comme du facturable,et don
 | -----------------------------------------                |
 ------------------------------------------------------------
 ```
+
+## Env Variables
+PORT : port d'écoute de l'application, valeur par défaut 9090
+CLIENT_ID : ID de l'application du point de vue de l'API Octopod
+CLIENT_SECRET : Mot de passe de l'application du point de vue de l'API Octopod
+REDIRECT_URL : URL qui sera transmise à l'API Octopod durant la phase d'authentification, afin qu'Octopod puisse effectuer sa redirection une fois l'autentification correcte. Dois être accessible via internet.
