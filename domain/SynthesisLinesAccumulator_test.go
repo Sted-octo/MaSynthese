@@ -106,3 +106,13 @@ func Test_Accumulate_TwoLines_DifferentKind_SynthsisLines_Count_SubTotalLines_Sh
 
 	assert.Equal(t, 2, subTotalCount, "No subTotal line expected with 2 lines of different kinds")
 }
+
+func Test_Accumulate_TwoLines_SameKind_GlobalPurpose_SynthesisLines_Should_Keep_IsGlobalPurpose_true(t *testing.T) {
+	synthesisLines := SynthesisLines{}
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1, IsGlobalPurpose: true})
+	synthesisLines = append(synthesisLines, SynthesisLine{Kind: KIND_BILLABLE, Title: "Mission 1 ", TimeSum: 1, ActivityID: 1, IsGlobalPurpose: true})
+
+	synthesisLines = synthesisLines.Accumulate()
+
+	assert.True(t, synthesisLines[0].IsGlobalPurpose, "Accumulate Synthesis Lines should keep boolean IsGlobalPurpose")
+}
