@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"strconv"
 	"time"
 )
 
@@ -15,22 +14,15 @@ func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDay
 	for indx := range *timeInput {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
 		if currentTimeInput.Activity.Kind == KIND_BILLABLE {
-			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
-				billableTimeTotal += decimal
-			}
+			billableTimeTotal += currentTimeInput.TimeInDays
 		}
 		if currentTimeInput.Activity.ID == ACTIVITY_ID_INTERCONTRAT {
-			day, _ := time.Parse("2006-01-02", currentTimeInput.Day)
-			if day.After(pivot) {
-				if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
-					billableTimeTotal += decimal
-				}
+			if currentTimeInput.Day.After(pivot) {
+				billableTimeTotal += currentTimeInput.TimeInDays
 			}
 		}
 		if currentTimeInput.Activity.IsDayBreak() {
-			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
-				workDaywWithoutDayBreak -= decimal
-			}
+			workDaywWithoutDayBreak -= currentTimeInput.TimeInDays
 		}
 	}
 	if workDaywWithoutDayBreak > 0 {

@@ -17,7 +17,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 	}
 
 	var totalTimeInput domain.TimeInput
-	var timeInput domain.TimeInput
+	var timeInputDto TimeInputDto
 
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
@@ -82,15 +82,15 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 		return nil, err
 	}
 
-	err = json.Unmarshal(body, &timeInput)
+	err = json.Unmarshal(body, &timeInputDto)
 	if err != nil {
 		return nil, err
 	}
-	nbTimes := len(timeInput)
+	nbTimes := len(timeInputDto)
 
 	nbLinesLoaded += nbTimes
 	fmt.Printf("Count of time Inputs : %d\n", nbTimes)
-	totalTimeInput = timeInput
+	totalTimeInput = *timeInputDto.ToTimeInput()
 
 	return &totalTimeInput, nil
 }

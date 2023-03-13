@@ -96,8 +96,8 @@ func Test_NewTimeInput_TimeInDays_Should_Be_ZeroPointFive_ForExistingTimeInputTi
 
 	timeInput := timeInputs.TimeInputEnricher(period, pivotDate)
 
-	if (*timeInput)[1].TimeInDays != "0.5" {
-		t.Errorf("New time input should have TimeInDays = 0.5 when existing time input have timeInDays = 0.5, but has %s", (*timeInput)[1].TimeInDays)
+	if (*timeInput)[1].TimeInDays != 0.5 {
+		t.Errorf("New time input should have TimeInDays = 0.5 when existing time input have timeInDays = 0.5, but has %f", (*timeInput)[1].TimeInDays)
 	}
 }
 

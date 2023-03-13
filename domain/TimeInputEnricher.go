@@ -2,7 +2,6 @@ package domain
 
 import (
 	"Octoptimist/tools"
-	"strconv"
 	"time"
 )
 
@@ -33,9 +32,7 @@ func (timeInput *TimeInput) TimeInputEnricher(period *Period, pivot time.Time) *
 		currentDateString := tools.DateToString(currentDate)
 
 		for _, timeInputElement := range (*dictionnary)[currentDateString] {
-			if decimal, err := strconv.ParseFloat(timeInputElement.TimeInDays, 64); err == nil {
-				currentDayActivityAccumulation += decimal
-			}
+			currentDayActivityAccumulation += timeInputElement.TimeInDays
 		}
 		if currentDayActivityAccumulation != 1.0 {
 			timeInDaysToAdd := 1.0 - currentDayActivityAccumulation

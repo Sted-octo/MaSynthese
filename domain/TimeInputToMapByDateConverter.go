@@ -1,10 +1,12 @@
 package domain
 
+import "Octoptimist/tools"
+
 func (timeInput *TimeInput) toMapConverter() *map[string]TimeInput {
 	dictionnary := make(map[string]TimeInput)
 
 	for _, currentTimeInput := range *timeInput {
-		dictionnary[currentTimeInput.Day] = append(dictionnary[currentTimeInput.Day], currentTimeInput)
+		dictionnary[tools.DateToString(currentTimeInput.Day)] = append(dictionnary[tools.DateToString(currentTimeInput.Day)], currentTimeInput)
 	}
 	return &dictionnary
 }

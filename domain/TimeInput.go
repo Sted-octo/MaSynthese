@@ -1,43 +1,31 @@
 package domain
 
+import "time"
+
 type TimeInput []TimeInputElement
 
 type TimeInputElement struct {
-	Day        string   `json:"day"`
-	TimeInDays string   `json:"time_in_days"`
-	Activity   Activity `json:"activity"`
+	Day        time.Time `json:"day"`
+	TimeInDays float64   `json:"time_in_days"`
+	Activity   Activity  `json:"activity"`
 }
 
 type Activity struct {
-	ID                 int64    `json:"id"`
-	Title              string   `json:"title"`
-	Role               *Role    `json:"role"`
-	NbDays             *string  `json:"nb_days"`
-	AverageDailyRate   *string  `json:"average_daily_rate"`
-	Kind               string   `json:"kind"`
-	StaffingNeededFrom *string  `json:"staffing_needed_from"`
-	Expertise          *string  `json:"expertise"`
-	Project            *Project `json:"project"`
+	ID            int64    `json:"id"`
+	Title         string   `json:"title"`
+	Kind          string   `json:"kind"`
+	Project       *Project `json:"project"`
+	GlobalPurpose bool     `json:"globalPurpose"`
 }
 
 type Project struct {
 	ID        int64     `json:"id"`
-	URL       string    `json:"url"`
 	Name      string    `json:"name"`
-	Kind      string    `json:"kind"`
 	Reference string    `json:"reference"`
-	Status    *string   `json:"status"`
 	Customer  *Customer `json:"customer"`
 }
 
 type Customer struct {
-	ID                  int64  `json:"id"`
-	Name                string `json:"name"`
-	AccountManagerID    int64  `json:"account_manager_id"`
-	AccountManagerEmail string `json:"account_manager_email"`
-}
-
-type Role struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }

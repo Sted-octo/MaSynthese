@@ -2,7 +2,6 @@ package domain
 
 import (
 	"Octoptimist/tools"
-	"strconv"
 	"time"
 )
 
@@ -16,16 +15,13 @@ func (timeInput *TimeInput) TimeInputAggregator(pivot time.Time) []SynthesisLine
 	activityMap := make(map[int64]*SynthesisLine)
 
 	for _, currentTimeInput := range *timeInput {
-		day, _ := time.Parse("2006-01-02", currentTimeInput.Day)
 
 		if existingLine, exist := activityMap[currentTimeInput.Activity.ID]; exist {
-			if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
-				existingLine.TimeSum += decimal
-				if day.Before(pivot) || tools.DatesEquals(day, pivot) {
-					existingLine.TimeSumDone += decimal
-				} else {
-					existingLine.TimeSumTodo += decimal
-				}
+			existingLine.TimeSum += currentTimeInput.TimeInDays
+			if currentTimeInput.Day.Before(pivot) || tools.DatesEquals(currentTimeInput.Day, pivot) {
+				existingLine.TimeSumDone += currentTimeInput.TimeInDays
+			} else {
+				existingLine.TimeSumTodo += currentTimeInput.TimeInDays
 			}
 			continue
 		}
@@ -39,13 +35,11 @@ func (timeInput *TimeInput) TimeInputAggregator(pivot time.Time) []SynthesisLine
 			newLine.Kind = KIND_ABSENCE
 		}
 
-		if decimal, err := strconv.ParseFloat(currentTimeInput.TimeInDays, 64); err == nil {
-			newLine.TimeSum = decimal
-			if day.Before(pivot) || tools.DatesEquals(day, pivot) {
-				newLine.TimeSumDone = decimal
-			} else {
-				newLine.TimeSumTodo = decimal
-			}
+		newLine.TimeSum = currentTimeInput.TimeInDays
+		if currentTimeInput.Day.Before(pivot) || tools.DatesEquals(currentTimeInput.Day, pivot) {
+			newLine.TimeSumDone = currentTimeInput.TimeInDays
+		} else {
+			newLine.TimeSumTodo = currentTimeInput.TimeInDays
 		}
 		if currentTimeInput.Activity.Project != nil {
 			newLine.Reference = currentTimeInput.Activity.Project.Reference
