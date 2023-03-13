@@ -6,6 +6,6 @@ type IGlobalPurposeProject interface {
 }
 
 type GlobalPurposeProject struct {
-	ProjectID string `json:"ProjectID"`
+	Reference string `json:"Reference"`
 	Title     string `json:"Title"`
 }

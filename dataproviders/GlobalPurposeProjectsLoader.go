@@ -34,9 +34,9 @@ func GlobalPurposeProjectsLoader() (map[string]domain.GlobalPurposeProject, erro
 			continue
 		}
 
-		newGlobalPurposeProject := domain.GlobalPurposeProject{ProjectID: record[0], Title: record[1]}
+		newGlobalPurposeProject := domain.GlobalPurposeProject{Reference: record[0], Title: record[1]}
 
-		globalPurposeProjectMap[newGlobalPurposeProject.ProjectID] = newGlobalPurposeProject
+		globalPurposeProjectMap[newGlobalPurposeProject.Reference] = newGlobalPurposeProject
 	}
 	if err != nil {
 		log.Fatalln("error loading csv file")

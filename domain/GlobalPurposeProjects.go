@@ -12,10 +12,10 @@ type GlobalPurposeProjects struct {
 	GlobalPurposeProjectsMap map[string]GlobalPurposeProject
 }
 
-func (d *GlobalPurposeProjects) IsGlobalPurpose(projectID string) bool {
+func (d *GlobalPurposeProjects) IsGlobalPurpose(reference string) bool {
 	d.Init()
 
-	_, projectIdFound := d.GlobalPurposeProjectsMap[projectID]
+	_, projectIdFound := d.GlobalPurposeProjectsMap[reference]
 
 	return projectIdFound
 }
