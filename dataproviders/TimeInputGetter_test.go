@@ -2,6 +2,7 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/usecases"
 	"net/http"
 	"testing"
 
@@ -9,9 +10,10 @@ import (
 )
 
 func Test_TimeInputGetter_No_AccessToken_Should_Return_Nil(t *testing.T) {
+	globalPurposeProjectsManager := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 	accessToken := ""
 
-	_, err := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2)
+	_, err := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2, &globalPurposeProjectsManager)
 
 	if err == nil {
 		t.Errorf("TimeInputGetter error should not be nil")
@@ -19,6 +21,7 @@ func Test_TimeInputGetter_No_AccessToken_Should_Return_Nil(t *testing.T) {
 }
 
 func Test_TimeInputGetter_Should_Return_Ok(t *testing.T) {
+	globalPurposeProjectsManager := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -33,7 +36,7 @@ func Test_TimeInputGetter_Should_Return_Ok(t *testing.T) {
 
 	accessToken := "123"
 
-	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2)
+	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2, &globalPurposeProjectsManager)
 
 	if timeInput == nil {
 		t.Errorf("TimeInputGetter error should return a new timeInput object")
@@ -41,6 +44,7 @@ func Test_TimeInputGetter_Should_Return_Ok(t *testing.T) {
 }
 
 func Test_TimeInputGetter_One_Page_One_TimeInput_Count_Shouldbe_1(t *testing.T) {
+	globalPurposeProjectsManager := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -57,7 +61,7 @@ func Test_TimeInputGetter_One_Page_One_TimeInput_Count_Shouldbe_1(t *testing.T) 
 
 	accessToken := "123"
 
-	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2)
+	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2, &globalPurposeProjectsManager)
 
 	expected := 1
 
@@ -67,6 +71,7 @@ func Test_TimeInputGetter_One_Page_One_TimeInput_Count_Shouldbe_1(t *testing.T) 
 }
 
 func Test_TimeInputGetter_One_Page_Two_TimeInputs_Count_Shouldbe_2(t *testing.T) {
+	globalPurposeProjectsManager := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -83,7 +88,7 @@ func Test_TimeInputGetter_One_Page_Two_TimeInputs_Count_Shouldbe_2(t *testing.T)
 
 	accessToken := "123"
 
-	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2)
+	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2, &globalPurposeProjectsManager)
 
 	expected := 2
 
@@ -93,6 +98,7 @@ func Test_TimeInputGetter_One_Page_Two_TimeInputs_Count_Shouldbe_2(t *testing.T)
 }
 
 func Test_TimeInputGetter_Two_Pages_Three_TimeInputs_Count_Shouldbe_3(t *testing.T) {
+	globalPurposeProjectsManager := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -115,7 +121,7 @@ func Test_TimeInputGetter_Two_Pages_Three_TimeInputs_Count_Shouldbe_3(t *testing
 
 	accessToken := "123"
 
-	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2)
+	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2, &globalPurposeProjectsManager)
 
 	expected := 3
 

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (timeInputDto *TimeInputDto) ToTimeInput() *domain.TimeInput {
+func (timeInputDto *TimeInputDto) ToTimeInput(globalPurposeProjectsManager *domain.GlobalPurposeProjects) *domain.TimeInput {
 	if len(*timeInputDto) == 0 {
 		return nil
 	}
@@ -24,11 +24,13 @@ func (timeInputDto *TimeInputDto) ToTimeInput() *domain.TimeInput {
 		timeInputElement.Activity.ID = ti.Activity.ID
 		timeInputElement.Activity.Title = ti.Activity.Title
 		timeInputElement.Activity.Kind = ti.Activity.Kind
+		timeInputElement.Activity.GlobalPurpose = false
 		if ti.Activity.Project != nil {
 			timeInputElement.Activity.Project = new(domain.Project)
 			timeInputElement.Activity.Project.ID = ti.Activity.Project.ID
 			timeInputElement.Activity.Project.Name = ti.Activity.Project.Name
 			timeInputElement.Activity.Project.Reference = ti.Activity.Project.Reference
+			timeInputElement.Activity.GlobalPurpose = globalPurposeProjectsManager.IsGlobalPurpose(ti.Activity.Project.Reference)
 			if ti.Activity.Project.Customer != nil {
 				timeInputElement.Activity.Project.Customer = new(domain.Customer)
 				timeInputElement.Activity.Project.Customer.ID = ti.Activity.Project.Customer.ID

@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint) (*domain.TimeInput, error) {
+func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint, globalPurposeProjectsManager *domain.GlobalPurposeProjects) (*domain.TimeInput, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
 	}
@@ -90,7 +90,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 
 	nbLinesLoaded += nbTimes
 	fmt.Printf("Count of time Inputs : %d\n", nbTimes)
-	totalTimeInput = *timeInputDto.ToTimeInput()
+	totalTimeInput = *timeInputDto.ToTimeInput(globalPurposeProjectsManager)
 
 	return &totalTimeInput, nil
 }

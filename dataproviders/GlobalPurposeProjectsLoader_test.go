@@ -9,7 +9,7 @@ import (
 )
 
 func Test_IsGlobalPurpose_For_Missing_Reference_Should_return_false(t *testing.T) {
-	globalPurposeProjects := domain.GlobalPurposeProjects{Loader: usecases.MockGloablPurposeProjectLoader}
+	globalPurposeProjects := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 
 	isGlobalPurpose := globalPurposeProjects.IsGlobalPurpose("0000")
 
@@ -17,7 +17,7 @@ func Test_IsGlobalPurpose_For_Missing_Reference_Should_return_false(t *testing.T
 }
 
 func Test_IsGlobalPurpose_For_Existing_Reference_Should_return_true(t *testing.T) {
-	globalPurposeProjects := domain.GlobalPurposeProjects{Loader: usecases.MockGloablPurposeProjectLoader}
+	globalPurposeProjects := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
 
 	isGlobalPurpose := globalPurposeProjects.IsGlobalPurpose("1234-0001")
 
