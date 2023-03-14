@@ -69,8 +69,9 @@
                     <label for="TaceTarget" class="smallText">Octopod</label>
                 </div>
                 <div class="optimist {{if not .CssClass.TaceOptimist}} hidden {{end}}">
-                    <label for="TaceOptimist" class="smallText">Tace optimiste</label><br/>
+                    <label for="TaceOptimist" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
                     <label class="{{.CssClass.TaceOptimist}}" name="TaceOptimist">{{.Datas.TaceOptimist}} %</label><br>
+                    <label for="TaceTarget" class="smallText">Optimiste</label>
                 </div>
                 <div class="infos {{if not .CssClass.TaceInternal}} hidden {{end}}">
                     <label for="TaceInternal" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>

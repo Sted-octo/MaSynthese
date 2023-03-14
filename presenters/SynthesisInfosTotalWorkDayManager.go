@@ -2,18 +2,16 @@ package presenters
 
 import (
 	"Octoptimist/domain"
-	"Octoptimist/infrastructure"
 	"strconv"
-	"time"
 )
 
-func (infos *SynthesisInfos) manageTotalWorkDay() {
-	startPeriod, _ := time.Parse("2006-01-02", infos.Datas.StartDate)
-	endPeriod, _ := time.Parse("2006-01-02", infos.Datas.EndDate)
-	period := domain.NewPeriod(startPeriod, endPeriod, infrastructure.BankHolidaysSingletonGetter())
+func (infos *SynthesisInfos) manageTotalWorkDay(period *domain.Period) (int, error) {
+
 	totalWorkDays, err := period.TotalWorkDaysGetter()
-	if err == nil {
-		infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)
-		infos.CssClass.TotalWorkDays = "bigText"
+	if err != nil {
+		return 0, err
 	}
+	infos.Datas.TotalWorkDays = strconv.Itoa(totalWorkDays)
+	infos.CssClass.TotalWorkDays = "bigText"
+	return totalWorkDays, nil
 }

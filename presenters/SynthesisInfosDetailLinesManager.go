@@ -4,18 +4,19 @@ import (
 	"Octoptimist/dataproviders"
 	"Octoptimist/domain"
 	"Octoptimist/infrastructure"
+	"Octoptimist/tools"
 	"sort"
 	"time"
 )
 
-func (infos *SynthesisInfos) manageSynthesisDetailLines(periodFiscal *domain.Period) (*domain.TimeInput, error) {
+func (infos *SynthesisInfos) manageSynthesisDetailLines(period *domain.Period) (*domain.TimeInput, error) {
 
 	pivotDate := time.Now()
-	timeInput, err := dataproviders.TimeInputGetter(infos.AccessToken, infos.Datas.Id, infos.Datas.StartDate, infos.Datas.EndDate, 50, infrastructure.GlobalPurposeProjectsSingletonGetter())
+	timeInput, err := dataproviders.TimeInputGetter(infos.AccessToken, infos.Datas.Id, tools.DateToString(period.Start), tools.DateToString(period.End), 50, infrastructure.GlobalPurposeProjectsSingletonGetter())
 	if err != nil {
 		return nil, err
 	}
-	timeInput = timeInput.TimeInputEnricher(periodFiscal, pivotDate)
+	timeInput = timeInput.TimeInputEnricher(period, pivotDate)
 
 	synthesisLines := timeInput.TimeInputAggregator(pivotDate)
 
