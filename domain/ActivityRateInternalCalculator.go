@@ -16,8 +16,7 @@ func (timeInput *TimeInput) ActivityRateInternalCalculator(pivot time.Time, tota
 	for indx := range *timeInput {
 		var currentTimeInput *TimeInputElement = &(*timeInput)[indx]
 		if currentTimeInput.Activity.Kind == KIND_BILLABLE ||
-			currentTimeInput.Activity.Kind == KIND_INTERNAL ||
-			(currentTimeInput.Activity.Project != nil && currentTimeInput.Activity.Project.ID == int64(GENERAL_PURPOSE_PROJECT_ID)) {
+			currentTimeInput.Activity.GlobalPurpose {
 			billableTimeTotal += currentTimeInput.TimeInDays
 		}
 

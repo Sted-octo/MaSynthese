@@ -89,7 +89,10 @@
                     {{range .Lines}}
                     <div class="row {{.Kind}}  {{if .IsLineSubTotal}}isSubTotal{{end}} {{if .IsLineTotal}}isTotal{{end}}">
                         <div class="medium">{{.Title}}</div>
-                        <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}{{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}</div>
+                        <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}
+                            {{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}
+                            {{if .IsGlobalPurpose}}&nbsp;(I.G.){{end}}
+                        </div>
                         <div class="little">{{.TimeSumDone}}</div>
                         <div class="little secondaryColor">{{.TimeSumTodo}}</div>
                         <div class="little">{{.TimeSum}}</div>
