@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-func (timeInput *TimeInput) ActivityRateCalculator(pivot time.Time, totalWorkDays int) (*ActivityRate, error) {
+func (timeInput *TimeInput) ActivityRateOptimistCalculator(pivot time.Time, totalWorkDays int) (*ActivityRate, error) {
 	activityRate := ActivityRate{}
 
 	billableTimeTotal := 0.0
