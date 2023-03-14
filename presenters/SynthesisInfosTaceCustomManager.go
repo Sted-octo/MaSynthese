@@ -34,6 +34,14 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *domain.Period, activ
 		return err
 	}
 
+	activityRatePeriod, err := timeInput.ActivityRateCalculator(pivotDate, periodFiscalTotalWorkDays)
+	if err == nil {
+		infos.Datas.TacePeriod = fmt.Sprintf("%.2f", activityRatePeriod.Value*100.0)
+		if infos.Datas.TacePeriod != infos.Datas.TaceFiscalYear {
+			infos.CssClass.TacePeriod = "bigText"
+		}
+	}
+
 	activityOptimistRateFiscalYear, err := timeInput.ActivityRateOptimistCalculator(pivotDate, periodFiscalTotalWorkDays)
 	if err == nil {
 		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
@@ -41,7 +49,7 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *domain.Period, activ
 	}
 
 	activityInternalRateFiscalYear, err := timeInput.ActivityRateInternalCalculator(pivotDate, periodFiscalTotalWorkDays)
-	if err == nil && activityInternalRateFiscalYear.Value != activityRateFY {
+	if err == nil && activityInternalRateFiscalYear.Value != activityRatePeriod.Value {
 		infos.Datas.TaceInternal = fmt.Sprintf("%.2f", activityInternalRateFiscalYear.Value*100.0)
 		infos.CssClass.TaceInternal = "bigText"
 	}

@@ -15,8 +15,6 @@ func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period) error 
 
 	infos.manageTotalWorkDay()
 
-	infos.manageTacePeriod()
-
 	activityRateFY := infos.manageTaceFiscalYear(periodFiscal)
 
 	err = infos.manageTaceCustom(periodFiscal, activityRateFY.Value, timeInput)
