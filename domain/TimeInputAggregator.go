@@ -23,13 +23,15 @@ func (timeInput *TimeInput) TimeInputAggregator(pivot time.Time) []SynthesisLine
 			} else {
 				existingLine.TimeSumTodo += currentTimeInput.TimeInDays
 			}
+			existingLine.IsGlobalPurpose = existingLine.IsGlobalPurpose || currentTimeInput.Activity.GlobalPurpose
 			continue
 		}
 
 		newLine := &SynthesisLine{
-			ActivityID: currentTimeInput.Activity.ID,
-			Title:      currentTimeInput.Activity.Title,
-			Kind:       currentTimeInput.Activity.Kind,
+			ActivityID:      currentTimeInput.Activity.ID,
+			Title:           currentTimeInput.Activity.Title,
+			Kind:            currentTimeInput.Activity.Kind,
+			IsGlobalPurpose: currentTimeInput.Activity.GlobalPurpose,
 		}
 		if currentTimeInput.Activity.IsDayBreak() {
 			newLine.Kind = KIND_ABSENCE

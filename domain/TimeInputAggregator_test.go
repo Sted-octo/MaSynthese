@@ -217,3 +217,26 @@ func Test_One_Permanent_After_Pivot_TimeDone_Shoulbe_1(t *testing.T) {
 	assert.Equal(t, 0.0, synthesisLines[0].TimeSumDone, "First SynthesisLine time sum done should be 0")
 	assert.Equal(t, 1.0, synthesisLines[0].TimeSumTodo, "First SynthesisLine time sum todo should be 1")
 }
+
+func Test_One_GlobalPurpose_TimeInput_should_survive_aggregation(t *testing.T) {
+	timeInputs = new(TimeInput)
+	timeInputElement := TimeInputElementNotBillableAt(123, "Mecenat", 1, tools.DateSimple(2022, time.July, 10))
+	timeInputElement.Activity.GlobalPurpose = true
+	timeInputs.Add(timeInputElement)
+
+	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
+
+	assert.True(t, synthesisLines[0].IsGlobalPurpose, "Global purpose boolean from Time Input shoul be kept in synthesis line")
+}
+
+func Test_Two_GlobalPurpose_TimeInputs_should_survive_aggregation(t *testing.T) {
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillableAt(123, "Mecenat", 1, tools.DateSimple(2022, time.July, 9)))
+	timeInputElement := TimeInputElementNotBillableAt(123, "Mecenat", 1, tools.DateSimple(2022, time.July, 10))
+	timeInputElement.Activity.GlobalPurpose = true
+	timeInputs.Add(timeInputElement)
+
+	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
+
+	assert.True(t, synthesisLines[0].IsGlobalPurpose, "Global purpose boolean from Time Input shoul be kept in synthesis line")
+}
