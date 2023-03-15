@@ -2,6 +2,7 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -20,7 +21,7 @@ func TokenGetter(clientId string, clientSecret string, redirectUrl string, authC
 	if authCode != "" {
 		urlApi = fmt.Sprintf("https://octopod.octo.com/api/oauth/token?grant_type=authorization_code&code=%s&client_id=%s&client_secret=%s&redirect_uri=%s", authCode, clientId, clientSecret, redirectUrl)
 	}
-	fmt.Println(urlApi)
+	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("POST", urlApi, nil)
 

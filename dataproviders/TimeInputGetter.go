@@ -2,6 +2,7 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -27,7 +28,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 
 	urlApi1 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=1", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
 
-	fmt.Println(urlApi1)
+	tools.Debug(urlApi1)
 
 	request1, err := http.NewRequest("GET", urlApi1, nil)
 
@@ -55,7 +56,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 
 	urlApi2 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, totalAvaillableLinesCount)
 
-	fmt.Println(urlApi2)
+	tools.Debug(urlApi2)
 
 	request2, err := http.NewRequest("GET", urlApi2, nil)
 
@@ -76,7 +77,9 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 		return nil, fmt.Errorf("status code not 200 in tieInputGetter %d", response2.StatusCode)
 	}
 
-	fmt.Printf("Total time Inputs : %d\n", totalAvaillableLinesCount)
+	msg := fmt.Sprintf("Total time Inputs : %d\n", totalAvaillableLinesCount)
+	tools.Debug(msg)
+
 	body, err := ioutil.ReadAll(response2.Body)
 	if err != nil {
 		return nil, err
@@ -89,7 +92,9 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 	nbTimes := len(timeInputDto)
 
 	nbLinesLoaded += nbTimes
-	fmt.Printf("Count of time Inputs : %d\n", nbTimes)
+	msg = fmt.Sprintf("Count of time Inputs : %d\n", nbTimes)
+	tools.Debug(msg)
+
 	totalTimeInput = *timeInputDto.ToTimeInput(globalPurposeProjectsManager)
 
 	return &totalTimeInput, nil

@@ -1,6 +1,7 @@
 package dataproviders
 
 import (
+	"Octoptimist/tools"
 	"fmt"
 	"net/http"
 	"time"
@@ -14,7 +15,7 @@ func TokenRevoker(accessToken string) error {
 
 	urlApi := fmt.Sprintf("https://octopod.octo.com/api/oauth/revoke?token=%s", accessToken)
 
-	fmt.Println(urlApi)
+	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("POST", urlApi, nil)
 

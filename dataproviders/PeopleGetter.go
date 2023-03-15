@@ -2,6 +2,7 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -16,7 +17,7 @@ func PeopleGetter(accessToken string) (*domain.People, error) {
 
 	urlApi := "https://octopod.octo.com/api/v0/people/me"
 
-	fmt.Println(urlApi)
+	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("GET", urlApi, nil)
 
@@ -55,7 +56,7 @@ func PeopleByIdGetter(accessToken string, peopleId string) (*domain.People, erro
 
 	urlApi := fmt.Sprintf("https://octopod.octo.com/api/v0/people/%s", peopleId)
 
-	fmt.Println(urlApi)
+	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("GET", urlApi, nil)
 

@@ -2,8 +2,8 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -16,7 +16,7 @@ func PeoplesGetter(accessToken string) (map[string]domain.People, error) {
 
 	urlApi := "https://octopod.octo.com/api/v0/people?order_by=nickname&order=asc"
 
-	fmt.Println(urlApi)
+	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("GET", urlApi, nil)
 

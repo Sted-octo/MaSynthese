@@ -2,6 +2,7 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -25,7 +26,7 @@ func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, 
 
 	urlApi := fmt.Sprintf("%s/people/%s/activity_rate?from_date=%s&to_date=%s&include_pipe=false", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
 
-	fmt.Println(urlApi)
+	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("GET", urlApi, nil)
 
