@@ -4,7 +4,7 @@
 Présenter une synthèse d'activité avec une répartition done/todo et un calcul du TACE maxiaml ateignable si d'aventure tous l'intercontrat à venir se tranformait en mission facturable.
 
 ## How
-En lien avec l'API d'Octopod, Octoptimist récupère les informations de pointage d'un Octo et les présentes de manière synthétique avec les ruptures qui vont bien, et effectue les cumuls souhaités.
+En lien avec l'API d'Octopod, Octoptimist récupère les informations de pointage d'un Octo et les présente de manière synthétique avec les ruptures qui vont bien, et effectue les cumuls souhaités.
 
 ## What
 Application Web, avec des pages rendues côté serveur, écrite en Go
