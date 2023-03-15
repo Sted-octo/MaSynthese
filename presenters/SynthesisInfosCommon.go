@@ -8,7 +8,7 @@ import (
 )
 
 func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period) error {
-	err := infos.manageInfosPeople()
+	entryDate, err := infos.manageInfosPeople()
 	if err != nil {
 		return err
 	}
@@ -20,6 +20,13 @@ func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period) error 
 	}
 	if convertedDay, err := time.Parse("2006-01-02", infos.Datas.EndDate); err == nil {
 		endDay = convertedDay
+	}
+	if startDay.Before(entryDate) && entryDate.Before(endDay) {
+		startDay = entryDate
+	}
+
+	if periodFiscal.Start.Before(entryDate) && entryDate.Before(periodFiscal.End) {
+		periodFiscal.Start = entryDate
 	}
 
 	periodAnalysis := domain.NewPeriod(startDay, endDay, infrastructure.BankHolidaysSingletonGetter())

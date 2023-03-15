@@ -5,21 +5,22 @@ import (
 	"Octoptimist/domain"
 	"Octoptimist/infrastructure"
 	"strconv"
+	"time"
 )
 
-func (infos *SynthesisInfos) manageInfosPeople() error {
+func (infos *SynthesisInfos) manageInfosPeople() (time.Time, error) {
 	var people *domain.People
 	var err error
 	if infos.ModeConnexion == MODE_CONNEXION_AUTH {
 		people, err = dataproviders.PeopleGetter(infos.AccessToken)
 		if err != nil {
-			return err
+			return time.Now(), err
 		}
 	}
 	if infos.ModeConnexion == MODE_CONNEXION_ID {
 		people, err = dataproviders.PeopleByIdGetter(infos.AccessToken, infos.Datas.Id)
 		if err != nil {
-			return err
+			return time.Now(), err
 		}
 	}
 
@@ -42,6 +43,10 @@ func (infos *SynthesisInfos) manageInfosPeople() error {
 			infos.Datas.Human.TargetTace = strconv.Itoa(targetTace)
 			infos.CssClass.Human.TargetTace = "bigText"
 		}
+		if convertedDay, err := time.Parse("2006-01-02", people.EntryDate); err == nil {
+			return convertedDay, nil
+		}
 	}
-	return nil
+
+	return time.Now(), nil
 }
