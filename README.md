@@ -22,18 +22,19 @@ Taux d'activité facturé congès exclus.
 Sur une période donnée : TACE = Total des jours facturés / (TOTAL des jours ouvrés - cumul des congés) x 100 
 
 ### TACE FYxx
-TACE calculé par Octopod, sans retraitement.
+TACE calculé par Octopod, sans retraitement. Sur la période fiscale.
 ### TACE Période
-TACE calculé calculé par Octoptimist sur la période qui peut être différente de la période fiscale (de Septembre à Août).
-Quand la période est la même que la période fiscale, cette information n'est pas affichée
-### TACE Optimist
+TACE calculé calculé par Octoptimist sur la période choisie à l'écran, qui peut être différente de la période fiscale (de Septembre à Août).
+Quand le résultat est identique au TACE FYxx, cette information n'est pas affichée.
+### TACE FYxx Optimist
 TACE calculé par Octoptimist. 
-Sur une période données, Octomtimist complète les jours à venir (après aujourd'hui) non saisie dans Octopod par de l'intercontrat.
+Sur une période fiscale, Octomtimist complète les jours à venir (après aujourd'hui) non saisie dans Octopod par de l'intercontrat.
 L'intercontrat à venir est considéré comme une activité facturable, et donc fera grossir le TACE.
 Il montre ainsi le TACE maximal ateignable sur une période.
-### TACE FYxx interne inclus
+### TACE FYxx I.G. inclus
 TACE calculé calculé par Octoptimist sur la période qui peut être différente de la période fiscale (de Septembre à Août).
-Les activités d'interêt général sont considérés comme du facturable,et donc fera grossir le TACE.
+Les activités d'interêt général sont considérés comme du facturable, et donc fera grossir le TACE.
+Quand le résultat est identique au TACE FYxx ou au Tace Période, cette information n'est pas affichée.
 
 ## Clean Archi
 ```
