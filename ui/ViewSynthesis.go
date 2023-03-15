@@ -39,7 +39,7 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 
 	infos.SetPeriodIfEmpty(fiscalPeriod)
 
-	err = infos.SynthesisCommon(fiscalPeriod)
+	err = infos.SynthesisCommon(fiscalPeriod, true)
 	if err != nil {
 		http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
 		return
@@ -82,7 +82,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		err := infos.SynthesisCommon(fiscalPeriod)
+		err := infos.SynthesisCommon(fiscalPeriod, false)
 		if err != nil {
 			http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
 			return

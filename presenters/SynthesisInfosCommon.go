@@ -4,13 +4,17 @@ import (
 	"Octoptimist/domain"
 	"Octoptimist/infrastructure"
 	"Octoptimist/tools"
+	"fmt"
 	"time"
 )
 
-func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period) error {
+func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period, fromGetVerb bool) error {
 	entryDate, err := infos.manageInfosPeople()
 	if err != nil {
 		return err
+	}
+	if fromGetVerb {
+		fmt.Println(infos.Datas.Human.Quadri)
 	}
 
 	var startDay time.Time
