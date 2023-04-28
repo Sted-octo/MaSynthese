@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"time"
@@ -53,6 +53,9 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 	if err != nil {
 		return nil, err
 	}
+	if totalAvaillableLinesCount == 0 {
+		return new(domain.TimeInput), nil
+	}
 
 	urlApi2 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, totalAvaillableLinesCount)
 
@@ -80,7 +83,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 	msg := fmt.Sprintf("Total time Inputs : %d\n", totalAvaillableLinesCount)
 	tools.Debug(msg)
 
-	body, err := ioutil.ReadAll(response2.Body)
+	body, err := io.ReadAll(response2.Body)
 	if err != nil {
 		return nil, err
 	}

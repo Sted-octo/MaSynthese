@@ -129,3 +129,26 @@ func Test_TimeInputGetter_Two_Pages_Three_TimeInputs_Count_Shouldbe_3(t *testing
 		t.Errorf("TimeInputGetter error should return a list of %d object but was %d", expected, len(*timeInput))
 	}
 }
+
+func Test_TimeInputGetter_NoDate_Should_Return_New_TimeInput_Object(t *testing.T) {
+	globalPurposeProjectsManager := domain.GlobalPurposeProjects{Loader: usecases.MockGlobalPurposeProjectsLoader}
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	responderFunc := func(*http.Request) (*http.Response, error) {
+		resp := httpmock.NewStringResponse(200, "[]")
+		resp.Header.Add("Total", "0")
+		return resp, nil
+	}
+
+	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=(\d+)&per_page=(\d+)\z`,
+		responderFunc)
+
+	accessToken := "123"
+
+	timeInput, _ := TimeInputGetter(accessToken, "2142666213", "2022-03-01", "2022-03-10", 2, &globalPurposeProjectsManager)
+
+	if timeInput == nil {
+		t.Errorf("TimeInputGetter error should return new timeInput object when no data availlable for the period")
+	}
+}
