@@ -6,6 +6,7 @@ import (
 	"Octoptimist/tools"
 	"net/http"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -122,7 +123,7 @@ func validateSynthesisParameters(r *http.Request) (presenters.SynthesisInfos, bo
 	}
 
 	if len(r.Form["ngram"]) > 0 {
-		infos.Datas.NGram = r.Form["ngram"][0]
+		infos.Datas.NGram = strings.ToUpper(r.Form["ngram"][0])
 	}
 
 	if infos.AccessToken == "" && len(r.Form["accessToken"]) > 0 {
