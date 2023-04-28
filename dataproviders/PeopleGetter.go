@@ -5,7 +5,7 @@ import (
 	"Octoptimist/tools"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -34,7 +34,7 @@ func PeopleGetter(accessToken string) (*domain.People, error) {
 	}
 	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func PeopleByIdGetter(accessToken string, peopleId string) (*domain.People, erro
 	}
 	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}

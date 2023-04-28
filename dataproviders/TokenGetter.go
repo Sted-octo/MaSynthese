@@ -5,7 +5,7 @@ import (
 	"Octoptimist/tools"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -38,7 +38,7 @@ func TokenGetter(clientId string, clientSecret string, redirectUrl string, authC
 	}
 	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
