@@ -36,6 +36,11 @@
                 </div>
                 <div class="filters">
                     <div class="innerfilters">
+                        <a class="button" href="#popup1">?</a>
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
                         <input type="submit" value="Déconnexion" name="btnExit">
                     </div>
                 </div>
@@ -109,5 +114,37 @@
                 <input name="mode" value="{{.ModeConnexion}}">
             </div>
         </form>
+        <div id="popup1" class="overlay">
+            <div class="popup">
+                <h2>Définitions</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <h3>TACE</h3>
+                    <p>Taux d'activité facturé congès exclus.<br\>
+                    Sur une période donnée : TACE = Total des jours facturés / (TOTAL des jours ouvrés - cumul des congés) x 100 
+                    </p>
+                    <h3>TACE FYxx</h3>
+                    <p>TACE calculé par Octopod, sans retraitement. Sur la période fiscale.</p>
+                    <h3>TACE Période</h3>
+                    <p>TACE calculé calculé par Octoptimist sur la période choisie à l'écran, qui peut être différente de la période fiscale (de Septembre à Août).<br\>
+                    Quand le résultat est identique au TACE FYxx, cette information n'est pas affichée.</p>
+                    <h3>TACE FYxx Optimiste</h3>
+                    <p>TACE calculé par Octoptimist. 
+                    Sur une période fiscale, Octoptimist complète les jours à venir (après aujourd'hui) non saisie dans Octopod par de l'intercontrat.<br\>
+                    L'intercontrat à venir (To do) est considéré comme une activité facturable, et donc fera grossir le TACE.<br\>
+                    Il montre ainsi le TACE maximal ateignable sur une période.</p>
+                    <h3>FYxx I.G. inclus</h3> 
+                    <p>TACE calculé calculé par Octoptimist sur la période fiscale.<br\>
+                    Les activités d'interêt général (I.G.) sont considérées comme du facturable, et donc feront grossir le TACE.<br\>
+                    Quand le résultat est identique au TACE FYxx ou au Tace Période, cette information n'est pas affichée.
+                    <h3>Done</h3>
+                    <p>Si la période commence avant la date du jour, cumul des pointages jusqu'à la date du jour, incluse.</p>
+                    <h3>To do</h3>
+                    <p>Si la période se termine après la date du jour, cumul des pointages au lendemain de la date du jour jusqu'à la fin de période.</p>
+                    <h3>Total</h3>
+                    <p>= Done + Todo</p>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

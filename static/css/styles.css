@@ -6,7 +6,7 @@ input {
     padding: 4px;
 }
 
-input[type="submit"]{
+input[type="submit"], a{
     cursor:pointer;
     background-color: #00afcb;
     border-color: white;
@@ -16,7 +16,8 @@ input[type="submit"]{
     color: white;
     padding-right: 10px;
     padding-left: 10px;
-    box-shadow: 3px 3px .4em white;
+    box-shadow: 3px 3px .3em white;
+    text-decoration: none;
 }
 
 input[type="date"]{
@@ -67,7 +68,7 @@ body {
 }
 .filters {
     vertical-align: top;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     color: white;
     align-items: center;
@@ -192,4 +193,61 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 20px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+.popup .close:hover {
+    color: #06D85F;
+}
+.popup .content {
+    max-height: 30%;
+    overflow: auto;
+}
+
+p {
+    font-size: small;
+}
+
+h3 {
+    font-size: medium;
 }
