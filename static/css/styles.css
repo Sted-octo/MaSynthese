@@ -212,13 +212,15 @@ body {
 }
 
 .popup {
-    margin: 70px auto;
+    margin: 50px auto;
     padding: 20px;
     background: #fff;
     border-radius: 20px;
     width: 45%;
     position: relative;
     transition: all 5s ease-in-out;
+    overflow-y: auto;
+    max-height: 80%;
 }
 
 .popup h2 {
