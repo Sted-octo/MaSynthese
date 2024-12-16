@@ -14,12 +14,18 @@ func createPeoplesGlobalMap(accessToken string) {
 
 func PeoplesGlobalMapSingletonGetter() *domain.PeoplesGlobalMap {
 	var token *domain.Token = nil
+	var err error
 	if peoplesGlobalMap == nil {
-		token, _ = dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), "", "")
-		createPeoplesGlobalMap(token.AccessToken)
+		token, err = dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), "", "")
+		if err == nil {
+			createPeoplesGlobalMap(token.AccessToken)
+		}
 	}
 	if token == nil {
-		token, _ = dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), "", "")
+		token, err = dataproviders.TokenGetter(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), "", "")
+		if err != nil {
+			return nil
+		}
 	}
 
 	peoplesGlobalMap.Init(token.AccessToken)
