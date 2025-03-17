@@ -2,6 +2,7 @@ package ui
 
 import (
 	"Octoptimist/presenters"
+	"Octoptimist/tools"
 	"fmt"
 	"net/http"
 	"os"
@@ -94,7 +95,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if len(r.Form["btnGoogle"]) > 0 {
-			http.Redirect(w, r, fmt.Sprintf("https://octopod.octo.com/api/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", os.Getenv("CLIENT_ID"), os.Getenv("REDIRECT_URL")), http.StatusFound)
+			http.Redirect(w, r, fmt.Sprintf(tools.OctopodDomainGetter()+"/api/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code", os.Getenv("CLIENT_ID"), os.Getenv("REDIRECT_URL")), http.StatusFound)
 			return
 		}
 	}

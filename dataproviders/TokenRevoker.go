@@ -13,7 +13,7 @@ func TokenRevoker(accessToken string) error {
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := fmt.Sprintf("https://octopod.octo.com/api/oauth/revoke?token=%s", accessToken)
+	urlApi := fmt.Sprintf(tools.OctopodDomainGetter()+"/api/oauth/revoke?token=%s", accessToken)
 
 	tools.Debug(urlApi)
 

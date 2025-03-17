@@ -26,7 +26,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 
 	nbLinesLoaded := 0
 
-	urlApi1 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=1", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
+	urlApi1 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=1", tools.OctopodUrlApiGetter(), peopleId, beginPeriod, endPeriod)
 
 	tools.Debug(urlApi1)
 
@@ -57,7 +57,7 @@ func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, end
 		return new(domain.TimeInput), nil
 	}
 
-	urlApi2 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=%d", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod, totalAvaillableLinesCount)
+	urlApi2 := fmt.Sprintf("%s/people/%s/time_input?from_date=%s&to_date=%s&page=1&per_page=%d", tools.OctopodUrlApiGetter(), peopleId, beginPeriod, endPeriod, totalAvaillableLinesCount)
 
 	tools.Debug(urlApi2)
 

@@ -11,8 +11,6 @@ import (
 	"time"
 )
 
-var OCTOPOD_ROOT_URL string = "https://octopod.octo.com/api/v0"
-
 func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string) (*domain.ActivityRate, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
@@ -24,7 +22,7 @@ func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, 
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := fmt.Sprintf("%s/people/%s/activity_rate?from_date=%s&to_date=%s&include_pipe=false", OCTOPOD_ROOT_URL, peopleId, beginPeriod, endPeriod)
+	urlApi := fmt.Sprintf("%s/people/%s/activity_rate?from_date=%s&to_date=%s&include_pipe=false", tools.OctopodUrlApiGetter(), peopleId, beginPeriod, endPeriod)
 
 	tools.Debug(urlApi)
 

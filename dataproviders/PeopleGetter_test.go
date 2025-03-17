@@ -1,6 +1,7 @@
 package dataproviders
 
 import (
+	"Octoptimist/tools"
 	"testing"
 
 	"github.com/jarcoal/httpmock"
@@ -11,7 +12,7 @@ func Test_PeopleGetter_Should_Return_Ok(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://octopod.octo.com/api/v0/people/me",
+	httpmock.RegisterResponder("GET", tools.OctopodUrlApiGetter()+"/people/me",
 		httpmock.NewStringResponder(200, PeopleJsonGetter()))
 
 	accessToken := "123"
@@ -25,7 +26,7 @@ func Test_PeopleByIdGetter_Should_Return_Ok(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", `=~^https://octopod.octo.com/api/v0/people/(\d+)\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)\z`,
 		httpmock.NewStringResponder(200, PeopleJsonGetter()))
 
 	accessToken := "123"

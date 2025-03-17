@@ -15,7 +15,7 @@ func PeopleGetter(accessToken string) (*domain.People, error) {
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := "https://octopod.octo.com/api/v0/people/me"
+	urlApi := tools.OctopodUrlApiGetter() + "/people/me"
 
 	tools.Debug(urlApi)
 
@@ -54,7 +54,7 @@ func PeopleByIdGetter(accessToken string, peopleId string) (*domain.People, erro
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := fmt.Sprintf("https://octopod.octo.com/api/v0/people/%s", peopleId)
+	urlApi := fmt.Sprintf(tools.OctopodUrlApiGetter()+"/people/%s", peopleId)
 
 	tools.Debug(urlApi)
 

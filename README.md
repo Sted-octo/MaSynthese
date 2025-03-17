@@ -55,3 +55,5 @@ Quand le résultat est identique au TACE FYxx ou au Tace Période, cette informa
  * CLIENT_ID : ID de l'application du point de vue de l'API Octopod
  * CLIENT_SECRET : Mot de passe de l'application du point de vue de l'API Octopod
  * REDIRECT_URL : URL qui sera transmise à l'API Octopod durant la phase d'autentification, afin qu'Octopod puisse effectuer sa redirection une fois l'autentification correcte. Dois être accessible via internet.
+ * OCTOPOD_DOMAIN : Base de l'URL d'acccès à Octopod.
+ * DEBUG : (true/false) permet d'activer le log détaillé.

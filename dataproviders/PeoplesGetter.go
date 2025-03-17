@@ -14,7 +14,7 @@ func PeoplesGetter(accessToken string) (map[string]domain.People, error) {
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := "https://octopod.octo.com/api/v0/people?order_by=nickname&order=asc"
+	urlApi := tools.OctopodUrlApiGetter() + "/people?order_by=nickname&order=asc"
 
 	tools.Debug(urlApi)
 

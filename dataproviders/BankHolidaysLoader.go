@@ -47,8 +47,6 @@ func BankHolidaysLoader() (map[int][]domain.BankHoliday, error) {
 
 		dayBreaks[newDayBreak.Year] = append(dayBreaks[newDayBreak.Year], newDayBreak)
 	}
-	if err != nil {
-		log.Fatalln("error loading csv file")
-	}
+
 	return dayBreaks, nil
 }

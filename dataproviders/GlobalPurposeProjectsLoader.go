@@ -4,7 +4,6 @@ import (
 	"Octoptimist/domain"
 	"encoding/csv"
 	"io"
-	"log"
 	"os"
 )
 
@@ -38,8 +37,6 @@ func GlobalPurposeProjectsLoader() (map[string]domain.GlobalPurposeProject, erro
 
 		globalPurposeProjectMap[newGlobalPurposeProject.Reference] = newGlobalPurposeProject
 	}
-	if err != nil {
-		log.Fatalln("error loading csv file")
-	}
+
 	return globalPurposeProjectMap, nil
 }

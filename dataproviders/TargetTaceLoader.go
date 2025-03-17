@@ -47,8 +47,6 @@ func TargetTaceLoader() (map[int]domain.TargetTace, error) {
 		targetTace[id] = domain.TargetTace{ID: id, Name: record[1], TargetTace: tace}
 
 	}
-	if err != nil {
-		log.Fatalln("error loading csv file tace objectif")
-	}
+
 	return targetTace, nil
 }

@@ -1,6 +1,7 @@
 package dataproviders
 
 import (
+	"Octoptimist/tools"
 	"testing"
 
 	"github.com/jarcoal/httpmock"
@@ -11,7 +12,7 @@ func Test_PeoplesGetter_Should_Return_Ok(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://octopod.octo.com/api/v0/people?order_by=nickname&order=asc",
+	httpmock.RegisterResponder("GET", tools.OctopodUrlApiGetter()+"/people?order_by=nickname&order=asc",
 		httpmock.NewStringResponder(200, PeoplesJsonGetter()))
 
 	accessToken := "123"
@@ -25,7 +26,7 @@ func Test_PeoplesGetter_Map_Count_Should_Return_2(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://octopod.octo.com/api/v0/people?order_by=nickname&order=asc",
+	httpmock.RegisterResponder("GET", tools.OctopodUrlApiGetter()+"/people?order_by=nickname&order=asc",
 		httpmock.NewStringResponder(200, PeoplesJsonGetter()))
 
 	accessToken := "123"
@@ -39,7 +40,7 @@ func Test_PeoplesGetter_For_Nickname_MODE_Should_Return_Firstname_Dexter(t *test
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://octopod.octo.com/api/v0/people?order_by=nickname&order=asc",
+	httpmock.RegisterResponder("GET", tools.OctopodUrlApiGetter()+"/people?order_by=nickname&order=asc",
 		httpmock.NewStringResponder(200, PeoplesJsonGetter()))
 
 	accessToken := "123"
@@ -53,7 +54,7 @@ func Test_PeoplesGetter_For_Nickname_DEMO_Should_Return_Lastname_MORGAN(t *testi
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://octopod.octo.com/api/v0/people?order_by=nickname&order=asc",
+	httpmock.RegisterResponder("GET", tools.OctopodUrlApiGetter()+"/people?order_by=nickname&order=asc",
 		httpmock.NewStringResponder(200, PeoplesJsonGetter()))
 
 	accessToken := "123"

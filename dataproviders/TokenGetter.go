@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -16,11 +17,23 @@ func TokenGetter(clientId string, clientSecret string, redirectUrl string, authC
 		Timeout: time.Duration(10 * time.Second),
 	}
 
-	urlApi := fmt.Sprintf("https://octopod.octo.com/api/oauth/token?grant_type=client_credentials&client_id=%s&client_secret=%s&redirect_uri=%s", clientId, clientSecret, redirectUrl)
-
-	if authCode != "" {
-		urlApi = fmt.Sprintf("https://octopod.octo.com/api/oauth/token?grant_type=authorization_code&code=%s&client_id=%s&client_secret=%s&redirect_uri=%s", authCode, clientId, clientSecret, redirectUrl)
+	baseURL := tools.OctopodDomainGetter() + "/api/oauth/token"
+	values := url.Values{}
+	if authCode == "" {
+		values.Add("grant_type", "client_credentials")
+	} else {
+		values.Add("grant_type", "authorization_code")
+		values.Add("code", authCode)
+		values.Add("redirect_uri", redirectUrl)
+		values.Add("scope", "public")
 	}
+
+	values.Add("client_id", clientId)
+	values.Add("client_secret", clientSecret)
+
+	// Construction de l'URL complète
+	urlApi := fmt.Sprintf("%s?%s", baseURL, values.Encode())
+
 	tools.Debug(urlApi)
 
 	request, err := http.NewRequest("POST", urlApi, nil)
@@ -29,8 +42,8 @@ func TokenGetter(clientId string, clientSecret string, redirectUrl string, authC
 		return nil, err
 	}
 
-	request.Header.Add("content-type", "x-www-form-urlencoded")
-	request.Header.Add("accept", "application/json")
+	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	request.Header.Add("Accept", "application/json")
 
 	response, err := httpClient.Do(request)
 	if err != nil {
