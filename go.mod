@@ -1,6 +1,6 @@
 module Octoptimist
 
-go 1.23.4
+go 1.23
 
 require (
 	github.com/jarcoal/httpmock v1.2.0
