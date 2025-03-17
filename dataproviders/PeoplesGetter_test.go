@@ -8,6 +8,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_PeoplesGetter_Should_Return_1_when_mock_is_correct(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	httpmock.RegisterResponder("GET", tools.OctopodUrlApiGetter()+"/people?order_by=nickname&order=asc",
+		httpmock.NewStringResponder(200, PeoplesJsonGetter()))
+
+	accessToken := "123"
+
+	PeoplesGetter(accessToken)
+
+	callInfo := httpmock.GetCallCountInfo()
+	count := callInfo["GET "+tools.OctopodUrlApiGetter()+"/people?order_by=nickname&order=asc"]
+
+	assert.Equal(t, 1, count, "PeoplesGetter should return 1 when mock is correct")
+}
+
 func Test_PeoplesGetter_Should_Return_Ok(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()

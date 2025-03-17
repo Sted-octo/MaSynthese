@@ -2,6 +2,7 @@ package dataproviders
 
 import (
 	"Octoptimist/domain"
+	"Octoptimist/tools"
 	"Octoptimist/usecases"
 	"net/http"
 	"testing"
@@ -31,7 +32,7 @@ func Test_TimeInputGetter_Should_Return_Ok(t *testing.T) {
 		return resp, nil
 	}
 
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=(\d+)&per_page=(\d+)\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=(\d+)&per_page=(\d+)\z`,
 		responderFunc)
 
 	accessToken := "123"
@@ -54,9 +55,9 @@ func Test_TimeInputGetter_One_Page_One_TimeInput_Count_Shouldbe_1(t *testing.T) 
 		return resp, nil
 	}
 
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=1\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=1\z`,
 		responderFunc)
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=2\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=2\z`,
 		responderFunc)
 
 	accessToken := "123"
@@ -81,9 +82,9 @@ func Test_TimeInputGetter_One_Page_Two_TimeInputs_Count_Shouldbe_2(t *testing.T)
 		return resp, nil
 	}
 
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=2\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=2\z`,
 		responderFunc)
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=1\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=1\z`,
 		responderFunc)
 
 	accessToken := "123"
@@ -114,9 +115,9 @@ func Test_TimeInputGetter_Two_Pages_Three_TimeInputs_Count_Shouldbe_3(t *testing
 		return resp, nil
 	}
 
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=1\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=1\z`,
 		responderFuncPage1)
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=3\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=1&per_page=3\z`,
 		responderFuncPage2)
 
 	accessToken := "123"
@@ -141,7 +142,7 @@ func Test_TimeInputGetter_NoDate_Should_Return_New_TimeInput_Object(t *testing.T
 		return resp, nil
 	}
 
-	httpmock.RegisterResponder("GET", `=~^https://octopod\.octo\.com/api/v0/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=(\d+)&per_page=(\d+)\z`,
+	httpmock.RegisterResponder("GET", `=~^`+tools.OctopodUrlApiGetter()+`/people/(\d+)/time_input\?from_date=(\d{4}-\d{2}-\d{2})&to_date=(\d{4}-\d{2}-\d{2})&page=(\d+)&per_page=(\d+)\z`,
 		responderFunc)
 
 	accessToken := "123"
