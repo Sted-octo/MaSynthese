@@ -1,22 +1,24 @@
 input {
     background-color: white;
     border-style: solid;
-    border-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
     color: #0e2356;
-    padding: 4px;
+    padding-left: 14px;
+    padding-right: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 input[type="submit"], a{
     cursor:pointer;
-    background-color: #00afcb;
-    border-color: white;
-    border-style: solid;
-    border-width: 1px;
+    background-color: #586586;
+    border-color: transparent;
     border-radius: 20px;
+    border-top-right-radius: 0px;
     color: white;
     padding-right: 10px;
     padding-left: 10px;
-    box-shadow: 3px 3px .3em white;
     text-decoration: none;
 }
 
@@ -31,8 +33,10 @@ body {
 }
 
 .header {
-    background-color: rgba(255,255,255,0.8);
+    background-color: #cfd3dd;
     border-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
     display: flex;
     margin-bottom: 15px;
     justify-content:center;
@@ -70,34 +74,47 @@ body {
     vertical-align: top;
     padding: 10px;
     display: flex;
-    color: white;
+    color: #0e2356;
     align-items: center;
 }
 .innerfilters {
-    background-color: #0e2356;
-    border-radius: 20px;
+    background-color: transparent;
+    border-color: #0e2356;
+    border-radius: 60px;
+    border-bottom-right-radius: 0px;
+    border-width: 1px;
+    border-style: solid;
     padding: 20px;
+
 }
 
 .infos {
     vertical-align: top;
-    background-color: white;
-    border-radius: 20px;
+    background-color: transparent;
+    border-top-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
     padding: 20px;
     margin-bottom: 2px;
-    color: #0e2356;
+    color: white;
     text-align: center;
     margin-right: 10px;
 }
 
 .optimist {
     vertical-align: top;
-    background-color: #00afcb;
-    border-radius: 20px;
+    background-color: transparent;
+    border-top-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+    border-color: #00d2dd;
+    border-width: 1px;
+    border-style: solid;
     padding: 20px;
     margin-bottom: 2px;
     display: inline-block;
-    color: #0e2356;
+    color: #00d2dd;;
     text-align: center;
     margin-right: 10px;
 }
@@ -106,7 +123,9 @@ body {
     border-color: white;
     border-style: solid;
     border-width: 1px;
-    border-radius: 20px;
+    background-color: transparent;
+    border-top-left-radius: 60px;
+    border-bottom-right-radius: 60px;
     padding: 20px;
     margin-top: 20px;
 }
