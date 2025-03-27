@@ -113,6 +113,22 @@ func TimeInputElementInternal(activityId int64, name string, timeInDay float64, 
 	return timeInputElement
 }
 
+func TimeInputElementDiscountAtDay(day time.Time, activityId int64, name string, timeInDay float64, clientName string, reference string) *TimeInputElement {
+	var timeInputElement *TimeInputElement = new(TimeInputElement)
+	timeInputElement.TimeInDays = timeInDay
+	timeInputElement.Day = day
+	timeInputElement.Activity = *new(Activity)
+	timeInputElement.Activity.ID = activityId
+	timeInputElement.Activity.Kind = KIND_NOT_BILLABLE
+	timeInputElement.Activity.Title = name
+	timeInputElement.Activity.Project = new(Project)
+	timeInputElement.Activity.Project.Reference = reference
+	timeInputElement.Activity.Project.Customer = new(Customer)
+	timeInputElement.Activity.Project.Customer.Name = clientName
+
+	return timeInputElement
+}
+
 func TimeInputOneJsonGetter() string {
 	return `[
 		{

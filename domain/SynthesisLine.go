@@ -14,4 +14,5 @@ type SynthesisLine struct {
 	IsLineTotal     bool    `json:"IsLineTotal"`
 	RowCount        int64   `json:"RowCount"`
 	IsGlobalPurpose bool    `json:"IsGlobalPurpose"`
+	IsDiscount      bool    `json:"IsDiscount"`
 }

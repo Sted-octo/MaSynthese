@@ -33,6 +33,10 @@
 
                         <input type="submit" value="Rafraichir" name="btnRefresh">
                     </div>
+                    <div class="innerfiltersDiscount">
+                        <label for="includeDiscountInTacePeriod" class="smallText discount">Discount</label>  
+                        <input type="checkbox" name="includeDiscountInTacePeriod"  {{if .Datas.IncludeDiscountInTacePeriod}}checked{{end}}/>                 
+                    </div>
                 </div>
                 <div class="filters">
                     <div class="innerfilters">
@@ -95,9 +99,9 @@
                         <div class="little">Total</div>
                     </div>
                     {{range .Lines}}
-                    <div class="row {{.Kind}}  {{if .IsLineSubTotal}}isSubTotal{{end}} {{if .IsLineTotal}}isTotal{{end}}">
+                    <div class="row {{.Kind}} {{if .IsLineSubTotal}}isSubTotal{{end}} {{if .IsLineTotal}}isTotal{{end}}">
                         <div class="medium">{{.Title}}</div>
-                        <div class="large">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}
+                        <div class="large {{if .IsDiscount}}discount{{end}}">{{.Reference}}{{if .Reference}}&nbsp;-&nbsp;{{end}}{{.CustomerName}}
                             {{if .CustomerName}}&nbsp;-&nbsp;{{end}}{{.ProjectName}}
                             {{if .IsGlobalPurpose}}&nbsp;(I.G.){{end}}
                         </div>
@@ -143,6 +147,8 @@
                     <p>Si la période se termine après la date du jour, cumul des pointages au lendemain de la date du jour jusqu'à la fin de période.</p>
                     <h3>Total</h3>
                     <p>= Done + Todo</p>
+                    <h3>Discount</h3>
+                    <p>Permet de comptabiliser les jours offert pour négociation commerciale comme une activité facturée. Cela permet d'avoir le vrai taux d'activité du point de vue du consultant qui réalise les jours offerts, donc non facturés.</p>
                 </div>
             </div>
         </div>

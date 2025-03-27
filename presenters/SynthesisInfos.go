@@ -3,18 +3,19 @@ package presenters
 import "Octoptimist/domain"
 
 type FormInfos struct {
-	Id             string
-	StartDate      string
-	EndDate        string
-	TotalWorkDays  string
-	TacePeriod     string
-	FiscalYear     string
-	TaceFiscalYear string
-	TaceOptimist   string
-	TaceInternal   string
-	AuthCode       string
-	NGram          string
-	Human          PeopleInfos
+	Id                          string
+	StartDate                   string
+	EndDate                     string
+	TotalWorkDays               string
+	TacePeriod                  string
+	FiscalYear                  string
+	TaceFiscalYear              string
+	TaceOptimist                string
+	TaceInternal                string
+	AuthCode                    string
+	NGram                       string
+	Human                       PeopleInfos
+	IncludeDiscountInTacePeriod bool
 }
 
 type PeopleInfos struct {

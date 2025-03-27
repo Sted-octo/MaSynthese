@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period, fromGetVerb bool) error {
+func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period, fromGetVerb bool, withDiscount bool) error {
 	entryDate, err := infos.manageInfosPeople()
 	if err != nil {
 		return err
@@ -35,7 +35,7 @@ func (infos *SynthesisInfos) SynthesisCommon(periodFiscal *domain.Period, fromGe
 
 	periodAnalysis := domain.NewPeriod(startDay, endDay, infrastructure.BankHolidaysSingletonGetter())
 
-	timeInputPeriod, err := infos.manageSynthesisDetailLines(periodAnalysis)
+	timeInputPeriod, err := infos.manageSynthesisDetailLines(periodAnalysis, withDiscount)
 	if err != nil {
 		return err
 	}

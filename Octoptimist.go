@@ -13,6 +13,7 @@ func main() {
 	go infrastructure.BankHolidaysSingletonGetter().Init()
 	go infrastructure.TargetTacesSingletonGetter().Init()
 	go infrastructure.GlobalPurposeProjectsSingletonGetter().Init()
+	go infrastructure.DiscountProjectsSingletonGetter().Init()
 	go infrastructure.PeoplesGlobalMapSingletonGetter()
 
 	fs := http.FileServer(http.Dir("./static"))

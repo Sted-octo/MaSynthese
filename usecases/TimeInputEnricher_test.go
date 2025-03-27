@@ -16,7 +16,7 @@ func Test_NilPeriod_Should_return_nil_and_state_false(t *testing.T) {
 	timeInput := timeInputs.TimeInputEnricher(nil, pivotDate)
 
 	if timeInput != nil {
-		t.Errorf("TimeInputEnricher with nil input pariod should return nil")
+		t.Errorf("TimeInputEnricher with nil input period should return nil")
 	}
 }
 

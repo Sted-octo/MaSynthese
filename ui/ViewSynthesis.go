@@ -40,7 +40,7 @@ func synthesisGET(w http.ResponseWriter, r *http.Request) {
 
 	infos.SetPeriodIfEmpty(fiscalPeriod)
 
-	err = infos.SynthesisCommon(fiscalPeriod, true)
+	err = infos.SynthesisCommon(fiscalPeriod, true, infos.Datas.IncludeDiscountInTacePeriod)
 	if err != nil {
 		http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
 		return
@@ -83,7 +83,7 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		err := infos.SynthesisCommon(fiscalPeriod, false)
+		err := infos.SynthesisCommon(fiscalPeriod, false, infos.Datas.IncludeDiscountInTacePeriod)
 		if err != nil {
 			http.Redirect(w, r, "/loginform?err=sc", http.StatusTemporaryRedirect)
 			return
@@ -153,6 +153,8 @@ func validateSynthesisParameters(r *http.Request) (presenters.SynthesisInfos, bo
 			}
 		}
 	}
+
+	infos.Datas.IncludeDiscountInTacePeriod = r.Form.Get("includeDiscountInTacePeriod") != ""
 
 	return infos, state
 }

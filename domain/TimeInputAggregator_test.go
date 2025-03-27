@@ -240,3 +240,26 @@ func Test_Two_GlobalPurpose_TimeInputs_should_survive_aggregation(t *testing.T) 
 
 	assert.True(t, synthesisLines[0].IsGlobalPurpose, "Global purpose boolean from Time Input shoul be kept in synthesis line")
 }
+
+func Test_One_Discount_TimeInput_should_survive_aggregation(t *testing.T) {
+	timeInputs = new(TimeInput)
+	timeInputElement := TimeInputElementNotBillableAt(123, "Mecenat", 1, tools.DateSimple(2022, time.July, 10))
+	timeInputElement.Activity.Discount = true
+	timeInputs.Add(timeInputElement)
+
+	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
+
+	assert.True(t, synthesisLines[0].IsDiscount, "Discount boolean from Time Input shoul be kept in synthesis line")
+}
+
+func Test_Two_Discount_TimeInputs_should_survive_aggregation(t *testing.T) {
+	timeInputs = new(TimeInput)
+	timeInputs.Add(TimeInputElementNotBillableAt(123, "Mecenat", 1, tools.DateSimple(2022, time.July, 9)))
+	timeInputElement := TimeInputElementNotBillableAt(123, "Mecenat", 1, tools.DateSimple(2022, time.July, 10))
+	timeInputElement.Activity.Discount = true
+	timeInputs.Add(timeInputElement)
+
+	synthesisLines := timeInputs.TimeInputAggregator(PIVOT_DATE)
+
+	assert.True(t, synthesisLines[0].IsDiscount, "Discount boolean from Time Input shoul be kept in synthesis line")
+}

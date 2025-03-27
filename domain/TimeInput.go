@@ -16,6 +16,7 @@ type Activity struct {
 	Kind          string   `json:"kind"`
 	Project       *Project `json:"project"`
 	GlobalPurpose bool     `json:"globalPurpose"`
+	Discount      bool     `json:"discount"`
 }
 
 type Project struct {
