@@ -31,9 +31,9 @@ func (infos *SynthesisInfos) manageInfosPeople() (time.Time, error) {
 		infos.Datas.Human.FirstName = people.FirstName
 		infos.Datas.Human.LastName = people.LastName
 		infos.Datas.Human.Team = people.Lob.Abbreviation
+		infos.Datas.Human.TeamId = people.Lob.ID
 		infos.CssClass.Human.Quadri = "bigText"
 		infos.CssClass.Human.Team = "bigText secondaryColor"
-		infos.CssClass.AuthCode = "hidden"
 		infos.CssClass.Human.ID = "smallText"
 		infos.CssClass.Human.EntryDate = "smallText"
 		infos.Datas.Human.EntryDate = people.EntryDate

@@ -11,7 +11,9 @@ import (
 	"time"
 )
 
-func ActivityRateGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string) (*domain.ActivityRate, error) {
+type ActivityRateGetter struct{}
+
+func (a *ActivityRateGetter) Get(acessToken string, peopleId string, beginPeriod string, endPeriod string) (*domain.ActivityRate, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
 	}

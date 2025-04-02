@@ -34,7 +34,7 @@ func Test_PeoplesGetter_Should_Return_Ok(t *testing.T) {
 
 	accessToken := "123"
 
-	peoples, _ := PeoplesGetter(accessToken)
+	peoples, _, _ := PeoplesGetter(accessToken)
 
 	assert.NotNil(t, peoples, "PeoplesGetter should return a not nil objet")
 }
@@ -48,7 +48,7 @@ func Test_PeoplesGetter_Map_Count_Should_Return_2(t *testing.T) {
 
 	accessToken := "123"
 
-	peoples, _ := PeoplesGetter(accessToken)
+	peoples, _, _ := PeoplesGetter(accessToken)
 
 	assert.Equal(t, 2, len(peoples), "PeoplesGetter return map length should be 2")
 }
@@ -62,7 +62,7 @@ func Test_PeoplesGetter_For_Nickname_MODE_Should_Return_Firstname_Dexter(t *test
 
 	accessToken := "123"
 
-	peoples, _ := PeoplesGetter(accessToken)
+	peoples, _, _ := PeoplesGetter(accessToken)
 
 	assert.Equal(t, "Dexter", peoples["MODE"].FirstName, "PeoplesGetter for nickname MODE return firstname Dexter")
 }
@@ -76,7 +76,7 @@ func Test_PeoplesGetter_For_Nickname_DEMO_Should_Return_Lastname_MORGAN(t *testi
 
 	accessToken := "123"
 
-	peoples, _ := PeoplesGetter(accessToken)
+	peoples, _, _ := PeoplesGetter(accessToken)
 
 	assert.Equal(t, "MORGAN", peoples["DEMO"].LastName, "PeoplesGetter for nickname DEMO return lastname MORGAN")
 }

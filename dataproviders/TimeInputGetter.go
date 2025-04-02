@@ -12,7 +12,9 @@ import (
 	"time"
 )
 
-func TimeInputGetter(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint, globalPurposeProjectsManager *domain.GlobalPurposeProjects) (*domain.TimeInput, error) {
+type TimeInputGetter struct{}
+
+func (ti *TimeInputGetter) Get(acessToken string, peopleId string, beginPeriod string, endPeriod string, resultPerPage uint, globalPurposeProjectsManager *domain.GlobalPurposeProjects) (*domain.TimeInput, error) {
 	if acessToken == "" {
 		return nil, errors.New("access token can't be empty")
 	}

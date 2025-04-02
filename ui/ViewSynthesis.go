@@ -23,13 +23,24 @@ func Synthesis(w http.ResponseWriter, r *http.Request) {
 func synthesisGET(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("ui/synthesis.html"))
 	infos := presenters.SynthesisInfos{}
-	cookie, err := r.Cookie("AccessToken")
+	apiToken, err := tools.GetAPITokenFromJWT(r)
 	if err == nil {
-		infos.AccessToken = cookie.Value
+		infos.AccessToken = apiToken
 	}
 
 	if r.URL.Query().Get("id") != "" {
 		infos.Datas.Id = r.URL.Query().Get("id")
+	}
+
+	if r.URL.Query().Get("nickname") != "" {
+		infos.Datas.NGram = r.URL.Query().Get("nickname")
+		if people, ok := infrastructure.PeoplesGlobalMapSingletonGetter().PeopleMap[infos.Datas.NGram]; ok {
+			infos.ModeConnexion = presenters.MODE_CONNEXION_ID
+			infos.Datas.Id = strconv.FormatInt(people.ID, 10)
+			infos.CssClass.NGram = ""
+		} else {
+			infos.CssClass.NGram = "error"
+		}
 	}
 
 	if r.URL.Query().Get("mode") != "" {
@@ -100,8 +111,9 @@ func validateSynthesisParameters(r *http.Request) (presenters.SynthesisInfos, bo
 	state := true
 	infos := presenters.SynthesisInfos{}
 
-	if r.URL.Query().Get("code") != "" {
-		infos.AccessToken = r.URL.Query().Get("code")
+	apiToken, err := tools.GetAPITokenFromJWT(r)
+	if err == nil {
+		infos.AccessToken = apiToken
 	}
 
 	if r.URL.Query().Get("id") != "" {
@@ -124,10 +136,6 @@ func validateSynthesisParameters(r *http.Request) (presenters.SynthesisInfos, bo
 
 	if len(r.Form["ngram"]) > 0 {
 		infos.Datas.NGram = strings.ToUpper(r.Form["ngram"][0])
-	}
-
-	if infos.AccessToken == "" && len(r.Form["accessToken"]) > 0 {
-		infos.AccessToken = r.Form["accessToken"][0]
 	}
 
 	if infos.ModeConnexion == "" && len(r.Form["mode"]) > 0 {

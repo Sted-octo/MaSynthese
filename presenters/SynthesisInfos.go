@@ -12,7 +12,8 @@ type FormInfos struct {
 	TaceFiscalYear              string
 	TaceOptimist                string
 	TaceInternal                string
-	AuthCode                    string
+	TacePeriodWithDiscount      string
+	TaceOptimistWithDiscount    string
 	NGram                       string
 	Human                       PeopleInfos
 	IncludeDiscountInTacePeriod bool
@@ -25,6 +26,7 @@ type PeopleInfos struct {
 	EntryDate  string
 	ID         string
 	Team       string
+	TeamId     int64
 	JobName    string
 	TargetTace string
 }

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Octo'ptimiste</title>
+        <title>Octo'</title>
         <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
@@ -12,7 +12,7 @@
                 <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
                 <div class="filters automarginleft">
                     <div class="innerfilters">
-                        <label for="ngram">3/4-gramme&nbsp;</label>
+                        <label for="ngram">Poly&nbsp;</label>
                         <input class="{{.CssClass.NGram}}" type="text" name="ngram" value="{{.Datas.NGram}}"><br\>
                         <input type="submit" value="Change" name="btnNGramChange">
                     </div>
@@ -34,7 +34,7 @@
                         <input type="submit" value="Rafraichir" name="btnRefresh">
                     </div>
                     <div class="innerfiltersDiscount">
-                        <label for="includeDiscountInTacePeriod" class="smallText discount">Discount</label>  
+                        <label for="includeDiscountInTacePeriod" class="smallText discount">Discount&nbsp;</label>  
                         <input type="checkbox" name="includeDiscountInTacePeriod"  {{if .Datas.IncludeDiscountInTacePeriod}}checked{{end}}/>                 
                     </div>
                 </div>
@@ -52,7 +52,7 @@
             <div class="tools"> 
                 <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
                     <div class="simple"><label class="{{.CssClass.Human.Quadri}}">{{.Datas.Human.Quadri}}</label></div>
-                    <div class="simple"><label class="{{.CssClass.Human.Team}}">{{.Datas.Human.Team}}</label></div>
+                    <div class="simple"><label class="{{.CssClass.Human.Team}}"><a href="/tribe?id={{.Datas.Human.TeamId}}&tribe={{.Datas.Human.Team}}">{{.Datas.Human.Team}}</a></label></div>
                 </div>
                 <div class="infos {{if not .CssClass.Human.Quadri}} hidden {{end}}">
                     <div class="simple"><label class="{{.CssClass.Human.FirstName}}">{{.Datas.Human.FirstName}}</label></div>
@@ -113,7 +113,6 @@
                 </div>
             </div>
             <div class="hidden">
-                <input name="accessToken" value="{{.AccessToken}}">
                 <input name="idOctoUser" value="{{.Datas.Id}}">
                 <input name="mode" value="{{.ModeConnexion}}">
             </div>

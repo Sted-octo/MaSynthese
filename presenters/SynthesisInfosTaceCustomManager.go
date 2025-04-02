@@ -22,7 +22,8 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *domain.Period, activ
 	pivotDate := time.Now()
 	var err error
 	if timeInput == nil {
-		timeInput, err = dataproviders.TimeInputGetter(infos.AccessToken, infos.Datas.Id, tools.DateToString(periodFiscal.Start), tools.DateToString(periodFiscal.End), 50, infrastructure.GlobalPurposeProjectsSingletonGetter())
+		timeInputGetter := dataproviders.TimeInputGetter{}
+		timeInput, err = timeInputGetter.Get(infos.AccessToken, infos.Datas.Id, tools.DateToString(periodFiscal.Start), tools.DateToString(periodFiscal.End), 50, infrastructure.GlobalPurposeProjectsSingletonGetter())
 		if err != nil {
 			return err
 		}

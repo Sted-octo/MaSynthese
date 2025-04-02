@@ -29,13 +29,7 @@ func loginGET(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if infos.Datas.AuthCode != "" {
-			cookie := http.Cookie{
-				Name:   "AccessToken",
-				Value:  infos.AccessToken,
-				Path:   "/",
-				MaxAge: 1,
-			}
-			http.SetCookie(w, &cookie)
+			tools.StoreAPITokenInJWT(w, infos.AccessToken)
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s", presenters.MODE_CONNEXION_AUTH), http.StatusTemporaryRedirect)
 			return
 		}
@@ -67,13 +61,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			if infos.Datas.AuthCode != "" {
-				cookie := http.Cookie{
-					Name:   "AccessToken",
-					Value:  infos.AccessToken,
-					Path:   "/",
-					MaxAge: 1,
-				}
-				http.SetCookie(w, &cookie)
+				tools.StoreAPITokenInJWT(w, infos.AccessToken)
 				http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s", presenters.MODE_CONNEXION_AUTH), http.StatusFound)
 				return
 			}
@@ -84,13 +72,7 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 				http.Redirect(w, r, "/loginform?err=tk", http.StatusTemporaryRedirect)
 				return
 			}
-			cookie := http.Cookie{
-				Name:   "AccessToken",
-				Value:  infos.AccessToken,
-				Path:   "/",
-				MaxAge: 1,
-			}
-			http.SetCookie(w, &cookie)
+			tools.StoreAPITokenInJWT(w, infos.AccessToken)
 			http.Redirect(w, r, fmt.Sprintf("/synthesis?mode=%s&id=%s", presenters.MODE_CONNEXION_ID, infos.Datas.Id), http.StatusTemporaryRedirect)
 			return
 		}

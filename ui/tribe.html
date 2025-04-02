@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Octo'ptimist</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
+    <body>
+        <form method="post" action="tribe">
+            <div class="header">
+                <img src="/static/octoptimist.svg" alt="Octo pti mist" class="logo">
+                <div class="filters automarginleft">
+                    <div class="innerfilters">
+                        <label for="bypass">Bypass poly&nbsp;</label>
+                        <input class="{{.CssClass.NGram}}" type="text" name="bypass" value="{{.BypassNicknames}}"><br\>
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
+                        <input type="submit" value="&larr;"  name="btnFYPrev">
+                        <label for="btnFYPrev">&nbsp;FY{{.Datas.FiscalYear}}&nbsp;</label>
+                        <input type="submit" value="&rarr;" name="btnFYNext">
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
+                        <label for="startdate"> Période du </label>
+                        <input class="{{.CssClass.StartDate}}" type="date" name="startdate" value="{{.Datas.StartDate}}"><br\>
+                        <label for="enddate"> au </label>
+                        <input class="{{.CssClass.EndDate}}" type="date" name="enddate" value="{{.Datas.EndDate}}">
+
+                        <input type="submit" value="Rafraichir" name="btnRefresh">
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
+                        <a class="button" href="#popup1">?</a>
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="innerfilters">
+                        <input type="submit" value="Déconnexion" name="btnExit">
+                    </div>
+                </div>
+            </div>
+            <div class="tools"> 
+                <div class="infos ">
+                    <div class="simple"><label class="bigText">{{.TribeName}}</label></div>
+                    <div class="simple"><label class="bigText">{{.MembersCount}}</label></div>
+                </div>             
+                <div class="infos {{if not .CssClass.TacePeriod}} hidden {{end}}">
+                    <label for="tacePeriod" class="smallText">Tace Période</label><br/>
+                    <label class="{{.CssClass.TacePeriod}}" name="tacePeriod">{{.Datas.TacePeriod}} %</label><br>
+                </div>
+                <div class="infos discount {{if not .CssClass.TacePeriodWithDiscount}} hidden {{end}}">
+                    <label for="TacePeriodWithDiscount" class="smallText">Tace Période</label><br/>
+                    <label class="{{.CssClass.TacePeriodWithDiscount}}" name="TacePeriodWithDiscount">{{.Datas.TacePeriodWithDiscount}} %</label><br>
+                    <label for="TaceTarget" class="smallText">Avec discount</label>
+                </div>
+                <div class="infos {{if not .CssClass.TaceFiscalYear}} hidden {{end}}">
+                    <label for="TaceFiscalYear" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
+                    <label class="{{.CssClass.TaceFiscalYear}}" name="TaceFiscalYear">{{.Datas.TaceFiscalYear}} %</label><br>
+                    <label for="TaceTarget" class="smallText">Octopod</label>
+                </div>
+                <div class="optimist {{if not .CssClass.TaceOptimist}} hidden {{end}}">
+                    <label for="TaceOptimist" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
+                    <label class="{{.CssClass.TaceOptimist}}" name="TaceOptimist">{{.Datas.TaceOptimist}} %</label><br>
+                    <label for="TaceTarget" class="smallText">Optimiste</label>
+                </div>
+                <div class="optimist discount {{if not .CssClass.TaceOptimistWithDiscount}} hidden {{end}}">
+                    <label for="TaceOptimistWithDiscount" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
+                    <label class="{{.CssClass.TaceOptimistWithDiscount}}" name="TaceOptimistWithDiscount">{{.Datas.TaceOptimistWithDiscount}} %</label><br>
+                    <label for="TaceTarget" class="smallText">Optimiste avec discount</label>
+                </div>
+                <div class="infos {{if not .CssClass.TaceInternal}} hidden {{end}}">
+                    <label for="TaceInternal" class="smallText">Tace FY{{.Datas.FiscalYear}}</label><br/>
+                    <label class="{{.CssClass.TaceInternal}}" name="TaceInternal">{{.Datas.TaceInternal}} %</label><br>
+                    <label for="TaceTarget" class="smallText">I.G. inclus</label>
+                </div>
+            </div>
+            <div class="result">
+                <div class="table">
+                    <div class="row headRow">
+                        <div class="medium">Job</div>
+                        <div class="little">Tace Objectif</div>
+                        <div class="medium">Nom</div>                        
+                        <div class="little">Jours ouvrés</div>
+                        <div class="little">Poly</div>
+                        <div class="little">Tace Période</div>
+                        <div class="little">Tace Période avec discount</div>
+                        <div class="little">Tace FY{{.Datas.FiscalYear}} Octopod</div>
+                        <div class="little">Tace FY{{.Datas.FiscalYear}} Optimist</div>
+                        <div class="little">Tace FY{{.Datas.FiscalYear}} Optimist avec discount</div>
+                    </div>
+                    {{range .Members}}
+                    <div class="row permanent">
+                        <div class="medium">{{.JobName}}</div>
+                        <div class="little">{{.TargetTace}}</div>
+                        <div class="medium">{{.FirstName}}&nbsp;{{.Name}}</div>
+                        <div class="little">{{.TotalWorkDays}}</div>
+                        <div class="little"><a href="/synthesis?nickname={{.Nickname}}">{{.Nickname}}</a></div>
+                        <div class="little">{{.TacePeriod}}</div>
+                        <div class="little discount">{{.TacePeriodWithDiscount}}</div>
+                        <div class="little">{{.TaceFiscalYear}}</div>
+                        <div class="little secondaryColor">{{.TaceOptimist}}</div>                        
+                        <div class="little discount">{{.TaceOptimistWithDiscount}}</div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+            <div class="hidden">
+                <input name="tribeId" value="{{.TribeId}}">
+                <input name="tribeName" value="{{.TribeName}}">
+            </div>
+        </form>
+    </body>
+</html>

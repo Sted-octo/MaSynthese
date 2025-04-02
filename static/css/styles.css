@@ -10,7 +10,7 @@ input {
     padding-bottom: 4px;
 }
 
-input[type="submit"], a{
+input[type="submit"]{
     cursor:pointer;
     background-color: #586586;
     border-color: transparent;
@@ -20,6 +20,11 @@ input[type="submit"], a{
     padding-right: 10px;
     padding-left: 10px;
     text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: #00d2dd;
 }
 
 input[type="date"]{
@@ -153,7 +158,7 @@ body {
     padding: 20px;
     margin-bottom: 2px;
     display: inline-block;
-    color: #00d2dd;;
+    color: #00d2dd;
     text-align: center;
     margin-right: 10px;
 }

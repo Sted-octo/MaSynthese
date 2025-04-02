@@ -6,10 +6,11 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strconv"
 	"time"
 )
 
-func PeoplesGetter(accessToken string) (map[string]domain.People, error) {
+func PeoplesGetter(accessToken string) (map[string]domain.People, map[string][]domain.People, error) {
 	httpClient := http.Client{
 		Timeout: time.Duration(10 * time.Second),
 	}
@@ -21,7 +22,7 @@ func PeoplesGetter(accessToken string) (map[string]domain.People, error) {
 	request, err := http.NewRequest("GET", urlApi, nil)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	request.Header.Add("content-type", "application/json")
@@ -29,27 +30,29 @@ func PeoplesGetter(accessToken string) (map[string]domain.People, error) {
 
 	response, err := httpClient.Do(request)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	defer response.Body.Close()
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	var peoples []domain.People
 
 	err = json.Unmarshal(body, &peoples)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	peoplesMap := make(map[string]domain.People)
+	peopleByTribeMap := make(map[string][]domain.People)
 
 	for _, people := range peoples {
 		peoplesMap[people.Nickname] = people
+		peopleByTribeMap[strconv.FormatInt(people.Lob.ID, 10)] = append(peopleByTribeMap[strconv.FormatInt(people.Lob.ID, 10)], people)
 	}
 
-	return peoplesMap, nil
+	return peoplesMap, peopleByTribeMap, nil
 }

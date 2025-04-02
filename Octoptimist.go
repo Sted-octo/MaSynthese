@@ -20,6 +20,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", ui.Login)
 	http.HandleFunc("/synthesis", ui.Synthesis)
+	http.HandleFunc("/tribe", ui.Tribe)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9090"

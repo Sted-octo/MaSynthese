@@ -8,8 +8,9 @@ import (
 var lockPeoples = &sync.Mutex{}
 
 type PeoplesGlobalMap struct {
-	Loader    func(string) (map[string]People, error)
-	PeopleMap map[string]People
+	Loader           func(string) (map[string]People, map[string][]People, error)
+	PeopleMap        map[string]People
+	PeopleByTribeMap map[string][]People
 }
 
 func (peoples *PeoplesGlobalMap) Init(accessToken string) {
@@ -18,7 +19,7 @@ func (peoples *PeoplesGlobalMap) Init(accessToken string) {
 		defer lockPeoples.Unlock()
 		if peoples.PeopleMap == nil {
 			var err error
-			peoples.PeopleMap, err = peoples.Loader(accessToken)
+			peoples.PeopleMap, peoples.PeopleByTribeMap, err = peoples.Loader(accessToken)
 			if err != nil {
 				log.Fatalln(err)
 			}

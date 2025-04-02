@@ -3,6 +3,7 @@ module Octoptimist
 go 1.23
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/jarcoal/httpmock v1.2.0
 	github.com/stretchr/testify v1.7.5
 )
