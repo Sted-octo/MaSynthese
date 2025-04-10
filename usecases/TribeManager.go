@@ -20,6 +20,7 @@ func (tribeManager *TribeManager) Manage(
 	bankHolydays *domain.BankHolidays,
 	globalPurposeProjectsManager *domain.GlobalPurposeProjects,
 	discountProjectsManager *domain.DiscountProjects,
+	targetTaceManager *domain.TargetTaces,
 	timeInputGetter domain.ITimeInputGetter,
 	activityRateGetter domain.IActivityRateGetter,
 	accessToken string,
@@ -41,15 +42,28 @@ func (tribeManager *TribeManager) Manage(
 			if strings.Contains(bypassNicknames, peoples[j].Nickname) {
 				continue
 			}
+
+			if validEntryDate, err := time.Parse("2006-01-02", peoples[j].EntryDate); err == nil {
+				if validEntryDate.After(endDay) {
+					continue
+				}
+			}
+			if validLeavingDate, err := time.Parse("2006-01-02", peoples[j].LeavingDate); err == nil {
+				if validLeavingDate.Before(startDay) {
+					continue
+				}
+			}
+
 			wg.Add(1)
 			go managePeople(
 				peoples[j],
 				startDay,
 				endDay,
-				periodFiscal,
+				*periodFiscal,
 				bankHolydays,
 				globalPurposeProjectsManager,
 				discountProjectsManager,
+				targetTaceManager,
 				timeInputGetter,
 				activityRateGetter,
 				accessToken,
@@ -77,10 +91,11 @@ func managePeople(
 	people domain.People,
 	startDay time.Time,
 	endDay time.Time,
-	periodFiscal *domain.Period,
+	periodFiscal domain.Period,
 	bankHolydays *domain.BankHolidays,
 	globalPurposeProjectsManager *domain.GlobalPurposeProjects,
 	discountProjectsManager *domain.DiscountProjects,
+	targetTaceManager *domain.TargetTaces,
 	timeInputGetter domain.ITimeInputGetter,
 	activityRateGetter domain.IActivityRateGetter,
 	accessToken string,
@@ -111,6 +126,19 @@ func managePeople(
 		periodFiscal.Start = entryDate
 	}
 
+	if validLeavingDay, err := time.Parse("2006-01-02", people.LeavingDate); err == nil {
+		if (startDay.Before(validLeavingDay) || tools.DatesEquals(startDay, validLeavingDay)) && validLeavingDay.Before(endDay) {
+			endDay = validLeavingDay
+		}
+		if periodFiscal.Start.Before(validLeavingDay) && validLeavingDay.Before(periodFiscal.End) {
+			periodFiscal.End = validLeavingDay
+		}
+	}
+
+	if targetTace, ok := targetTaceManager.GetTargetTaceForJobId(int(peopleInTribe.Person.JobId)); ok {
+		peopleInTribe.TargetTace = targetTace
+	}
+
 	periodAnalysis := domain.NewPeriod(startDay, endDay, bankHolydays)
 
 	totalWorkDays, err := periodAnalysis.TotalWorkDaysGetter()
@@ -120,7 +148,7 @@ func managePeople(
 
 	activityRate, err := activityRateGetter.Get(accessToken, strconv.FormatInt(people.ID, 10), tools.DateToString(periodAnalysis.Start), tools.DateToString(periodAnalysis.End))
 	if err == nil {
-		peopleInTribe.OctopodFyTace.Value = activityRate.Value
+		peopleInTribe.ActivityRates.OctopodFiscalYearActivityRate.Value = activityRate.Value
 	}
 
 	timeInput, err := timeInputGetter.Get(accessToken, strconv.FormatInt(people.ID, 10), tools.DateToString(periodAnalysis.Start), tools.DateToString(periodAnalysis.End), 50, globalPurposeProjectsManager)
@@ -128,10 +156,10 @@ func managePeople(
 		timeInput = timeInput.TimeInputEnricher(periodAnalysis, pivot)
 
 		activityRatePeriodTace, _ := timeInput.ActivityRateCalculator(pivot, totalWorkDays)
-		peopleInTribe.PeriodTace.Value = activityRatePeriodTace.Value
+		peopleInTribe.ActivityRates.RecalculatedPeriodActivityRate.Value = activityRatePeriodTace.Value
 
 		activityOptimistRateFiscalYear, _ := timeInput.ActivityRateOptimistCalculator(pivot, totalWorkDays)
-		peopleInTribe.OptimistTace.Value = activityOptimistRateFiscalYear.Value
+		peopleInTribe.ActivityRates.OptimistActivityRate.Value = activityOptimistRateFiscalYear.Value
 
 		timeInputWithDiscount := timeInput.Clone()
 
@@ -139,10 +167,10 @@ func managePeople(
 			timeInputWithDiscount = timeInputWithDiscount.TimeInputDiscountAdaptator(true, discountProjectsManager)
 
 			activityRatePeriodWithDiscountTace, _ := timeInputWithDiscount.ActivityRateCalculator(pivot, totalWorkDays)
-			peopleInTribe.PeriodWithDiscountTace.Value = activityRatePeriodWithDiscountTace.Value
+			peopleInTribe.ActivityRates.RecalculatedPeriodWithDiscountActivityRate.Value = activityRatePeriodWithDiscountTace.Value
 
 			activityRateOptimistWithDiscountPeriod, _ := timeInputWithDiscount.ActivityRateOptimistCalculator(pivot, totalWorkDays)
-			peopleInTribe.OptimistWithDiscountTace.Value = activityRateOptimistWithDiscountPeriod.Value
+			peopleInTribe.ActivityRates.OptimistWithDiscountActivityRate.Value = activityRateOptimistWithDiscountPeriod.Value
 		}
 
 	}

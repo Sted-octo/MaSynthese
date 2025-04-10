@@ -39,11 +39,28 @@ func PeopleGetter(accessToken string) (*domain.People, error) {
 		return nil, err
 	}
 
-	var people domain.People
+	var peopleDto PeopleDto
 
-	err = json.Unmarshal(body, &people)
+	err = json.Unmarshal(body, &peopleDto)
 	if err != nil {
 		return nil, err
+	}
+
+	people := domain.People{
+		ID:              peopleDto.ID,
+		LastName:        peopleDto.LastName,
+		FirstName:       peopleDto.FirstName,
+		Nickname:        peopleDto.Nickname,
+		EntryDate:       peopleDto.EntryDate,
+		JobId:           peopleDto.Job.ID,
+		JobName:         peopleDto.Job.Name,
+		LobId:           peopleDto.Lob.ID,
+		LobAbbreviation: peopleDto.Lob.Abbreviation,
+		LeagueId:        peopleDto.Lob.League.ID,
+		LeagueName:      peopleDto.Lob.League.Name,
+	}
+	if peopleDto.LeavingDate != nil {
+		people.LeavingDate = peopleDto.LeavingDate.(string)
 	}
 
 	return &people, nil
@@ -78,11 +95,28 @@ func PeopleByIdGetter(accessToken string, peopleId string) (*domain.People, erro
 		return nil, err
 	}
 
-	var people domain.People
+	var peopleDto PeopleDto
 
-	err = json.Unmarshal(body, &people)
+	err = json.Unmarshal(body, &peopleDto)
 	if err != nil {
 		return nil, err
+	}
+	people := domain.People{
+		ID:              peopleDto.ID,
+		LastName:        peopleDto.LastName,
+		FirstName:       peopleDto.FirstName,
+		Nickname:        peopleDto.Nickname,
+		EntryDate:       peopleDto.EntryDate,
+		JobId:           peopleDto.Job.ID,
+		JobName:         peopleDto.Job.Name,
+		LobId:           peopleDto.Lob.ID,
+		LobAbbreviation: peopleDto.Lob.Abbreviation,
+		LeagueId:        peopleDto.Lob.League.ID,
+		LeagueName:      peopleDto.Lob.League.Name,
+	}
+
+	if peopleDto.LeavingDate != nil {
+		people.LeavingDate = peopleDto.LeavingDate.(string)
 	}
 
 	return &people, nil

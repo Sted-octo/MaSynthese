@@ -51,7 +51,7 @@ func PeoplesGetter(accessToken string) (map[string]domain.People, map[string][]d
 
 	for _, people := range peoples {
 		peoplesMap[people.Nickname] = people
-		peopleByTribeMap[strconv.FormatInt(people.Lob.ID, 10)] = append(peopleByTribeMap[strconv.FormatInt(people.Lob.ID, 10)], people)
+		peopleByTribeMap[strconv.FormatInt(people.LobId, 10)] = append(peopleByTribeMap[strconv.FormatInt(people.LobId, 10)], people)
 	}
 
 	return peoplesMap, peopleByTribeMap, nil

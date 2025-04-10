@@ -23,7 +23,7 @@ func Test_EndDate_Before_StartDate_Should_Return_Error(t *testing.T) {
 func Test_StartDate_Monday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.June, 27)
-	end := time.Date(2022, time.June, 27, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.June, 27)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -34,7 +34,7 @@ func Test_StartDate_Monday_Equal_EndDate_Should_Return_1(t *testing.T) {
 func Test_StartDate_Tuesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.June, 28)
-	end := time.Date(2022, time.June, 28, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.June, 28)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -45,7 +45,7 @@ func Test_StartDate_Tuesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 func Test_StartDate_Wednesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.June, 29)
-	end := time.Date(2022, time.June, 29, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.June, 29)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -56,7 +56,7 @@ func Test_StartDate_Wednesday_Equal_EndDate_Should_Return_1(t *testing.T) {
 func Test_StartDate_Thursday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.June, 30)
-	end := time.Date(2022, time.June, 30, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.June, 30)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -67,7 +67,7 @@ func Test_StartDate_Thursday_Equal_EndDate_Should_Return_1(t *testing.T) {
 func Test_StartDate_Friday_Equal_EndDate_Should_Return_1(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.July, 1)
-	end := time.Date(2022, time.July, 1, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.July, 1)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -78,7 +78,7 @@ func Test_StartDate_Friday_Equal_EndDate_Should_Return_1(t *testing.T) {
 func Test_StartDate_Saturday_Equal_EndDate_Should_Return_0(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.July, 2)
-	end := time.Date(2022, time.July, 2, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.July, 2)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -89,7 +89,7 @@ func Test_StartDate_Saturday_Equal_EndDate_Should_Return_0(t *testing.T) {
 func Test_StartDate_Sunday_Equal_EndDate_Should_Return_0(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.July, 3)
-	end := time.Date(2022, time.July, 3, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.July, 3)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()
@@ -100,7 +100,7 @@ func Test_StartDate_Sunday_Equal_EndDate_Should_Return_0(t *testing.T) {
 func Test_Two_Days_Except_Weekend_Should_Return_2(t *testing.T) {
 	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
 	start := tools.DateSimple(2022, time.July, 4)
-	end := time.Date(2022, time.July, 5, 23, 59, 59, 0, tools.TimeZoneGetter("Europe/Paris"))
+	end := tools.DateSimple(2022, time.July, 5)
 	period := domain.NewPeriod(start, end, &bankHolidays)
 
 	totalDays, _ := period.TotalWorkDaysGetter()

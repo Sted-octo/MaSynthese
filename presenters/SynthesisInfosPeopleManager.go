@@ -30,16 +30,16 @@ func (infos *SynthesisInfos) manageInfosPeople() (time.Time, error) {
 		infos.Datas.Human.Quadri = people.Nickname
 		infos.Datas.Human.FirstName = people.FirstName
 		infos.Datas.Human.LastName = people.LastName
-		infos.Datas.Human.Team = people.Lob.Abbreviation
-		infos.Datas.Human.TeamId = people.Lob.ID
+		infos.Datas.Human.Team = people.LobAbbreviation
+		infos.Datas.Human.TeamId = people.LobId
 		infos.CssClass.Human.Quadri = "bigText"
 		infos.CssClass.Human.Team = "bigText secondaryColor"
 		infos.CssClass.Human.ID = "smallText"
 		infos.CssClass.Human.EntryDate = "smallText"
 		infos.Datas.Human.EntryDate = people.EntryDate
 
-		if targetTace, ok := infrastructure.TargetTacesSingletonGetter().GetTargetTaceForJobId(int(people.Job.ID)); ok {
-			infos.Datas.Human.JobName = people.Job.Name
+		if targetTace, ok := infrastructure.TargetTacesSingletonGetter().GetTargetTaceForJobId(int(people.JobId)); ok {
+			infos.Datas.Human.JobName = people.JobName
 			infos.Datas.Human.TargetTace = strconv.Itoa(targetTace)
 			infos.CssClass.Human.TargetTace = "bigText"
 		}

@@ -12,6 +12,8 @@ type TribeMember struct {
 	TacePeriodWithDiscount   string
 	TaceOptimistWithDiscount string
 	TacePeriod               string
+	StillInTribe             bool
+	LeavingDate              string
 }
 
 type TribeInfos struct {

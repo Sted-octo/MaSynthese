@@ -51,14 +51,17 @@ func tribeGET(w http.ResponseWriter, r *http.Request) {
 }
 
 func manageTribeInfos(infos *presenters.TribeInfos, fiscalPeriod *domain.Period, startDay time.Time, endDay time.Time) *presenters.TribeInfos {
-	var taceFiscalYearAccumulation float64 = 0
-	var taceOptimistAccumulation float64 = 0
-	var tacePeriodAccumulation float64 = 0
-	var tacePeriodWithDiscountAccumulation float64 = 0
-	var taceOptimistWithDiscountAccumulation float64 = 0
 	var peoplesInTribe []domain.PeopleInTribe
 
-	if peoples, ok := infrastructure.PeoplesGlobalMapSingletonGetter().PeopleByTribeMap[infos.TribeId]; ok {
+	lobGetter := dataproviders.LobGetter{}
+	peoplesByLeagueIdGetter := dataproviders.PeoplesByLeagueIdGetter{}
+
+	lobId, _ := strconv.ParseInt(infos.TribeId, 10, 64)
+
+	peoplesByLobIdGetter := usecases.PeoplesByLobIdGetter{}
+	peoples, err := peoplesByLobIdGetter.Get(infos.AccessToken, lobId, fiscalPeriod, &lobGetter, &peoplesByLeagueIdGetter)
+
+	if err == nil {
 		tribeManager := usecases.TribeManager{}
 
 		peoplesInTribe = tribeManager.Manage(
@@ -69,6 +72,7 @@ func manageTribeInfos(infos *presenters.TribeInfos, fiscalPeriod *domain.Period,
 			infrastructure.BankHolidaysSingletonGetter(),
 			infrastructure.GlobalPurposeProjectsSingletonGetter(),
 			infrastructure.DiscountProjectsSingletonGetter(),
+			infrastructure.TargetTacesSingletonGetter(),
 			&dataproviders.TimeInputGetter{},
 			&dataproviders.ActivityRateGetter{},
 			infos.AccessToken,
@@ -80,47 +84,56 @@ func manageTribeInfos(infos *presenters.TribeInfos, fiscalPeriod *domain.Period,
 				Name:      peopleInTribe.Person.LastName,
 				Nickname:  peopleInTribe.Person.Nickname,
 			}
+			tribeMember.StillInTribe = true
+			if peopleInTribe.Person.LeavingDate != "" {
+				tribeMember.StillInTribe = false
+				if leavingDate, err := time.Parse("2006-01-02", peopleInTribe.Person.LeavingDate); err == nil {
+					if startDay.Before(leavingDate) && leavingDate.Before(endDay) {
+						tribeMember.LeavingDate = peopleInTribe.Person.LeavingDate
+					}
+				}
+			}
 
-			if targetTace, ok := infrastructure.TargetTacesSingletonGetter().GetTargetTaceForJobId(int(peopleInTribe.Person.Job.ID)); ok {
-				tribeMember.JobName = peopleInTribe.Person.Job.Name
-				tribeMember.TargetTace = strconv.Itoa(targetTace)
+			tribeMember.JobName = peopleInTribe.Person.JobName
+			if peopleInTribe.TargetTace != 0 {
+				tribeMember.TargetTace = strconv.Itoa(peopleInTribe.TargetTace)
 			}
 			tribeMember.TotalWorkDays = strconv.Itoa(peopleInTribe.PeriodWorkDays)
-			tribeMember.TacePeriod = fmt.Sprintf("%.2f", peopleInTribe.PeriodTace.Value*100.0)
-			tribeMember.TaceFiscalYear = fmt.Sprintf("%.2f", peopleInTribe.OctopodFyTace.Value*100.0)
-			tribeMember.TaceOptimist = fmt.Sprintf("%.2f", peopleInTribe.OptimistTace.Value*100.0)
-			tribeMember.TacePeriodWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.PeriodWithDiscountTace.Value*100.0)
-			tribeMember.TaceOptimistWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.OptimistWithDiscountTace.Value*100.0)
-
-			taceFiscalYearAccumulation += peopleInTribe.OctopodFyTace.Value
-			taceOptimistAccumulation += peopleInTribe.OptimistTace.Value
-			tacePeriodWithDiscountAccumulation += peopleInTribe.PeriodWithDiscountTace.Value
-			taceOptimistWithDiscountAccumulation += peopleInTribe.OptimistWithDiscountTace.Value
-			tacePeriodAccumulation += peopleInTribe.PeriodTace.Value
+			tribeMember.TacePeriod = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.RecalculatedPeriodActivityRate.Value*100.0)
+			tribeMember.TaceFiscalYear = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.OctopodFiscalYearActivityRate.Value*100.0)
+			tribeMember.TaceOptimist = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.OptimistActivityRate.Value*100.0)
+			tribeMember.TacePeriodWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.RecalculatedPeriodWithDiscountActivityRate.Value*100.0)
+			tribeMember.TaceOptimistWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.OptimistWithDiscountActivityRate.Value*100.0)
 
 			infos.Members = append(infos.Members, tribeMember)
 		}
+
+		tribeTaceCalculator := new(usecases.TribeTaceCalculator)
+
+		activityRates := tribeTaceCalculator.Calculate(peoplesInTribe)
+
+		infos.Datas.TaceFiscalYear = fmt.Sprintf("%.2f", activityRates.OctopodFiscalYearActivityRate.Value*100.0)
+		infos.CssClass.TaceFiscalYear = "bigText"
+
+		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityRates.OptimistActivityRate.Value*100.0)
+		infos.CssClass.TaceOptimist = "bigText"
+
+		infos.Datas.TacePeriodWithDiscount = fmt.Sprintf("%.2f", activityRates.RecalculatedPeriodWithDiscountActivityRate.Value*100.0)
+		infos.CssClass.TacePeriodWithDiscount = "bigText"
+
+		infos.Datas.TacePeriod = fmt.Sprintf("%.2f", activityRates.RecalculatedPeriodActivityRate.Value*100.0)
+		infos.CssClass.TacePeriod = "bigText"
+
+		infos.Datas.TaceOptimistWithDiscount = fmt.Sprintf("%.2f", activityRates.OptimistWithDiscountActivityRate.Value*100.0)
+		infos.CssClass.TaceOptimistWithDiscount = "bigText"
+
+		infos.Datas.FiscalYear = fiscalPeriod.End.Format("06")
 
 		sort.SliceStable(infos.Members, func(i, j int) bool {
 			return infos.Members[i].JobName < infos.Members[j].JobName
 		})
 
 	}
-
-	infos.Datas.TaceFiscalYear = fmt.Sprintf("%.2f", taceFiscalYearAccumulation/float64(len(peoplesInTribe))*100.0)
-	infos.CssClass.TaceFiscalYear = "bigText"
-
-	infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", taceOptimistAccumulation/float64(len(peoplesInTribe))*100.0)
-	infos.CssClass.TaceOptimist = "bigText"
-
-	infos.Datas.TacePeriodWithDiscount = fmt.Sprintf("%.2f", tacePeriodWithDiscountAccumulation/float64(len(peoplesInTribe))*100.0)
-	infos.CssClass.TacePeriodWithDiscount = "bigText"
-
-	infos.Datas.TacePeriod = fmt.Sprintf("%.2f", tacePeriodAccumulation/float64(len(peoplesInTribe))*100.0)
-	infos.CssClass.TacePeriod = "bigText"
-
-	infos.Datas.TaceOptimistWithDiscount = fmt.Sprintf("%.2f", taceOptimistWithDiscountAccumulation/float64(len(peoplesInTribe))*100.0)
-	infos.CssClass.TaceOptimistWithDiscount = "bigText"
 
 	infos.MembersCount = strconv.Itoa(len(peoplesInTribe))
 
