@@ -7,26 +7,8 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-west9-docker.pkg.dev/bsjxygz-gcp-octo-lille/octoptimist-repo/octoptimist-service:latest']
   
-  # Deploy container image to Cloud Run
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'run'
-      - 'deploy'
-      - 'octoptimist-service'
-      - '--image'
-      - 'europe-west9-docker.pkg.dev/bsjxygz-gcp-octo-lille/octoptimist-repo/octoptimist-service:latest'
-      - '--region'
-      - 'europe-west9'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
-      - '--vpc-connector'
-      - 'google_vpc_access_connector.octoptimist_connector.name'
-
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
 images:
   - 'europe-west9-docker.pkg.dev/bsjxygz-gcp-octo-lille/octoptimist-repo/octoptimist-service:latest'
-
-
