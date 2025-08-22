@@ -85,8 +85,11 @@
                         <div class="medium">Job</div>
                         <div class="little">Tace Objectif</div>
                         <div class="medium">Nom</div>
-                        <div class="little">Date Départ</div>                     
-                        <div class="little">Jours ouvrés</div>                        
+                        <div class="little">Date Départ</div>
+                        <div class="little">Jours ouvrés</div>
+                        <div class="little">Jours Facturé</div>
+                        <div class="little">Jours Facturé avec discount</div>
+                        <div class="little">Jours Facturable</div>
                         <div class="little">Poly</div>
                         <div class="little">Tace Période</div>
                         <div class="little">Tace Période avec discount</div>
@@ -101,11 +104,14 @@
                         <div class="medium">{{.FirstName}}&nbsp;{{.Name}}</div>
                         <div class="little">{{.LeavingDate}}</div>
                         <div class="little">{{.TotalWorkDays}}</div>
+                        <div class="little">{{.Taced}}</div>
+                        <div class="little discount">{{.TacedWithDiscount}}</div>
+                        <div class="little">{{.TaceAble}}</div>
                         <div class="little">{{if .StillInTribe}}<a href="/synthesis?nickname={{.Nickname}}">{{end}}{{.Nickname}}{{if .StillInTribe}}</a>{{end}}</div>
                         <div class="little">{{.TacePeriod}}</div>
                         <div class="little discount">{{.TacePeriodWithDiscount}}</div>
                         <div class="little">{{.TaceFiscalYear}}</div>
-                        <div class="little secondaryColor">{{.TaceOptimist}}</div>                        
+                        <div class="little secondaryColor">{{.TaceOptimist}}</div>
                         <div class="little discount">{{.TaceOptimistWithDiscount}}</div>
                     </div>
                     {{end}}

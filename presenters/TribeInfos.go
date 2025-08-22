@@ -14,6 +14,9 @@ type TribeMember struct {
 	TacePeriod               string
 	StillInTribe             bool
 	LeavingDate              string
+	TaceAble                 string
+	Taced                    string
+	TacedWithDiscount        string
 }
 
 type TribeInfos struct {

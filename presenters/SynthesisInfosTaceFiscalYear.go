@@ -8,7 +8,7 @@ import (
 )
 
 func (infos *SynthesisInfos) manageTaceFiscalYear(periodFiscal *domain.Period) *domain.ActivityRate {
-	infos.Datas.FiscalYear = periodFiscal.End.Format("06")
+	infos.Datas.FiscalYear = periodFiscal.FiscalYearFormatYY
 
 	activityRateGetter := dataproviders.ActivityRateGetter{}
 	activityRateFiscalYear, err := activityRateGetter.Get(infos.AccessToken, infos.Datas.Id, tools.DateToString(periodFiscal.Start), tools.DateToString(periodFiscal.End))

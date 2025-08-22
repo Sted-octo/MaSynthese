@@ -155,22 +155,27 @@ func managePeople(
 	if err == nil {
 		timeInput = timeInput.TimeInputEnricher(periodAnalysis, pivot)
 
-		activityRatePeriodTace, _ := timeInput.ActivityRateCalculator(pivot, totalWorkDays)
+		activityRatePeriodTace, billableTimeTotal, workDaysWithoutDayBreak := timeInput.ActivityRateCalculator(pivot, totalWorkDays)
 		peopleInTribe.ActivityRates.RecalculatedPeriodActivityRate.Value = activityRatePeriodTace.Value
+		peopleInTribe.TaceAble = workDaysWithoutDayBreak
+		peopleInTribe.Taced = billableTimeTotal
 
-		activityOptimistRateFiscalYear, _ := timeInput.ActivityRateOptimistCalculator(pivot, totalWorkDays)
+		activityOptimistRateFiscalYear, billableOptimistTimeTotal, _ := timeInput.ActivityRateOptimistCalculator(pivot, totalWorkDays)
 		peopleInTribe.ActivityRates.OptimistActivityRate.Value = activityOptimistRateFiscalYear.Value
+		peopleInTribe.TacedOptimist = billableOptimistTimeTotal
 
 		timeInputWithDiscount := timeInput.Clone()
 
 		if timeInputWithDiscount != nil {
 			timeInputWithDiscount = timeInputWithDiscount.TimeInputDiscountAdaptator(true, discountProjectsManager)
 
-			activityRatePeriodWithDiscountTace, _ := timeInputWithDiscount.ActivityRateCalculator(pivot, totalWorkDays)
+			activityRatePeriodWithDiscountTace, billableTimeTotalWithDiscount, _ := timeInputWithDiscount.ActivityRateCalculator(pivot, totalWorkDays)
 			peopleInTribe.ActivityRates.RecalculatedPeriodWithDiscountActivityRate.Value = activityRatePeriodWithDiscountTace.Value
+			peopleInTribe.TacedWithDiscount = billableTimeTotalWithDiscount
 
-			activityRateOptimistWithDiscountPeriod, _ := timeInputWithDiscount.ActivityRateOptimistCalculator(pivot, totalWorkDays)
+			activityRateOptimistWithDiscountPeriod, billableOptimistTimeTotalWithDiscount, _ := timeInputWithDiscount.ActivityRateOptimistCalculator(pivot, totalWorkDays)
 			peopleInTribe.ActivityRates.OptimistWithDiscountActivityRate.Value = activityRateOptimistWithDiscountPeriod.Value
+			peopleInTribe.TacedOptimistWithDiscount = billableOptimistTimeTotalWithDiscount
 		}
 
 	}

@@ -150,3 +150,14 @@ func Test_One_Week_outside_weekend_Should_Return_5(t *testing.T) {
 
 	assert.Equal(t, 5, totalDays, "Total Days should be 5 for one week without holiday outside weekend")
 }
+
+func Test_250_Workdays_Without_Holiday_Should_Return_TotalWorkDays_250(t *testing.T) {
+	bankHolidays := domain.BankHolidays{Loader: MockBankHolidaysLoader}
+	start := tools.DateSimple(2024, time.January, 1)
+	end := tools.DateSimple(2024, time.December, 13)
+	period := domain.NewPeriod(start, end, &bankHolidays)
+
+	totalDays, _ := period.TotalWorkDaysGetter()
+
+	assert.Equal(t, 250, totalDays, "Total Days should be 250 for 250 work days without holiday")
+}

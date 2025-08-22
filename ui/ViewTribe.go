@@ -104,13 +104,18 @@ func manageTribeInfos(infos *presenters.TribeInfos, fiscalPeriod *domain.Period,
 			tribeMember.TaceOptimist = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.OptimistActivityRate.Value*100.0)
 			tribeMember.TacePeriodWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.RecalculatedPeriodWithDiscountActivityRate.Value*100.0)
 			tribeMember.TaceOptimistWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.ActivityRates.OptimistWithDiscountActivityRate.Value*100.0)
+			tribeMember.TaceAble = fmt.Sprintf("%.2f", peopleInTribe.TaceAble)
+			tribeMember.Taced = fmt.Sprintf("%.2f", peopleInTribe.Taced)
+			tribeMember.TacedWithDiscount = fmt.Sprintf("%.2f", peopleInTribe.TacedWithDiscount)
 
 			infos.Members = append(infos.Members, tribeMember)
 		}
 
 		tribeTaceCalculator := new(usecases.TribeTaceCalculator)
 
-		activityRates := tribeTaceCalculator.Calculate(peoplesInTribe)
+		period := domain.NewPeriod(startDay, endDay, infrastructure.BankHolidaysSingletonGetter())
+
+		activityRates := tribeTaceCalculator.Calculate(peoplesInTribe, *period)
 
 		infos.Datas.TaceFiscalYear = fmt.Sprintf("%.2f", activityRates.OctopodFiscalYearActivityRate.Value*100.0)
 		infos.CssClass.TaceFiscalYear = "bigText"
@@ -127,7 +132,7 @@ func manageTribeInfos(infos *presenters.TribeInfos, fiscalPeriod *domain.Period,
 		infos.Datas.TaceOptimistWithDiscount = fmt.Sprintf("%.2f", activityRates.OptimistWithDiscountActivityRate.Value*100.0)
 		infos.CssClass.TaceOptimistWithDiscount = "bigText"
 
-		infos.Datas.FiscalYear = fiscalPeriod.End.Format("06")
+		infos.Datas.FiscalYear = fiscalPeriod.FiscalYearFormatYY
 
 		sort.SliceStable(infos.Members, func(i, j int) bool {
 			return infos.Members[i].JobName < infos.Members[j].JobName
@@ -159,15 +164,21 @@ func tribePOST(w http.ResponseWriter, r *http.Request) {
 		infos.SetPeriodIfEmpty(fiscalPeriod)
 
 		if len(r.Form["btnFYPrev"]) > 0 {
-			fiscalPeriod.Previous()
-			infos.Datas.StartDate = tools.DateToString(fiscalPeriod.Start)
-			infos.Datas.EndDate = tools.DateToString(fiscalPeriod.End)
+			newFiscalPeriod := usecases.FiscalPeriodPreviousGetter(fiscalPeriod)
+
+			infos.Datas.StartDate = tools.DateToString(newFiscalPeriod.Start)
+			infos.Datas.EndDate = tools.DateToString(newFiscalPeriod.End)
+			infos.Datas.FiscalYear = newFiscalPeriod.FiscalYearFormatYY
+			fiscalPeriod = newFiscalPeriod
 		}
 
 		if len(r.Form["btnFYNext"]) > 0 {
-			fiscalPeriod.Next()
-			infos.Datas.StartDate = tools.DateToString(fiscalPeriod.Start)
-			infos.Datas.EndDate = tools.DateToString(fiscalPeriod.End)
+			newFiscalPeriod := usecases.FiscalPeriodNextGetter(fiscalPeriod)
+
+			infos.Datas.StartDate = tools.DateToString(newFiscalPeriod.Start)
+			infos.Datas.EndDate = tools.DateToString(newFiscalPeriod.End)
+			infos.Datas.FiscalYear = newFiscalPeriod.FiscalYearFormatYY
+			fiscalPeriod = newFiscalPeriod
 		}
 
 		if startDay, err := time.Parse("2006-01-02", infos.Datas.StartDate); err == nil {

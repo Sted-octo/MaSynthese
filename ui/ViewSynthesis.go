@@ -4,6 +4,7 @@ import (
 	"Octoptimist/infrastructure"
 	"Octoptimist/presenters"
 	"Octoptimist/tools"
+	"Octoptimist/usecases"
 	"net/http"
 	"strconv"
 	"strings"
@@ -73,15 +74,21 @@ func synthesisPOST(w http.ResponseWriter, r *http.Request) {
 		infos.SetPeriodIfEmpty(fiscalPeriod)
 
 		if len(r.Form["btnFYPrev"]) > 0 {
-			fiscalPeriod.Previous()
-			infos.Datas.StartDate = tools.DateToString(fiscalPeriod.Start)
-			infos.Datas.EndDate = tools.DateToString(fiscalPeriod.End)
+			newFiscalPeriod := usecases.FiscalPeriodPreviousGetter(fiscalPeriod)
+
+			infos.Datas.StartDate = tools.DateToString(newFiscalPeriod.Start)
+			infos.Datas.EndDate = tools.DateToString(newFiscalPeriod.End)
+			infos.Datas.FiscalYear = newFiscalPeriod.FiscalYearFormatYY
+			fiscalPeriod = newFiscalPeriod
 		}
 
 		if len(r.Form["btnFYNext"]) > 0 {
-			fiscalPeriod.Next()
-			infos.Datas.StartDate = tools.DateToString(fiscalPeriod.Start)
-			infos.Datas.EndDate = tools.DateToString(fiscalPeriod.End)
+			newFiscalPeriod := usecases.FiscalPeriodNextGetter(fiscalPeriod)
+
+			infos.Datas.StartDate = tools.DateToString(newFiscalPeriod.Start)
+			infos.Datas.EndDate = tools.DateToString(newFiscalPeriod.End)
+			infos.Datas.FiscalYear = newFiscalPeriod.FiscalYearFormatYY
+			fiscalPeriod = newFiscalPeriod
 		}
 
 		if len(r.Form["btnNGramChange"]) > 0 && infos.Datas.NGram != "" {

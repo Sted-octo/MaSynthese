@@ -10,6 +10,7 @@ type Period struct {
 	Start              time.Time
 	End                time.Time
 	BankHolidayManager *BankHolidays
+	FiscalYearFormatYY string
 }
 
 func NewPeriod(startDate, endDate time.Time, bankHolydays *BankHolidays) *Period {

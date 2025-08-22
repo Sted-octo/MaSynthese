@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-func (timeInput *TimeInput) ActivityRateOptimistCalculator(pivot time.Time, totalWorkDays int) (*ActivityRate, error) {
+func (timeInput *TimeInput) ActivityRateOptimistCalculator(pivot time.Time, totalWorkDays int) (*ActivityRate, float64, float64) {
 	activityRate := ActivityRate{}
 
 	billableTimeTotal := 0.0
@@ -29,5 +29,5 @@ func (timeInput *TimeInput) ActivityRateOptimistCalculator(pivot time.Time, tota
 		activityRate.Value = billableTimeTotal / workDaywWithoutDayBreak
 	}
 
-	return &activityRate, nil
+	return &activityRate, billableTimeTotal, workDaywWithoutDayBreak
 }

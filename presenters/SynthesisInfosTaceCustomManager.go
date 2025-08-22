@@ -35,11 +35,9 @@ func (infos *SynthesisInfos) manageTaceCustom(periodFiscal *domain.Period, activ
 		return err
 	}
 
-	activityOptimistRateFiscalYear, err := timeInput.ActivityRateOptimistCalculator(pivotDate, periodFiscalTotalWorkDays)
-	if err == nil {
-		infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
-		infos.CssClass.TaceOptimist = "bigText"
-	}
+	activityOptimistRateFiscalYear, _, _ := timeInput.ActivityRateOptimistCalculator(pivotDate, periodFiscalTotalWorkDays)
+	infos.Datas.TaceOptimist = fmt.Sprintf("%.2f", activityOptimistRateFiscalYear.Value*100.0)
+	infos.CssClass.TaceOptimist = "bigText"
 
 	activityInternalRateFiscalYear, err := timeInput.ActivityRateInternalCalculator(pivotDate, periodFiscalTotalWorkDays)
 	if err == nil {
